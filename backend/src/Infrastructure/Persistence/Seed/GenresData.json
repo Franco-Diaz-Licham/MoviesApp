@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Action",
+    "description": "Lorem ipsum dolor sit amet.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Thriller",
+    "description": "Lorem ipsum dolor sit amet.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Romance",
+    "description": "Lorem ipsum dolor sit amet.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  }
+]

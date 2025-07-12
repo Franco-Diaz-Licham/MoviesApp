@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Bigger Cinameas",
+    "Address": "Lorem ipsum dolor sit amet.",
+    "longitude": 1,
+    "latitude": 2,
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Event",
+    "Address": "Lorem ipsum dolor sit amet.",
+    "longitude": 1,
+    "latitude": 2,
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Hoyts",
+    "Address": "Lorem ipsum dolor sit amet.",
+    "longitude": 1,
+    "latitude": 2,
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  }
+]
