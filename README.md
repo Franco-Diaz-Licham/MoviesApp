@@ -1,6 +1,6 @@
 # Movie Theatre App Project
 Movies App is a full-stack application developed using React 19 and .NET 8 Web API that replicates core features of a conventional movie theatre, enabling users to see what movies are available, actor information, etc...
-The application is built using core software principles including SOLID and Clean Architecture. The project is still ongoing and has not been completed yet.
+The application is built using core software principles including <strong>SOLID</strong> and <strong>Clean Architecture</strong>. The project is still ongoing and has not been completed yet.
 
 # App Features
 * **User Authentication:** Secure registration and authentication process using JWT.
