@@ -19,6 +19,10 @@ The application is built using core software principles including <strong>SOLID<
 
 * **Frontend**:
   * **React 19:** A powerful frontend framework for building dynamic and responsive web applications.
+  * **React Hook Form:** Lightweight form management library for building performant, accessible forms in React.
+  * **React Router DOM:** Declarative routing solution for managing navigation and URL state in React applications.
+  * **React Leaftlet:** React wrapper for Leaflet.js used to build interactive maps with ease.
+  * **Axios:** Promise-based HTTP client for making API requests.
   * **Bootstrap 5:** The world's most popular front-end open-source toolkit for designing and customizing responsive and mobile-first sites.
  
 * **Clound Services**:
