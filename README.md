@@ -14,7 +14,7 @@ The application is built using core software principles including <strong>SOLID<
   * **ASP.NET Core:** A high-performance, open-source framework for building modern, cloud-based, and internet-connected applications.
   * **Entity Framework:** Simplifies database operations and interactions.
   * **Jwt Bearer Authentication:** Ensures secure, authenticated and authorized communication.
-  * **MSSQL:** A database solution for efficient data storage.
+  * **MySQL:** A lightweight database solution for efficient data storage.
 
 * **Frontend**:
   * **React 19:** A powerful frontend framework for building dynamic and responsive web applications.
@@ -27,5 +27,5 @@ The application is built using core software principles including <strong>SOLID<
 * **Clound Services**:
   * **AzureDevOps CI/CD:** Cloud-based pipelines for automated building, testing, and deployment of applications.
   * **Azure Container Apps:** A serverless platform for deploying and scaling containerized applications without managing infrastructure.
-  * **Azure SQL Database:** Fully managed relational database service for building data-driven applications with high availability and scalability.
+  * **Docker:** Platform for developing, packaging, and running applications in lightweight, portable containers.
   * **Cloudinary**: A cloud-based media management service for uploading, storing, transforming, and delivering images and videos at scale.
