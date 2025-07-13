@@ -1,6 +1,5 @@
 
-
-
+/** Footer component./ */
 export default function Footer(){
-    return <></>
+    return <footer className="text-center fw-bold">MoviesApp</footer>
 }

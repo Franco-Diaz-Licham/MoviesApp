@@ -1,4 +1,5 @@
 
 export default function Movies(){
-    return <></>
+    return <>
+    <h1>Movies</h1></>
 }

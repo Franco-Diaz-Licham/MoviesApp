@@ -1,4 +1,7 @@
-
-export default function Theatres(){
-    return <></>
+export default function Theatres() {
+    return (
+        <>
+            <h1>Theatres</h1>
+        </>
+    );
 }
