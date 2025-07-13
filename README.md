@@ -15,7 +15,6 @@ The application is built using core software principles including <strong>SOLID<
   * **Entity Framework:** Simplifies database operations and interactions.
   * **Jwt Bearer Authentication:** Ensures secure, authenticated and authorized communication.
   * **MSSQL:** A database solution for efficient data storage.
-  * **React-Hook-Forms:** Form control and validations.
 
 * **Frontend**:
   * **React 19:** A powerful frontend framework for building dynamic and responsive web applications.
