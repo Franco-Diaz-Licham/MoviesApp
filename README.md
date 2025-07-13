@@ -21,6 +21,8 @@ The application is built using core software principles including <strong>SOLID<
   * **React 19:** A powerful frontend framework for building dynamic and responsive web applications.
   * **Bootstrap 5:** The world's most popular front-end open-source toolkit for designing and customizing responsive and mobile-first sites.
  
-* **Clound services**:
+* **Clound Services**:
   * **AzureDevOps CI/CD:** Cloud-based pipelines for automated building, testing, and deployment of applications.
   * **Azure Container Apps:** A serverless platform for deploying and scaling containerized applications without managing infrastructure.
+  * **Azure SQL Database:** Fully managed relational database service for building data-driven applications with high availability and scalability.
+  * **Cloudinary**: A cloud-based media management service for uploading, storing, transforming, and delivering images and videos at scale.
