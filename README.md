@@ -14,7 +14,8 @@ The application is built using core software principles including <strong>SOLID<
   * **ASP.NET Core:** A high-performance, open-source framework for building modern, cloud-based, and internet-connected applications.
   * **Entity Framework:** Simplifies database operations and interactions.
   * **Jwt Bearer Authentication:** Ensures secure, authenticated and authorized communication.
-  * **MySQL:** A lightweight database solution for efficient data storage.
+  * **PostgreSQL:** A powerful open source database solution for efficient data storage.
+  * **xUnit**: Powerful testing framework.
 
 * **Frontend**:
   * **React 19:** A powerful frontend framework for building dynamic and responsive web applications.
