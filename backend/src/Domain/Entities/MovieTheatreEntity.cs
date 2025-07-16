@@ -1,6 +1,6 @@
 namespace backend.src.Domain.Entities;
 
-public class MovieTheatreEntity : BaseEntity
+public class MovieTheatreEntity
 {
     public int MovieId { get; set; }
     public MovieEntity? Movie { get; set; }

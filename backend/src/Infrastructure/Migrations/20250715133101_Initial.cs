@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace backend.src.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,26 +16,7 @@ namespace backend.src.Infrastructure.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Actors",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: false),
-                    Dob = table.Column<DateOnly>(type: "date", nullable: false),
-                    ImageUrl = table.Column<string>(type: "longtext", nullable: true),
-                    Biography = table.Column<string>(type: "longtext", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Actors", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Genres",
+                name: "Genre",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -47,31 +28,27 @@ namespace backend.src.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Genres", x => x.Id);
+                    table.PrimaryKey("PK_Genre", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Movies",
+                name: "Photo",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(type: "longtext", nullable: false),
-                    InTheatresFlag = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    UpComingFlag = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "longtext", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    PublicUrl = table.Column<string>(type: "longtext", nullable: false),
+                    PublicId = table.Column<string>(type: "longtext", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Movies", x => x.Id);
+                    table.PrimaryKey("PK_Photo", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Theatres",
+                name: "Theatre",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -85,12 +62,62 @@ namespace backend.src.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Theatres", x => x.Id);
+                    table.PrimaryKey("PK_Theatre", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "MovieActors",
+                name: "Actor",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
+                    Dob = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    PhotoId = table.Column<int>(type: "int", nullable: false),
+                    Biography = table.Column<string>(type: "longtext", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Actor", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Actor_Photo_PhotoId",
+                        column: x => x.PhotoId,
+                        principalTable: "Photo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Movie",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "longtext", nullable: false),
+                    InTheatresFlag = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    UpComingFlag = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    PhotoId = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Movie", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Movie_Photo_PhotoId",
+                        column: x => x.PhotoId,
+                        principalTable: "Photo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "MovieActor",
                 columns: table => new
                 {
                     MovieId = table.Column<int>(type: "int", nullable: false),
@@ -98,23 +125,23 @@ namespace backend.src.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MovieActors", x => new { x.MovieId, x.ActorId });
+                    table.PrimaryKey("PK_MovieActor", x => new { x.MovieId, x.ActorId });
                     table.ForeignKey(
-                        name: "FK_MovieActors_Actors_ActorId",
+                        name: "FK_MovieActor_Actor_ActorId",
                         column: x => x.ActorId,
-                        principalTable: "Actors",
+                        principalTable: "Actor",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_MovieActors_Movies_MovieId",
+                        name: "FK_MovieActor_Movie_MovieId",
                         column: x => x.MovieId,
-                        principalTable: "Movies",
+                        principalTable: "Movie",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "MovieGenres",
+                name: "MovieGenre",
                 columns: table => new
                 {
                     MovieId = table.Column<int>(type: "int", nullable: false),
@@ -122,23 +149,23 @@ namespace backend.src.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MovieGenres", x => new { x.MovieId, x.GenreId });
+                    table.PrimaryKey("PK_MovieGenre", x => new { x.MovieId, x.GenreId });
                     table.ForeignKey(
-                        name: "FK_MovieGenres_Genres_GenreId",
+                        name: "FK_MovieGenre_Genre_GenreId",
                         column: x => x.GenreId,
-                        principalTable: "Genres",
+                        principalTable: "Genre",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_MovieGenres_Movies_MovieId",
+                        name: "FK_MovieGenre_Movie_MovieId",
                         column: x => x.MovieId,
-                        principalTable: "Movies",
+                        principalTable: "Movie",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "MovieTheatres",
+                name: "MovieTheatre",
                 columns: table => new
                 {
                     MovieId = table.Column<int>(type: "int", nullable: false),
@@ -146,34 +173,46 @@ namespace backend.src.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MovieTheatres", x => new { x.MovieId, x.TheatreId });
+                    table.PrimaryKey("PK_MovieTheatre", x => new { x.MovieId, x.TheatreId });
                     table.ForeignKey(
-                        name: "FK_MovieTheatres_Movies_MovieId",
+                        name: "FK_MovieTheatre_Movie_MovieId",
                         column: x => x.MovieId,
-                        principalTable: "Movies",
+                        principalTable: "Movie",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MovieTheatres_Theatres_TheatreId",
+                        name: "FK_MovieTheatre_Theatre_TheatreId",
                         column: x => x.TheatreId,
-                        principalTable: "Theatres",
+                        principalTable: "Theatre",
                         principalColumn: "Id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MovieActors_ActorId",
-                table: "MovieActors",
+                name: "IX_Actor_PhotoId",
+                table: "Actor",
+                column: "PhotoId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Movie_PhotoId",
+                table: "Movie",
+                column: "PhotoId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MovieActor_ActorId",
+                table: "MovieActor",
                 column: "ActorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MovieGenres_GenreId",
-                table: "MovieGenres",
+                name: "IX_MovieGenre_GenreId",
+                table: "MovieGenre",
                 column: "GenreId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MovieTheatres_TheatreId",
-                table: "MovieTheatres",
+                name: "IX_MovieTheatre_TheatreId",
+                table: "MovieTheatre",
                 column: "TheatreId");
         }
 
@@ -181,25 +220,28 @@ namespace backend.src.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "MovieActors");
+                name: "MovieActor");
 
             migrationBuilder.DropTable(
-                name: "MovieGenres");
+                name: "MovieGenre");
 
             migrationBuilder.DropTable(
-                name: "MovieTheatres");
+                name: "MovieTheatre");
 
             migrationBuilder.DropTable(
-                name: "Actors");
+                name: "Actor");
 
             migrationBuilder.DropTable(
-                name: "Genres");
+                name: "Genre");
 
             migrationBuilder.DropTable(
-                name: "Movies");
+                name: "Movie");
 
             migrationBuilder.DropTable(
-                name: "Theatres");
+                name: "Theatre");
+
+            migrationBuilder.DropTable(
+                name: "Photo");
         }
     }
 }

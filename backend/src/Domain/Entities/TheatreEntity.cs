@@ -2,7 +2,6 @@ namespace backend.src.Domain.Entities;
 
 public class TheatreEntity : BaseEntity
 {
-    public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
     public int? Longitude { get; set; }

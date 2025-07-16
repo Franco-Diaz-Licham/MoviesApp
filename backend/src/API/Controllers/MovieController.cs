@@ -32,7 +32,7 @@ public class MovieController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<MovieResponse>> CreateAsync([FromBody] MovieRequest request)
+    public async Task<ActionResult<MovieResponse>> CreateAsync([FromForm] MovieRequest request)
     {
         var dto = _mapper.Map<MovieDTO>(request);
         var result = await _movieService.CreateAsync(dto);
@@ -41,7 +41,7 @@ public class MovieController : ControllerBase
     }
 
     [HttpPut("id")]
-    public async Task<ActionResult<MovieResponse>> UpdateAsync([FromBody] MovieRequest request)
+    public async Task<ActionResult<MovieResponse>> UpdateAsync([FromForm] MovieRequest request)
     {
         var dto = _mapper.Map<MovieDTO>(request);
         var result = await _movieService.CreateAsync(dto);

@@ -10,8 +10,9 @@ public static class AppConfig
         app.UseMiddleware<ExceptionMiddleware>();
         app.UseSwagger();
         app.UseSwaggerUI();
-        app.UseCors();
+        app.UseCors("AllowAll");
         app.UseHttpsRedirection();
+        //app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
         await app.ConfigureDatabase();

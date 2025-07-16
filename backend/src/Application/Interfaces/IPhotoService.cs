@@ -1,7 +1,9 @@
-﻿namespace backend.src.Application.Interfaces;
+﻿
+namespace backend.src.Infrastructure.Services;
 
 public interface IPhotoService
 {
-    Task<ImageUploadResult> AddPhotoAsync(IFormFile file);
-    Task<DeletionResult> DeletePhotoAsync(string publicId);
+    Task<PhotoDTO> CreateTransactionAsync(PhotoDTO dto);
+    Task<bool> DeleteTransactionAsync(int id);
+    Task<PhotoDTO?> GetAsync(int id);
 }

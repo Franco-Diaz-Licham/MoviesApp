@@ -2,43 +2,47 @@
 
 public class PhotoService : IPhotoService
 {
-    private readonly Cloudinary _cloud;
-    public PhotoService(IOptions<CloudinarySettings> config)
+    private readonly ICloudinaryService _cloudinaryService;
+    private readonly IGenericRepository<PhotoEntity> _photoRepo;
+    private readonly IMapper _mapper;
+
+    public PhotoService(IGenericRepository<PhotoEntity> PhotoRepo, IMapper mapper, ICloudinaryService cloudinaryService)
     {
-        var acc = new Account(config.Value.CloudName, config.Value.ApiKey, config.Value.ApiSecret);
-        _cloud = new Cloudinary(acc);
+        _photoRepo = PhotoRepo;
+        _mapper = mapper;
+        _cloudinaryService = cloudinaryService;
     }
 
-    public async Task<ImageUploadResult> AddPhotoAsync(IFormFile file)
+    public async Task<PhotoDTO?> GetAsync(int id)
     {
-        var uploadResp = new ImageUploadResult();
-
-        if (file.Length > 0)
-        {
-            await using var stream = file.OpenReadStream();
-            var uploadParams = new ImageUploadParams()
-            {
-                File = new FileDescription(file.FileName, stream),
-                Transformation = new Transformation().Height(500).Width(500).Crop("fill").Gravity("face")
-            };
-
-            uploadResp = await _cloud.UploadAsync(uploadParams);
-        }
-
-        return uploadResp;
+        var model = await _photoRepo.GetAsync(id);
+        var output = _mapper.Map<PhotoDTO>(model);
+        return output;
     }
 
-    public async Task<DeletionResult> DeletePhotoAsync(string publicId)
+    public async Task<PhotoDTO> CreateTransactionAsync(PhotoDTO dto)
     {
-        var deleteParams = new DeletionParams(publicId);
-        var result = await _cloud.DestroyAsync(deleteParams);
-        return result;
-    }
-}
+        // create image
+        if (dto.Image is null) throw new("Photo is empty");
+        var img = await _cloudinaryService.SavePhotoAsync(dto.Image);
 
-public class CloudinarySettings
-{
-    public string CloudName { get; set; } = string.Empty;
-    public string ApiKey { get; set; } = string.Empty;
-    public string ApiSecret { get; set; } = string.Empty;
+        // map and save
+        dto.PublicUrl = img.SecureUrl.ToString();
+        dto.PublicId = img.PublicId;
+        var model = _mapper.Map<PhotoEntity>(dto);
+
+        // save and return
+        _photoRepo.Add(model);
+        return _mapper.Map<PhotoDTO>(model);
+    }
+
+    public async Task<bool> DeleteTransactionAsync(int id)
+    {
+        var model = await _photoRepo.GetAsyncNoTracking(id);
+        if (model is null) throw new Exception("Photo model not found");
+        await _cloudinaryService.DeletePhotoAsync(model.PublicId);
+        var toDelete = _mapper.Map<PhotoEntity>(model);
+        _photoRepo.Delete(toDelete);
+        return true;
+    }
 }

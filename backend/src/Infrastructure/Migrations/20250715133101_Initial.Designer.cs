@@ -11,8 +11,8 @@ using backend.src.Infrastructure.Persistence;
 namespace backend.src.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250629094102_Initial Migration")]
-    partial class InitialMigration
+    [Migration("20250715133101_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,22 +35,25 @@ namespace backend.src.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateOnly>("Dob")
-                        .HasColumnType("date");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("longtext");
+                    b.Property<DateTime>("Dob")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("PhotoId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedOn")
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Actors");
+                    b.HasIndex("PhotoId")
+                        .IsUnique();
+
+                    b.ToTable("Actor");
                 });
 
             modelBuilder.Entity("backend.src.Domain.Entities.GenreEntity", b =>
@@ -75,7 +78,7 @@ namespace backend.src.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres");
+                    b.ToTable("Genre");
                 });
 
             modelBuilder.Entity("backend.src.Domain.Entities.MovieActorEntity", b =>
@@ -90,7 +93,7 @@ namespace backend.src.Infrastructure.Migrations
 
                     b.HasIndex("ActorId");
 
-                    b.ToTable("MovieActors");
+                    b.ToTable("MovieActor");
                 });
 
             modelBuilder.Entity("backend.src.Domain.Entities.MovieEntity", b =>
@@ -102,11 +105,11 @@ namespace backend.src.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("longtext");
-
                     b.Property<bool>("InTheatresFlag")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("PhotoId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -120,7 +123,10 @@ namespace backend.src.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Movies");
+                    b.HasIndex("PhotoId")
+                        .IsUnique();
+
+                    b.ToTable("Movie");
                 });
 
             modelBuilder.Entity("backend.src.Domain.Entities.MovieGenreEntity", b =>
@@ -135,7 +141,7 @@ namespace backend.src.Infrastructure.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("MovieGenres");
+                    b.ToTable("MovieGenre");
                 });
 
             modelBuilder.Entity("backend.src.Domain.Entities.MovieTheatreEntity", b =>
@@ -150,7 +156,25 @@ namespace backend.src.Infrastructure.Migrations
 
                     b.HasIndex("TheatreId");
 
-                    b.ToTable("MovieTheatres");
+                    b.ToTable("MovieTheatre");
+                });
+
+            modelBuilder.Entity("backend.src.Domain.Entities.PhotoEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PublicUrl")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Photo");
                 });
 
             modelBuilder.Entity("backend.src.Domain.Entities.TheatreEntity", b =>
@@ -181,7 +205,18 @@ namespace backend.src.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Theatres");
+                    b.ToTable("Theatre");
+                });
+
+            modelBuilder.Entity("backend.src.Domain.Entities.ActorEntity", b =>
+                {
+                    b.HasOne("backend.src.Domain.Entities.PhotoEntity", "Photo")
+                        .WithOne()
+                        .HasForeignKey("backend.src.Domain.Entities.ActorEntity", "PhotoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Photo");
                 });
 
             modelBuilder.Entity("backend.src.Domain.Entities.MovieActorEntity", b =>
@@ -201,6 +236,17 @@ namespace backend.src.Infrastructure.Migrations
                     b.Navigation("Actor");
 
                     b.Navigation("Movie");
+                });
+
+            modelBuilder.Entity("backend.src.Domain.Entities.MovieEntity", b =>
+                {
+                    b.HasOne("backend.src.Domain.Entities.PhotoEntity", "Photo")
+                        .WithOne()
+                        .HasForeignKey("backend.src.Domain.Entities.MovieEntity", "PhotoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Photo");
                 });
 
             modelBuilder.Entity("backend.src.Domain.Entities.MovieGenreEntity", b =>

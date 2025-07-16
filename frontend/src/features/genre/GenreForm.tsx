@@ -1,23 +1,36 @@
 import TextField from "../../components/TextField";
 import { useForm } from "react-hook-form";
-import GenreModel from "../../types/GenreModel.type";
+import GenreModel from "../../types/genre/GenreModel.type";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
+/** Function props. */
 interface GenreProps {
     model: GenreModel | null;
     onSubmit: (Data: GenreModel) => void;
 }
 
+/** Gender from used for creating or updating records. */
 export default function GenreForm(props: GenreProps) {
+    const initialValue = {
+        defaultValues: props.model ?? { id: 0, name: "" },
+    };
+
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors, isSubmitting },
-    } = useForm<GenreModel>();
+    } = useForm<GenreModel>(initialValue);
+
+    useEffect(() => {
+        if (props.model) reset(props.model);
+    }, [props.model]);
 
     return (
-        <form id="genreForm" className="border-1 shadow-lg p-5 rounded-4" onSubmit={handleSubmit(props.onSubmit)} noValidate>
-            <TextField id="title" label="Title" className="mb-3" placeholder="Enter a title..." required={true} register={register} errors={errors} />
+        <form id="genreForm" className="shadow-sm bg-white p-4 rounded-4" onSubmit={handleSubmit(props.onSubmit)} noValidate>
+            <h2>Genre Profile</h2>
+            <TextField id="name" label="Name" className="mb-3" placeholder="Enter a name..." required={true} register={register} errors={errors} />
             <TextField id="description" label="Description" className="mb-3" placeholder="Enter a short descriptive..." required={true} register={register} errors={errors} />
             <div className="d-flex gap-3 justify-content-end mt-5">
                 <Link to={"/genres"}>

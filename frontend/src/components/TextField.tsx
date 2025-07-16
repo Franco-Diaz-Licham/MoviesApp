@@ -3,7 +3,7 @@ import { FieldErrors, UseFormRegister } from "react-hook-form";
 /** Function props */
 interface TextFieldProps {
     id: string;
-    label: string;
+    label?: string;
     required?: boolean;
     className?: string;
     placeholder?: string;

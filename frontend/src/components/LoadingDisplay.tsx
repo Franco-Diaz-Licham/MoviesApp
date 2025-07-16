@@ -9,7 +9,7 @@ export default function LoadingDisplay() {
 
     return (
         <>
-            <div className={`${css.overlay} bg-dark-subtle opacity-25`}></div>
+            <div className={`${css.overlay} bg-dark-subtle opacity-50`}></div>
             <div className={`${css.loadingDisplay}`}>
                 <img src={loader} alt="loading" />
             </div>

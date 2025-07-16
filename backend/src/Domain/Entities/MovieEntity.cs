@@ -2,11 +2,11 @@ namespace backend.src.Domain.Entities;
 
 public class MovieEntity : BaseEntity
 {
-    public int Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public bool InTheatresFlag { get; set; }
     public bool UpComingFlag { get; set; }
-    public string? ImageUrl { get; set; }
+    public int PhotoId { get; set; }
+    public PhotoEntity? Photo { get; set; }
     public DateTime CreatedOn { get; set; }
     public DateTime? UpdatedOn { get; set; }
 

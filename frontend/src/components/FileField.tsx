@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
+import genericUser from "../assets/genericUser.jpg";
 
 /** Function props. */
 interface FileFieldProps {
     id: string;
     label: string;
     imageUrl?: string;
+    className?: string;
     errors: FieldErrors<any>;
     register: UseFormRegister<any>;
 }
@@ -29,6 +31,8 @@ export default function FileField(props: FileFieldProps) {
     useEffect(() => {
         if (props.imageUrl) {
             setPreviewUrl(props.imageUrl);
+        } else {
+            setPreviewUrl(genericUser);
         }
     }, [props.imageUrl]);
 
@@ -42,17 +46,21 @@ export default function FileField(props: FileFieldProps) {
     }, [previewUrl]);
 
     return (
-        <>
-            <label htmlFor={props.id} className="form-label">
-                {props.label}
-            </label>
-            <input className="form-control" type="file" id={props.id} {...props.register(props.id)} accept=".png, .jpg, .jpeg" onChange={handleFileChange} />
-            {props.errors[props.id] && <div className="text-danger small">{props.errors[props.id]?.message?.toString()}</div>}
-            {previewUrl && (
-                <div className="my-3">
-                    <img src={previewUrl} alt="Preview" className="w-25" />
-                </div>
-            )}
-        </>
+        <div className={props.className}>
+            <div className="d-flex flex-column align-items-center">
+                {previewUrl && (
+                    <div className="my-3 rounded-4 p-4 border border-dark-subtle ">
+                        <img src={previewUrl} alt="Preview" width={150} height={150} />
+                    </div>
+                )}
+            </div>
+            <div>
+                <label htmlFor={props.id} className="form-label">
+                    {props.label}
+                </label>
+                <input className="form-control border-dark-subtle" type="file" id={props.id} {...props.register(props.id)} accept=".png, .jpg, .jpeg" onChange={handleFileChange} />
+                {props.errors[props.id] && <div className="text-danger small">{props.errors[props.id]?.message?.toString()}</div>}
+            </div>
+        </div>
     );
 }

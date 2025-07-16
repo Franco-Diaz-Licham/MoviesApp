@@ -1,16 +1,5 @@
 
-.form-markdown{
-    display: flex;
-}
-
-.form-markdown textarea{
-    width: 500px;
-    height: 500px;
-    margin-right: 15px;   
-}
-
-.form-markdown .markdown-container{
-    border: 1px dashed rgb(255, 255, 255);
-    width: 500px;
-    height: 500px;
+.markdown-container {
+    border: 1px dashed rgb(0, 0, 0);
+    height: 19rem;
 }

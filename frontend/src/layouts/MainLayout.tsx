@@ -13,7 +13,7 @@ const MainLayout = (props: MainLayoutProps) => {
             <header>
                 <NavBar />
             </header>
-            <main className="container flex-grow-1">{props.children}</main>
+            <main className="container flex-grow-1 py-3">{props.children}</main>
             <Footer />
         </>
     );

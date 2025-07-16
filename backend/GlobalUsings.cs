@@ -28,4 +28,5 @@ global using backend.src.API.Middleware;
 global using Serilog;
 global using Serilog.Events;
 global using ILogger = Microsoft.Extensions.Logging.ILogger;
+global using Microsoft.EntityFrameworkCore.Storage;
 

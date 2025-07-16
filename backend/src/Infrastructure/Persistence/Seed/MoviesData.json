@@ -1,9 +1,9 @@
 [
   {
-    "title": "The Amazing Spiderman",
+    "title": "Iron Man 1",
     "inTheatresFlag": true,
     "upComingFlag": false,
-    "imageUrl": "",
+    "photoId": 2,
     "createdOn": "2025-06-29T00:00:00.000Z"
   }
 ]

@@ -1,10 +1,5 @@
 import { FieldError, FieldErrors, UseFormRegister } from "react-hook-form";
-
-/** Base model for selectors */
-type BaseSelectoModel = {
-    id: number;
-    name: string;
-};
+import { BaseSelectoModel } from "../types/BaseSelectoModel.type";
 
 /** Function props. Type T will have id and name properties as base. */
 interface SelectorProps<T extends BaseSelectoModel> {

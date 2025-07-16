@@ -27,9 +27,8 @@ export const setupInterceptors = (api: AxiosInstance, { setLoading, show }: Setu
     api.interceptors.response.use(
         (response) => {
             const method = response.config.method?.toLowerCase();
-            if (method === "post" || method === "put") {
-                show("Saved successfully", { result: "success" });
-            }
+            if (method === "post" || method === "put") show("Saved successfully", { result: "success" });
+            if (method === "delete") show("Deleted successfully", { result: "warning" });
             setLoading(false);
             return response;
         },

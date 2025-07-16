@@ -17,4 +17,9 @@
 		<PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="src\Infrastructure\Migrations\" />
+	  <Folder Include="_info\" />
+	</ItemGroup>
+
 </Project>

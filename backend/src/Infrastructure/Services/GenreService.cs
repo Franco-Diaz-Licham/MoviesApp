@@ -27,6 +27,13 @@ public class GenreService : IGenreService
         return output ?? new();
     }
 
+    public async Task<GenreDTO?> GetAsync(int id)
+    {
+        var model = await _genreRepo.GetAsync(id);
+        var output = _mapper.Map<GenreDTO>(model);
+        return output;
+    }
+
     public async Task<GenreDTO> CreateAsync(GenreDTO dto)
     {
         var model = _mapper.Map<GenreEntity>(dto);
@@ -45,5 +52,16 @@ public class GenreService : IGenreService
         var output = _mapper.Map<GenreDTO>(model);
         _cache.Remove(CACHE_KEY);
         return output;
+    }
+
+    public async Task<bool> DeleteAsync(int id)
+    {
+        var model = await _genreRepo.GetAsyncNoTracking(id);
+        if (model is null) return false;
+        var toDelete = _mapper.Map<GenreEntity>(model);
+        _genreRepo.Delete(toDelete);
+        await _genreRepo.CompleteAsync();
+        _cache.Remove(CACHE_KEY);
+        return true;
     }
 }

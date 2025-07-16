@@ -5,7 +5,6 @@ public static class RegisterServices
     /// <summary>
     /// Method which registers all services used in the application to the DI container.
     /// </summary>
-    /// <param name="builder"></param>
     public static void AddServices(this WebApplicationBuilder builder)
     {
         builder.AddSerilog();
@@ -20,10 +19,12 @@ public static class RegisterServices
         builder.AddAppServices();
         builder.Services.AddCors(options =>
         {
-            options.AddDefaultPolicy(builder =>
-            builder.AllowAnyMethod()
-                   .AllowAnyHeader()
-                   .AllowAnyOrigin());
+            options.AddPolicy("AllowAll", policy =>
+            {
+                policy.AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader();
+            });
         });
 
         // model validation API response.

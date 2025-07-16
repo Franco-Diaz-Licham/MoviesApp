@@ -3,7 +3,7 @@ import { FieldErrors, UseFormRegister } from "react-hook-form";
 /** Function props. */
 interface TextAreaProps {
     id: string;
-    label: string;
+    label?: string;
     rows?: number;
     required?: boolean;
     className?: string;
@@ -24,7 +24,7 @@ export default function TextAreaField(props: TextAreaProps) {
             <label htmlFor={props.id} className="form-label">
                 {props.label} {props.required && "*"}
             </label>
-            <textarea className={`form-control ${props.errors[props.id] ? "is-invalid" : "border-dark-subtle"}`} placeholder={props.placeholder} {...props.register(props.id, validation)} />
+            <textarea rows={props.rows} className={`form-control ${props.errors[props.id] ? "is-invalid" : "border-dark-subtle"}`} placeholder={props.placeholder} {...props.register(props.id, validation)} />
             {props.errors[props.id] && <div className="text-danger small">{props.errors[props.id]?.message?.toString()}</div>}
         </div>
     );
