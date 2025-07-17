@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { ActorResponse } from "../../types/actor/ActorResponse.type";
 import { Link } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 
 interface ActorCardProps {
     value: ActorResponse;
@@ -19,7 +20,7 @@ export default function ActorCard(props: ActorCardProps) {
                     <span className="card-subtitle mb-2 text-body-secondary small">D.O.B: {props.value.dob.toString()}</span>
                 </div>
                 <p className="card-text overflow-hidden" style={{ height: "3rem" }}>
-                    {props.value.biography}
+                    <ReactMarkdown>{props.value.biography}</ReactMarkdown>
                 </p>
                 <div className="d-flex justify-content-end">
                     <Link to={`/actor/${props.value.id}`}>
