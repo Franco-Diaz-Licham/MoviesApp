@@ -13,8 +13,9 @@ public static class DatabaseConfig
         try
         {
             var db = services.GetRequiredService<DataContext>();
+            var cloudinary = services.GetRequiredService<ICloudinaryService>();
             await db.Database.MigrateAsync();
-            await SeedData.SeedAsync(db);
+            await SeedData.SeedAsync(db, cloudinary);
         }
         catch (Exception ex)
         {

@@ -1,4 +1,4 @@
-namespace backend.src.Infrastructure.Persistence.Seed;
+﻿namespace backend.src.Infrastructure.Persistence.Seed;
 
 public static class SeedData
 {
@@ -8,10 +8,11 @@ public static class SeedData
     private const string THEATRES = $"{BASE_PATH}/TheatresData.json";
     private const string MOVIES = $"{BASE_PATH}/MoviesData.json";
     private const string PHOTOS = $"{BASE_PATH}/PhotosData.json";
+    private const string IMAGES = $"{BASE_PATH}/Images/";
 
-    public static async Task SeedAsync(DataContext db)
+    public static async Task SeedAsync(DataContext db, ICloudinaryService cloudinary)
     {
-        await Photos(db);
+        await Photos(db, cloudinary);
         await Actors(db);
         await Genres(db);
         await Theatres(db);
@@ -77,13 +78,31 @@ public static class SeedData
     /// <summary>
     /// Migrates initial photos.
     /// </summary>
-    private static async Task Photos(DataContext db)
+    private static async Task Photos(DataContext db, ICloudinaryService cloudinary)
     {
         if (await db.Photos.AnyAsync()) return;
+
+        // Load actors
         var data = await File.ReadAllTextAsync(PHOTOS);
         var opt = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         var models = JsonSerializer.Deserialize<List<PhotoEntity>>(data, opt);
         if (models is null) return;
+
+        // Load images
+        var imagesDirectory = Path.Combine(IMAGES);
+        var imageFiles = Directory.GetFiles(imagesDirectory, "*.jpg");
+
+        // Upload to cloudinary and update photo model.
+        for (int i = 0; i < imageFiles.Length; i++)
+        {
+            var fileName = imageFiles[i].Substring(0, IMAGES.Length - 1);
+            byte[] bytes = await File.ReadAllBytesAsync(imageFiles[i]);
+            var result = await cloudinary.UploadPhotoAsync(bytes, fileName);
+            models[i].PublicUrl = result.SecureUrl.ToString();
+            models[i].PublicId = result.PublicId.ToString();
+            models[i].FileName = fileName;
+        }
+
         await db.Photos.AddRangeAsync(models);
         await db.SaveChangesAsync();
     }

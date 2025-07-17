@@ -3,7 +3,84 @@
     "name": "Arnold Schwarzenegger",
     "dob": "1947-07-30",
     "photoId": 1,
-    "biography": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+    "biography": "**Actor** and former *Governor* of California. Known for *Terminator*.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Brad Pitt",
+    "dob": "1963-12-18",
+    "photoId": 2,
+    "biography": "Oscar-winning **actor**. Starred in *Fight Club* and *Once Upon a Time in Hollywood*.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Daniel Craig",
+    "dob": "1968-03-02",
+    "photoId": 3,
+    "biography": "Played **James Bond** in five films. Known for a *gritty* style.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Denzel Washington",
+    "dob": "1954-12-28",
+    "photoId": 4,
+    "biography": "**Two-time Oscar** winner. Known for *Training Day* and *Fences*.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Jennifer Aniston",
+    "dob": "1969-02-11",
+    "photoId": 5,
+    "biography": "Famous for her role as *Rachel* in **Friends**. Also a film star.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Jennifer Lawrence",
+    "dob": "1990-08-15",
+    "photoId": 6,
+    "biography": "Known for *Hunger Games*. Won an **Oscar** for *Silver Linings Playbook*.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Morgan Freeman",
+    "dob": "1937-06-01",
+    "photoId": 7,
+    "biography": "**Narrator** and actor in *Shawshank Redemption* and *Million Dollar Baby*.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Natalie Portman",
+    "dob": "1981-06-09",
+    "photoId": 8,
+    "biography": "Won an **Oscar** for *Black Swan*. Known for *V for Vendetta*.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Robert Downey Jr.",
+    "dob": "1965-04-04",
+    "photoId": 9,
+    "biography": "Best known as **Iron Man**. Made a huge comeback in the MCU.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Sandra Bullock",
+    "dob": "1964-07-26",
+    "photoId": 10,
+    "biography": "**Oscar-winning** star of *Gravity*, *Speed*, and *The Blind Side*.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Sylvester Stallone",
+    "dob": "1946-07-06",
+    "photoId": 11,
+    "biography": "Created and starred in *Rocky* and *Rambo*. **Action icon**.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Tom Cruise",
+    "dob": "1962-07-03",
+    "photoId": 12,
+    "biography": "Famous for *Mission: Impossible* and *Top Gun*. A **box-office legend**.",
     "createdOn": "2025-06-29T00:00:00.000Z"
   }
 ]

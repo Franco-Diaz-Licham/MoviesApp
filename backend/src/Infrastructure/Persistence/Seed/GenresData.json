@@ -1,17 +1,77 @@
 [
   {
     "name": "Action",
-    "description": "Lorem ipsum dolor sit amet.",
+    "description": "High-energy scenes, stunts, and physical conflict.",
     "createdOn": "2025-06-29T00:00:00.000Z"
   },
   {
     "name": "Thriller",
-    "description": "Lorem ipsum dolor sit amet.",
+    "description": "Suspense-driven plots with tension and excitement.",
     "createdOn": "2025-06-29T00:00:00.000Z"
   },
   {
     "name": "Romance",
-    "description": "Lorem ipsum dolor sit amet.",
+    "description": "Focuses on love stories and emotional relationships.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Comedy",
+    "description": "Humorous content intended to entertain and amuse.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Drama",
+    "description": "Realistic characters dealing with emotional themes.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Science Fiction",
+    "description": "Futuristic settings and speculative scientific elements.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Fantasy",
+    "description": "Magical worlds, mythical creatures, and supernatural powers.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Horror",
+    "description": "Designed to frighten or disturb the audience.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Mystery",
+    "description": "Centers around solving a puzzle or crime.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Documentary",
+    "description": "Non-fictional storytelling about real-world topics.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Adventure",
+    "description": "Exploration and daring experiences in exotic settings.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Animation",
+    "description": "Features created using animated visuals and characters.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Crime",
+    "description": "Focuses on criminal acts, investigations, and justice.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "Musical",
+    "description": "Uses song and dance to tell the story.",
+    "createdOn": "2025-06-29T00:00:00.000Z"
+  },
+  {
+    "name": "War",
+    "description": "Set during wartime, exploring military life and conflict.",
     "createdOn": "2025-06-29T00:00:00.000Z"
   }
 ]

@@ -1,0 +1,1 @@
+2025-07-17T00:36:20.9473883Z Ignoring added logger provider Microsoft.EntityFrameworkCore.Design.Internal.OperationLoggerProvider2025-07-17T00:36:26.0826175Z Ignoring added logger provider Microsoft.EntityFrameworkCore.Design.Internal.OperationLoggerProvider

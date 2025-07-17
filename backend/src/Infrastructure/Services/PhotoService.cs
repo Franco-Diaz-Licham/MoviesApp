@@ -24,7 +24,7 @@ public class PhotoService : IPhotoService
     {
         // create image
         if (dto.Image is null) throw new("Photo is empty");
-        var img = await _cloudinaryService.SavePhotoAsync(dto.Image);
+        var img = await _cloudinaryService.UploadPhotoAsync(dto.Image);
 
         // map and save
         dto.PublicUrl = img.SecureUrl.ToString();

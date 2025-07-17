@@ -2,13 +2,14 @@
 
 public class PhotoEntity : BaseEntity
 {
-    public PhotoEntity() { }
-    public PhotoEntity(string publicId, string publicUrl)
+    public PhotoEntity(string publicId, string publicUrl, string fileName)
     {
         PublicId = publicId;
         PublicUrl = publicUrl;
+        FileName = fileName;
     }
 
-    public string PublicUrl { get; set; } = string.Empty;
-    public string PublicId { get; set; } = string.Empty;
+    public string PublicUrl { get; set; } = default!;
+    public string PublicId { get; set; } = default!;
+    public string FileName { get; set; } = default!;
 }

@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.EntityFrameworkCore;
+
 namespace backend.src.Infrastructure.Persistence;
 
 public class DataContext : DbContext
@@ -15,13 +18,6 @@ public class DataContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        // Rename tables.
-        foreach (var entity in builder.Model.GetEntityTypes())
-        {
-            var name = entity.DisplayName().Replace("Entity", "");
-            entity.SetTableName(name);
-        }
-
         // Configure relations
         builder.Entity<MovieEntity>().HasMany(x => x.Genres).WithMany(x => x.Movies).UsingEntity<MovieGenreEntity>(
             x => x.HasOne(x => x.Genre).WithMany().HasForeignKey(x => x.GenreId).OnDelete(DeleteBehavior.NoAction).IsRequired(),
@@ -41,6 +37,20 @@ public class DataContext : DbContext
 
         builder.Entity<ActorEntity>().HasOne(m => m.Photo).WithOne().OnDelete(DeleteBehavior.NoAction).HasForeignKey<ActorEntity>(m => m.PhotoId).IsRequired();
         builder.Entity<MovieEntity>().HasOne(m => m.Photo).WithOne().OnDelete(DeleteBehavior.NoAction).HasForeignKey<MovieEntity>(m => m.PhotoId).IsRequired();
+
+        // configure all datetimes to be UTC
+        var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
+            v => v.ToUniversalTime(),                                 // Before saving to DB
+            v => DateTime.SpecifyKind(v, DateTimeKind.Utc));          // After reading from DB
+
+        foreach (var entityType in builder.Model.GetEntityTypes())
+        {
+            foreach (var property in entityType.GetProperties().Where(p => p.ClrType == typeof(DateTime)))
+            {
+                property.SetValueConverter(dateTimeConverter);
+            }
+        }
+
         base.OnModelCreating(builder);
     }
 }

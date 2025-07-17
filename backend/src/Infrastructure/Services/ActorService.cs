@@ -6,7 +6,6 @@ public class ActorService : IActorService
     private readonly IPhotoService _photoService;
     private readonly IGenericRepository<ActorEntity> _actorRepo;
     private readonly IMapper _mapper;
-
     private const string CACHE_KEY = nameof(ActorResponse);
 
     public ActorService(

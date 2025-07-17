@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using backend.src.Infrastructure.Persistence;
 
 #nullable disable
@@ -17,192 +18,258 @@ namespace backend.src.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.16")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("backend.src.Domain.Entities.ActorEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Biography")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("text")
+                        .HasColumnName("biography");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on");
 
                     b.Property<DateTime>("Dob")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("dob");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
                     b.Property<int>("PhotoId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer")
+                        .HasColumnName("photo_id");
 
                     b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_on");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_actors");
 
                     b.HasIndex("PhotoId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_actors_photo_id");
 
-                    b.ToTable("Actor");
+                    b.ToTable("actors", (string)null);
                 });
 
             modelBuilder.Entity("backend.src.Domain.Entities.GenreEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("text")
+                        .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
                     b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_on");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_genres");
 
-                    b.ToTable("Genre");
+                    b.ToTable("genres", (string)null);
                 });
 
             modelBuilder.Entity("backend.src.Domain.Entities.MovieActorEntity", b =>
                 {
                     b.Property<int>("MovieId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer")
+                        .HasColumnName("movie_id");
 
                     b.Property<int>("ActorId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer")
+                        .HasColumnName("actor_id");
 
-                    b.HasKey("MovieId", "ActorId");
+                    b.HasKey("MovieId", "ActorId")
+                        .HasName("pk_movie_actors");
 
-                    b.HasIndex("ActorId");
+                    b.HasIndex("ActorId")
+                        .HasDatabaseName("ix_movie_actors_actor_id");
 
-                    b.ToTable("MovieActor");
+                    b.ToTable("movie_actors", (string)null);
                 });
 
             modelBuilder.Entity("backend.src.Domain.Entities.MovieEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on");
 
                     b.Property<bool>("InTheatresFlag")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean")
+                        .HasColumnName("in_theatres_flag");
 
                     b.Property<int>("PhotoId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer")
+                        .HasColumnName("photo_id");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("text")
+                        .HasColumnName("title");
 
                     b.Property<bool>("UpComingFlag")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean")
+                        .HasColumnName("up_coming_flag");
 
                     b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_on");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_movies");
 
                     b.HasIndex("PhotoId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_movies_photo_id");
 
-                    b.ToTable("Movie");
+                    b.ToTable("movies", (string)null);
                 });
 
             modelBuilder.Entity("backend.src.Domain.Entities.MovieGenreEntity", b =>
                 {
                     b.Property<int>("MovieId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer")
+                        .HasColumnName("movie_id");
 
                     b.Property<int>("GenreId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer")
+                        .HasColumnName("genre_id");
 
-                    b.HasKey("MovieId", "GenreId");
+                    b.HasKey("MovieId", "GenreId")
+                        .HasName("pk_movie_genres");
 
-                    b.HasIndex("GenreId");
+                    b.HasIndex("GenreId")
+                        .HasDatabaseName("ix_movie_genres_genre_id");
 
-                    b.ToTable("MovieGenre");
+                    b.ToTable("movie_genres", (string)null);
                 });
 
             modelBuilder.Entity("backend.src.Domain.Entities.MovieTheatreEntity", b =>
                 {
                     b.Property<int>("MovieId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer")
+                        .HasColumnName("movie_id");
 
                     b.Property<int>("TheatreId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer")
+                        .HasColumnName("theatre_id");
 
-                    b.HasKey("MovieId", "TheatreId");
+                    b.HasKey("MovieId", "TheatreId")
+                        .HasName("pk_movie_theatres");
 
-                    b.HasIndex("TheatreId");
+                    b.HasIndex("TheatreId")
+                        .HasDatabaseName("ix_movie_theatres_theatre_id");
 
-                    b.ToTable("MovieTheatre");
+                    b.ToTable("movie_theatres", (string)null);
                 });
 
             modelBuilder.Entity("backend.src.Domain.Entities.PhotoEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("file_name");
 
                     b.Property<string>("PublicId")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("public_id");
 
                     b.Property<string>("PublicUrl")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("text")
+                        .HasColumnName("public_url");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_photos");
 
-                    b.ToTable("Photo");
+                    b.ToTable("photos", (string)null);
                 });
 
             modelBuilder.Entity("backend.src.Domain.Entities.TheatreEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("text")
+                        .HasColumnName("address");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on");
 
                     b.Property<int?>("Latitude")
-                        .HasColumnType("int");
+                        .HasColumnType("integer")
+                        .HasColumnName("latitude");
 
                     b.Property<int?>("Longitude")
-                        .HasColumnType("int");
+                        .HasColumnType("integer")
+                        .HasColumnName("longitude");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
                     b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_on");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_theatres");
 
-                    b.ToTable("Theatre");
+                    b.ToTable("theatres", (string)null);
                 });
 
             modelBuilder.Entity("backend.src.Domain.Entities.ActorEntity", b =>
@@ -210,8 +277,9 @@ namespace backend.src.Infrastructure.Migrations
                     b.HasOne("backend.src.Domain.Entities.PhotoEntity", "Photo")
                         .WithOne()
                         .HasForeignKey("backend.src.Domain.Entities.ActorEntity", "PhotoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired()
+                        .HasConstraintName("fk_actors_photos_photo_id");
 
                     b.Navigation("Photo");
                 });
@@ -222,13 +290,15 @@ namespace backend.src.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("ActorId")
                         .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_movie_actors_actors_actor_id");
 
                     b.HasOne("backend.src.Domain.Entities.MovieEntity", "Movie")
                         .WithMany()
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_movie_actors_movies_movie_id");
 
                     b.Navigation("Actor");
 
@@ -240,8 +310,9 @@ namespace backend.src.Infrastructure.Migrations
                     b.HasOne("backend.src.Domain.Entities.PhotoEntity", "Photo")
                         .WithOne()
                         .HasForeignKey("backend.src.Domain.Entities.MovieEntity", "PhotoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired()
+                        .HasConstraintName("fk_movies_photos_photo_id");
 
                     b.Navigation("Photo");
                 });
@@ -252,13 +323,15 @@ namespace backend.src.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_movie_genres_genres_genre_id");
 
                     b.HasOne("backend.src.Domain.Entities.MovieEntity", "Movie")
                         .WithMany()
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_movie_genres_movies_movie_id");
 
                     b.Navigation("Genre");
 
@@ -271,13 +344,15 @@ namespace backend.src.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_movie_theatres_movies_movie_id");
 
                     b.HasOne("backend.src.Domain.Entities.TheatreEntity", "Theatre")
                         .WithMany()
                         .HasForeignKey("TheatreId")
                         .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_movie_theatres_theatres_theatre_id");
 
                     b.Navigation("Movie");
 
