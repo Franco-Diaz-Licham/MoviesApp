@@ -8,12 +8,7 @@ public class ActorService : IActorService
     private readonly IMapper _mapper;
     private const string CACHE_KEY = nameof(ActorResponse);
 
-    public ActorService(
-            IMemoryCache cache,
-            IGenericRepository<ActorEntity> actorRepo,
-            IMapper mapper,
-            IPhotoService photoService
-)
+    public ActorService(IMemoryCache cache, IGenericRepository<ActorEntity> actorRepo, IMapper mapper, IPhotoService photoService)
     {
         _cache = cache;
         _actorRepo = actorRepo;
@@ -59,6 +54,9 @@ public class ActorService : IActorService
         return false;
     }
 
+    /// <summary>
+    /// Method which creates an actor. Handles saving photos to cloudinary.
+    /// </summary>
     public async Task<ActorDTO> CreateAsync(ActorDTO dto)
     {
         // Validate photo exists
@@ -67,13 +65,12 @@ public class ActorService : IActorService
 
         try
         {
-            // Save
-            dto.Photo = await _photoService.CreateTransactionAsync(dto.Photo);
+            // Save and ensure not to create photo again.
+            dto.PhotoId = (await _photoService.CreateAsync(dto.Photo)).Id;
+            dto.Photo = null;
             var model = _mapper.Map<ActorEntity>(dto);
             _actorRepo.Add(model);
             await _actorRepo.CompleteAsync();
-
-            // Commit transaction
             await transaction.CommitAsync();
 
             // Return
@@ -81,54 +78,63 @@ public class ActorService : IActorService
             _cache.Remove(CACHE_KEY);
             return output;
         }
-        catch (Exception error)
+        catch
         {
             if (transaction.GetDbTransaction().Connection != null) await transaction.RollbackAsync();
-            throw new Exception(error.Message);
+            throw;
         }
     }
 
+    /// <summary>
+    /// Method which updates actor information. Handles a change in photo.
+    /// </summary>
     public async Task<ActorDTO> UpdateAsync(ActorDTO dto)
     {
         await using var transaction = await _actorRepo.GetDbContext.Database.BeginTransactionAsync();
 
         try
         {
-            // Retrieve existing actor from DB
-            var existingActor = await _actorRepo.GetAsync(dto.Id);
+            // Retrieve existing hydrated actor from DB
+            var specs = new ActorDetailsSpecs(dto.Id);
+            var existingActor = await _actorRepo.GetAsync(specs);
             if (existingActor is null) throw new Exception("Actor not found");
+            PhotoDTO? oldPhoto = null;
 
             // Replace photo if needed
             if (dto.Photo is not null)
             {
-                await _photoService.DeleteTransactionAsync(existingActor.PhotoId);
-                var newPhoto = await _photoService.CreateTransactionAsync(dto.Photo);
+                var newPhoto = await _photoService.CreateAsync(dto.Photo);
+                oldPhoto = _mapper.Map<PhotoDTO>(existingActor.Photo);
                 existingActor.PhotoId = newPhoto.Id;
             }
 
-            // Update simple fields
+            // Update actor fields
             existingActor.Name = dto.Name;
             existingActor.Dob = dto.Dob;
             existingActor.Biography = dto.Biography;
             existingActor.UpdatedOn = DateTime.UtcNow;
 
-            // Save
+            // save and commit transaction
             _actorRepo.Update(existingActor);
             await _actorRepo.CompleteAsync();
             await transaction.CommitAsync();
 
+            // Delete old photo after transaction
+            if (oldPhoto is not null) await _photoService.DeleteAsync(oldPhoto);
             _cache.Remove(CACHE_KEY);
             var output = await GetAsync(existingActor.Id);
             return output!;
         }
         catch
         {
-            // only rollback only is transction is not yet committed.
             if (transaction.GetDbTransaction().Connection != null) await transaction.RollbackAsync();
-            throw new Exception("Could not save actor.");
+            throw;
         }
     }
 
+    /// <summary>
+    /// Method which deletes an actor, deletes the photo in the Db and cloudinary.
+    /// </summary>
     public async Task<bool> DeleteAsync(int id)
     {
         await using var transaction = await _actorRepo.GetDbContext.Database.BeginTransactionAsync();
@@ -136,24 +142,25 @@ public class ActorService : IActorService
         try
         {
             // get actor
-            var model = await _actorRepo.GetAsyncNoTracking(id);
+            var specs = new ActorDetailsSpecs(id);
+            var model = await _actorRepo.GetAsyncNoTracking(specs);
             if (model is null) return false;
 
-            // delete photo and acto
-            await _photoService.DeleteTransactionAsync(model.PhotoId);
-            var toDelete = _mapper.Map<ActorEntity>(model);
-            _actorRepo.Delete(toDelete);
-
-            // save return
+            // delete actor with photo
+            var photo = _mapper.Map<PhotoDTO>(model.Photo);
+            _actorRepo.Delete(model);
             await _actorRepo.CompleteAsync();
             await transaction.CommitAsync();
+
+            // delete 
+            await _photoService.DeleteAsync(photo);
             _cache.Remove(CACHE_KEY);
             return true;
         }
         catch
         {
             if (transaction.GetDbTransaction().Connection != null) await transaction.RollbackAsync();
-            throw new Exception("Coould not save actor.");
+            throw;
         }
     }
 }

@@ -31,6 +31,16 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     public async Task<T?> GetAsyncNoTracking(int id) => await _db.Set<T>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
 
     /// <summary>
+    /// Method which gets an entity with no tracking.
+    /// </summary>
+    public async Task<T?> GetAsyncNoTracking(ISpecification<T> spec)
+    {
+        var query = ApplySpecification(spec).AsNoTracking();
+        var output = await query.FirstOrDefaultAsync();
+        return output;
+    }
+
+    /// <summary>
     /// Method which counts all records based on an speficiation result.
     /// </summary>
     public async Task<int> CountAsync(ISpecification<T> spec)
@@ -74,6 +84,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     /// Method which removes a record from the database.
     /// </summary>
     public void Delete(T entity) => _db.Set<T>().Remove(entity);
+
+    /// <summary>
+    /// Method which deletes by id
+    /// </summary>
+    public void Delete(int id) => _db.Set<T>().Where(e => e.Id == id).ExecuteDelete();
 
     /// <summary>
     /// Method which commits actions to the database.

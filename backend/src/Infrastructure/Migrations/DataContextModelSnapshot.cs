@@ -210,11 +210,6 @@ namespace backend.src.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("file_name");
-
                     b.Property<string>("PublicId")
                         .IsRequired()
                         .HasColumnType("text")

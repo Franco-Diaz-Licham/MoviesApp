@@ -12,7 +12,7 @@ using backend.src.Infrastructure.Persistence;
 namespace backend.src.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250716233714_Initial migration")]
+    [Migration("20250717044032_Initial migration")]
     partial class Initialmigration
     {
         /// <inheritdoc />
@@ -212,11 +212,6 @@ namespace backend.src.Infrastructure.Migrations
                         .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("file_name");
 
                     b.Property<string>("PublicId")
                         .IsRequired()

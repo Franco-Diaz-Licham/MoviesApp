@@ -35,8 +35,7 @@ namespace backend.src.Infrastructure.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     public_url = table.Column<string>(type: "text", nullable: false),
-                    public_id = table.Column<string>(type: "text", nullable: false),
-                    file_name = table.Column<string>(type: "text", nullable: false)
+                    public_id = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {

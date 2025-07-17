@@ -85,7 +85,7 @@ public static class SeedData
         // Load actors
         var data = await File.ReadAllTextAsync(PHOTOS);
         var opt = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-        var models = JsonSerializer.Deserialize<List<PhotoEntity>>(data, opt);
+        var models = JsonSerializer.Deserialize<List<SeedPhotoModel>>(data, opt);
         if (models is null) return;
 
         // Load images
@@ -100,10 +100,15 @@ public static class SeedData
             var result = await cloudinary.UploadPhotoAsync(bytes, fileName);
             models[i].PublicUrl = result.SecureUrl.ToString();
             models[i].PublicId = result.PublicId.ToString();
-            models[i].FileName = fileName;
         }
 
         await db.Photos.AddRangeAsync(models);
         await db.SaveChangesAsync();
     }
+
+    private class SeedPhotoModel : PhotoEntity
+    {
+        public string FileName { get; set; } = default!;
+    }
 }
+
