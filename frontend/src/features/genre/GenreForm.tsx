@@ -1,13 +1,13 @@
 import TextField from "../../components/TextField";
 import { useForm } from "react-hook-form";
-import GenreModel from "../../types/genre/GenreModel.type";
+import GenreFromData from "../../types/genre/GenreFormData.type";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 
 /** Function props. */
 interface GenreProps {
-    model: GenreModel | null;
-    onSubmit: (Data: GenreModel) => void;
+    model: GenreFromData | null;
+    onSubmit: (Data: GenreFromData) => void;
 }
 
 /** Gender from used for creating or updating records. */
@@ -21,7 +21,7 @@ export default function GenreForm(props: GenreProps) {
         handleSubmit,
         reset,
         formState: { errors, isSubmitting },
-    } = useForm<GenreModel>(initialValue);
+    } = useForm<GenreFromData>(initialValue);
 
     useEffect(() => {
         if (props.model) reset(props.model);

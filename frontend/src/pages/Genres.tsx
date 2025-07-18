@@ -1,28 +1,19 @@
 import { useEffect, useState } from "react";
 import { deleteGenre, getGenres } from "../api/services/genreService";
-import GenreModel from "../types/genre/GenreModel.type";
 import GenreTable from "../features/genre/GenreTable";
-import { ApiResponse } from "../types/ApiResponse.type";
 import GenreCard from "../features/genre/GenreCard";
-import { Link } from "react-router-dom";
+import { GenreResponse } from "../types/genre/GenreResponse.type";
+import SearchHeader from "../components/SearchHeader";
 
 /** Genre page component. */
 export default function Genres() {
-    const [genres, setGenres] = useState<GenreModel[]>([]);
-    const [filteredGenres, setFilteredGenres] = useState<GenreModel[]>(genres);
-
-    /** Handle search changed. */
-    const handleSearchStringChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const searchString = e.target.value;
-        const filtered = genres.filter((model) => model.name.toLowerCase().includes(searchString.toLowerCase()));
-        setFilteredGenres(filtered);
-    };
-
+    const [genres, setGenres] = useState<GenreResponse[]>([]);
+    const [filteredGenres, setFilteredGenres] = useState<GenreResponse[]>(genres);
+    
     /** Method which fetches all data. */
-    const getData = () => {
-        getGenres()
-            .then((resp: ApiResponse<GenreModel>) => setGenres(resp.data))
-            .catch((err) => console.error("Failed to fetch genres:", err));
+    const getData = async () => {
+        let models = await getGenres();
+        if(models) setGenres(models);
     };
 
     /** Handles deletion of a record. */
@@ -43,26 +34,7 @@ export default function Genres() {
 
     return (
         <>
-            <div className="mb-3 shadow-sm bg-white rounded-4 px-4 py-1">
-                <h2>Genres</h2>
-                <div className="row">
-                    <div className="col-4">
-                        <div className=" input-group mb-3">
-                            <span className="input-group-text" id="basic-addon1">
-                                <i className="bi bi-search"></i>
-                            </span>
-                            <input type="text" onChange={(e) => handleSearchStringChanged(e)} className="form-control" placeholder="Search..." aria-label="Genre" aria-describedby="basic-addon1" />
-                        </div>
-                    </div>
-                    <div className="col-8 d-flex justify-content-end">
-                        <Link to="/genre/">
-                            <button className="btn btn-success">
-                                <i className="bi bi-plus-circle"></i> Add
-                            </button>
-                        </Link>
-                    </div>
-                </div>
-            </div>
+            <SearchHeader title="Genres" to="genre" values={genres} onSearch={(data) => setFilteredGenres(data)} searchKey={(data: GenreResponse) => data.name}/>
             <div id="genreTable" className="mb-3">
                 <GenreTable values={filteredGenres} onDelete={handleDelete} />
             </div>
@@ -70,8 +42,8 @@ export default function Genres() {
                 <div className="row g-2">
                     {filteredGenres.map((value) => {
                         return (
-                            <div className="col-lg-3 col-md-4 col-sm-6">
-                                <GenreCard key={value.id} value={value} onDelete={handleDelete} />
+                            <div className="col-lg-3 col-md-4 col-sm-6" key={value.id}>
+                                <GenreCard value={value} onDelete={handleDelete} />
                             </div>
                         );
                     })}

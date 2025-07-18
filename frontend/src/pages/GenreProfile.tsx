@@ -1,12 +1,13 @@
 import { Params, useNavigate, useParams } from "react-router-dom";
 import GenreForm from "../features/genre/GenreForm";
-import GenreModel from "../types/genre/GenreModel.type";
+import GenreFormData from "../types/genre/GenreFormData.type";
 import { createGenre, getGenresById, updateGenre } from "../api/services/genreService";
 import { useEffect, useState } from "react";
+import { mapFormToCreate, mapFormToUpdate, mapResponseToForm } from "../utils/GenreMapper";
 
 /** Genre profile page. Allows editing and creating of new genres. */
 export default function GenreProfile() {
-    const [model, setModel] = useState<GenreModel | null>(null);
+    const [model, setModel] = useState<GenreFormData | null>(null);
     const { id }: Params<string> = useParams();
     const navigate = useNavigate();
 
@@ -23,11 +24,26 @@ export default function GenreProfile() {
     };
 
     /** Handles the saving of data entry. */
-    const handleOnSubmit = async (data: GenreModel) => {
-        if (id) return await updateGenre(data);
-        const model = await createGenre(data);
-        setModel(model);
-        navigate(`./${model?.id}`);
+    const handleOnSubmit = async (data: GenreFormData) => {
+        if (id) return await update(data);
+        await create(data);
+    };
+
+    /** Saves new entry to the Db. */
+    const create = async (data: GenreFormData) => {
+        var model = mapFormToCreate(data);
+        var resp = await createGenre(model);
+        var output = mapResponseToForm(resp!);
+        setModel(output);
+        navigate(`./${resp?.id}`);
+    };
+
+    /** Updates exsiting entry to the db. */
+    const update = async (data: GenreFormData) => {
+        var model = mapFormToUpdate(data);
+        var resp = await updateGenre(model);
+        var output = mapResponseToForm(resp!);
+        setModel(output);
     };
 
     return <GenreForm model={model} onSubmit={handleOnSubmit} />;

@@ -3,7 +3,7 @@
         display: none;
     }
 
-    #genreCards{
+    #genreCards {
         display: block;
     }
 
@@ -17,7 +17,7 @@
         display: none;
     }
 
-    #genreCards{
+    #genreCards {
         display: block;
     }
 }
@@ -27,7 +27,7 @@
         display: none;
     }
 
-    #genreCards{
+    #genreCards {
         display: block;
     }
 }
@@ -37,17 +37,17 @@
         display: block;
     }
 
-    #genreCards{
+    #genreCards {
         display: none;
     }
 }
 
 @media screen and (min-width: 1200px) {
-        #genreTable {
+    #genreTable {
         display: block;
     }
 
-    #genreCards{
+    #genreCards {
         display: none;
     }
 }

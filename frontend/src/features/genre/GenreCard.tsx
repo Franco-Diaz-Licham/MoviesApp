@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import GenreModel from "../../types/genre/GenreModel.type";
+import { GenreResponse } from "../../types/genre/GenreResponse.type";
 
 /** Function props. */
 interface GenreCardProps {
-    value: GenreModel;
+    value: GenreResponse;
     onDelete: (id: number) => void;
 }
 

@@ -26,7 +26,7 @@ export default function ActorProfile() {
     /** Handles the saving of data entry. */
     const handleOnSubmit = async (data: ActorFormData) => {
         if (id) return await update(data);
-        const model = await create(data);
+        await create(data);
     };
 
     /** Saves new entry to the Db. */
@@ -44,8 +44,6 @@ export default function ActorProfile() {
         var resp = await updateActor(model);
         var output = mapResponseToForm(resp!);
         setModel(output);
-
-        console.log(model);
     };
 
     return <ActorForm model={model} onSubmit={handleOnSubmit} />;

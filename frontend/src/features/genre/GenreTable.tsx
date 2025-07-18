@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import GenreModel from "../../types/genre/GenreModel.type";
 import css from "../../styles/GenreTable.module.css";
+import { GenreResponse } from "../../types/genre/GenreResponse.type";
 
 /** Function props. */
 interface GenreListProps {
-    values: GenreModel[];
+    values: GenreResponse[];
     onDelete: (id: number) => void;
 }
 
@@ -27,7 +27,7 @@ export default function GenreTable(props: GenreListProps) {
                         </tr>
                     </thead>
                     <tbody>
-                        {props.values.map((value: GenreModel) => {
+                        {props.values.map((value: GenreResponse) => {
                             return (
                                 <tr key={value.id}>
                                     <th scope="row" className="text-decoration-underline text-primary ps-4">

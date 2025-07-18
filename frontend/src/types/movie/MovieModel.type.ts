@@ -1,7 +1,7 @@
 import { ActorResponse } from "../actor/ActorResponse.type";
 import { BaseSelectoModel } from "../BaseSelectoModel.type";
-import GenreModel from "../genre/GenreModel.type";
-import { TheatreModel } from "../TheatreModel.type";
+import GenreModel from "../genre/GenreFormData.type";
+import { TheatreResponse } from "../theatre/TheatreResponse.type";
 
 export interface MovieModel extends BaseSelectoModel {
     title: string;
@@ -10,5 +10,5 @@ export interface MovieModel extends BaseSelectoModel {
     imageUrl?: string;
     actors?: ActorResponse[];
     genres?: GenreModel[];
-    theatres?: TheatreModel[];
+    theatres?: TheatreResponse[];
 }
