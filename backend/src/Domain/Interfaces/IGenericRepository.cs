@@ -1,12 +1,11 @@
 ﻿
+
+
 namespace backend.src.Domain.Interfaces;
 
 public interface IGenericRepository<T> where T : BaseEntity
 {
-    DataContext GetDbContext { get; }
-
     void Add(T entity);
-    Task CompleteAsync();
     Task<int> CountAsync(ISpecification<T> spec);
     void Delete(T entity);
     void Delete(int id);
@@ -16,5 +15,7 @@ public interface IGenericRepository<T> where T : BaseEntity
     Task<T?> GetAsync(ISpecification<T> spec);
     Task<T?> GetAsyncNoTracking(int id);
     Task<T?> GetAsyncNoTracking(ISpecification<T> spec);
+    IQueryable<T> Query();
     void Update(T entity);
+    Task UpdateCollectionAsync(ICollection<T> current, List<int> incomingIds);
 }

@@ -22,17 +22,26 @@ public class AutoMapperProfiles : Profile
         CreateMap<PhotoCreateRequest, PhotoDTO>();
         CreateMap<PhotoUpdateRequest, PhotoDTO>();
 
-        // Movies
-        CreateMap<MovieEntity, MovieDTO>().ReverseMap();
-        CreateMap<MovieDTO, MovieResponse>();
-        CreateMap<MovieDetailsDTO, MovieDetailsResponse>();
-        CreateMap<MovieCreateRequest, MovieDTO>();
-        CreateMap<MovieUpdateRequest, MovieDTO>();
-
         // Theatres
         CreateMap<TheatreEntity, TheatreDTO>().ReverseMap();
         CreateMap<TheatreDTO, TheatreResponse>();
         CreateMap<TheatreCreateRequest, TheatreDTO>();
         CreateMap<TheatreUpdateRequest, TheatreDTO>();
+
+        // Movies
+        CreateMap<MovieEntity, MovieDTO>().ReverseMap();
+        CreateMap<MovieDTO, MovieResponse>();
+        CreateMap<MovieUpdateRequest, MovieUpdateDTO>();
+        CreateMap<MovieCreateRequest, MovieCreateDTO>();
+        CreateMap<MovieCreateDTO, MovieEntity>()
+            .ForMember(dest => dest.Genres, opt => opt.Ignore())
+            .ForMember(dest => dest.Actors, opt => opt.Ignore())
+            .ForMember(dest => dest.Theatres, opt => opt.Ignore());
+
+        CreateMap<MovieUpdateDTO, MovieEntity>()
+            .ForMember(dest => dest.Genres, opt => opt.Ignore())
+            .ForMember(dest => dest.Actors, opt => opt.Ignore())
+            .ForMember(dest => dest.Theatres, opt => opt.Ignore());
+
     }
 }

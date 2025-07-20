@@ -1,8 +1,8 @@
 import { FieldError, FieldErrors, UseFormRegister } from "react-hook-form";
-import { BaseSelectoModel } from "../types/BaseSelectoModel.type";
+import { BaseSelectorModel } from "../types/BaseSelectorModel.type";
 
 /** Function props. Type T will have id and name properties as base. */
-interface SelectorProps<T extends BaseSelectoModel> {
+interface SelectorProps<T extends BaseSelectorModel> {
     id: string;
     name: string;
     label: string;
@@ -18,7 +18,7 @@ interface SelectorProps<T extends BaseSelectoModel> {
 }
 
 /** Generic selector field for all dropdowns. */
-export default function SelectorField<T extends BaseSelectoModel>(props: SelectorProps<T>) {
+export default function SelectorField<T extends BaseSelectorModel>(props: SelectorProps<T>) {
     return (
         <div className={props.className}>
             {props.showLabel && (
@@ -26,14 +26,13 @@ export default function SelectorField<T extends BaseSelectoModel>(props: Selecto
                     {props.label} {props.required && "*"}
                 </label>
             )}
-
             <select id={props.id} {...props.register(props.id, { required: props.required ?? false })} className="form-select">
                 <option value={props.selectedValueId ?? ""} disabled selected>
                     {props.placeholder}
                 </option>
                 {props.values.map((item) => (
                     <option key={item.id} value={item.id}>
-                        {item.name}
+                        {item.selectionValue()}
                     </option>
                 ))}
             </select>

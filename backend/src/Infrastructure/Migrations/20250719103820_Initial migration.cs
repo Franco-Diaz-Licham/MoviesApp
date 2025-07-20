@@ -50,8 +50,8 @@ namespace backend.src.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     name = table.Column<string>(type: "text", nullable: false),
                     address = table.Column<string>(type: "text", nullable: false),
-                    longitude = table.Column<int>(type: "integer", nullable: true),
-                    latitude = table.Column<int>(type: "integer", nullable: true),
+                    longitude = table.Column<decimal>(type: "numeric", nullable: false),
+                    latitude = table.Column<decimal>(type: "numeric", nullable: false),
                     created_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
@@ -90,6 +90,7 @@ namespace backend.src.Infrastructure.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     title = table.Column<string>(type: "text", nullable: false),
+                    plot = table.Column<string>(type: "text", nullable: false),
                     in_theatres_flag = table.Column<bool>(type: "boolean", nullable: false),
                     up_coming_flag = table.Column<bool>(type: "boolean", nullable: false),
                     photo_id = table.Column<int>(type: "integer", nullable: false),

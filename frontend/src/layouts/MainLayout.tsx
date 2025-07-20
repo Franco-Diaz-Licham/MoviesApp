@@ -10,7 +10,7 @@ interface MainLayoutProps {
 const MainLayout = (props: MainLayoutProps) => {
     return (
         <>
-            <header>
+            <header className="sticky-top">
                 <NavBar />
             </header>
             <main className="container flex-grow-1 py-3">{props.children}</main>

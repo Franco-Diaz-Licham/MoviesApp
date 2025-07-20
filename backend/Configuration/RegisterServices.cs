@@ -1,4 +1,4 @@
-namespace backend.Configuration;
+﻿namespace backend.Configuration;
 
 public static class RegisterServices
 {
@@ -12,7 +12,13 @@ public static class RegisterServices
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddDbContext<DataContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("MovieDb") ?? "").UseSnakeCaseNamingConvention());
+        builder.Services.AddDbContext<DataContext>(opt =>
+        {
+            opt.UseNpgsql(builder.Configuration.GetConnectionString("MovieDb") ?? "")
+               .UseSnakeCaseNamingConvention();
+
+            opt.LogTo(Console.WriteLine, LogLevel.Information); 
+        });
         builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
         builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
         builder.Services.AddMemoryCache();

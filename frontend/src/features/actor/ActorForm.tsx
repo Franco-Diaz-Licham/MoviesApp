@@ -39,7 +39,7 @@ export default function ActorForm(props: ActorProps) {
                 <h2>Actor Profile</h2>
                 <div className="row mb-4">
                     <div className="col-lg-6">
-                        <FileField id="image" label="Profile Image" className="mb-3" imageUrl={props.model?.imgeUrl} errors={errors} register={register} />
+                        <FileField height={150} width={150} id="image" label="Profile Image" className="mb-3" imageUrl={props.model?.imgeUrl} errors={errors} register={register} />
                     </div>
                     <div className="col-lg-6">
                         <TextField id="name" label="Name" className="mb-3" placeholder="Enter a name..." required={true} register={register} errors={errors} />

@@ -1,9 +1,134 @@
 [
   {
-    "title": "Iron Man 1",
+    "title": "Terminator: Rewired",
     "inTheatresFlag": true,
     "upComingFlag": false,
-    "photoId": 2,
-    "createdOn": "2025-06-29T00:00:00.000Z"
+    "plot": "In a future where AI rules the planet, a rogue engineer resurrects a forgotten Terminator to change the course of history.",
+    "photoId": 23,
+    "actorIds": [ 1 ],
+    "theatreIds": [ 8 ],
+    "genreIds": [ 6 ],
+    "createdOn": "2025-06-29T00:00:00Z"
+  },
+  {
+    "title": "Echoes of Vengeance",
+    "inTheatresFlag": false,
+    "upComingFlag": true,
+    "plot": "A grieving detective starts hearing the voice of his murdered wife, guiding him to uncover a dark conspiracy.",
+    "photoId": 15,
+    "actorIds": [ 2 ],
+    "theatreIds": [ 1 ],
+    "genreIds": [ 3 ],
+    "createdOn": "2025-06-29T00:00:00Z"
+  },
+  {
+    "title": "Bond: Final Mission",
+    "inTheatresFlag": true,
+    "upComingFlag": false,
+    "plot": "James Bond faces his greatest enemy yet—his own past—in a globe-spanning mission that threatens MI6 from within.",
+    "photoId": 14,
+    "actorIds": [ 3 ],
+    "theatreIds": [ 8 ],
+    "genreIds": [ 3 ],
+    "createdOn": "2025-06-29T00:00:00Z"
+  },
+  {
+    "title": "The Judge's Code",
+    "inTheatresFlag": false,
+    "upComingFlag": true,
+    "plot": "A federal judge must choose between justice and family when her estranged brother is accused of cyberterrorism.",
+    "photoId": 17,
+    "actorIds": [ 4 ],
+    "theatreIds": [ 9 ],
+    "genreIds": [ 3 ],
+    "createdOn": "2025-06-29T00:00:00Z"
+  },
+  {
+    "title": "Love on Fifth Avenue",
+    "inTheatresFlag": true,
+    "upComingFlag": false,
+    "plot": "A career-driven fashion editor and a struggling jazz pianist find unexpected love on New York’s most glamorous street.",
+    "photoId": 18,
+    "actorIds": [ 5 ],
+    "theatreIds": [ 1 ],
+    "genreIds": [ 9 ],
+    "createdOn": "2025-06-29T00:00:00Z"
+  },
+  {
+    "title": "Mockingbird Rising",
+    "inTheatresFlag": true,
+    "upComingFlag": false,
+    "plot": "In a dystopian America, a young poet becomes the voice of a suppressed revolution through her forbidden verses.",
+    "photoId": 20,
+    "actorIds": [ 6 ],
+    "theatreIds": [ 8 ],
+    "genreIds": [ 2 ],
+    "createdOn": "2025-06-29T00:00:00Z"
+  },
+  {
+    "title": "The Narrator",
+    "inTheatresFlag": false,
+    "upComingFlag": true,
+    "plot": "An unreliable narrator discovers that the characters in his novel are real—and they want to rewrite their ending.",
+    "photoId": 21,
+    "actorIds": [ 7 ],
+    "theatreIds": [ 2 ],
+    "genreIds": [ 2 ],
+    "createdOn": "2025-06-29T00:00:00Z"
+  },
+  {
+    "title": "Black Swan Returns",
+    "inTheatresFlag": true,
+    "upComingFlag": false,
+    "plot": "Years after a tragic fall, a former prima ballerina must return to the stage to protect her protégé from a cursed role.",
+    "photoId": 13,
+    "actorIds": [ 8 ],
+    "theatreIds": [ 1 ],
+    "genreIds": [ 2 ],
+    "createdOn": "2025-06-29T00:00:00Z"
+  },
+  {
+    "title": "Diver Armor: Surviving The Water",
+    "inTheatresFlag": false,
+    "upComingFlag": true,
+    "plot": "After a deep-sea mission goes wrong, an elite diver must survive alone in an experimental suit while secrets bubble to the surface.",
+    "photoId": 24,
+    "actorIds": [ 9 ],
+    "theatreIds": [ 10 ],
+    "genreIds": [ 5 ],
+    "createdOn": "2025-06-29T00:00:00Z"
+  },
+  {
+    "title": "Gravity Shift",
+    "inTheatresFlag": true,
+    "upComingFlag": false,
+    "plot": "When Earth’s gravity begins to fluctuate, a rogue astrophysicist and a discredited pilot race to uncover the cause—and stop it.",
+    "photoId": 16,
+    "actorIds": [ 10 ],
+    "theatreIds": [ 7 ],
+    "genreIds": [ 4 ],
+    "createdOn": "2025-06-29T00:00:00Z"
+  },
+  {
+    "title": "Rambo: Last Bloodline",
+    "inTheatresFlag": false,
+    "upComingFlag": true,
+    "plot": "John Rambo emerges from hiding when a secret child he never knew about is caught in the crossfire of a Central American cartel war.",
+    "photoId": 22,
+    "actorIds": [ 11 ],
+    "theatreIds": [ 2 ],
+    "genreIds": [ 12 ],
+    "createdOn": "2025-06-29T00:00:00Z"
+  },
+  {
+    "title": "Mission: Omega",
+    "inTheatresFlag": true,
+    "upComingFlag": false,
+    "plot": "An elite team of operatives must infiltrate a rogue AI fortress before it launches the final phase of human extinction.",
+    "photoId": 19,
+    "actorIds": [ 12 ],
+    "theatreIds": [ 6 ],
+    "genreIds": [ 8 ],
+    "createdOn": "2025-06-29T00:00:00Z"
   }
 ]

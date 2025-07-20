@@ -65,7 +65,7 @@ public class ActorControllerTests
         var accepted = result.Result as ObjectResult;
         accepted.Should().NotBeNull();
         accepted!.Value.Should().BeOfType<ApiResponse>();
-        accepted!.Value.Should().BeEquivalentTo(new ApiResponse(202, response));
+        accepted!.Value.Should().BeEquivalentTo(new ApiResponse(201, response));
     }
 
     [Theory]

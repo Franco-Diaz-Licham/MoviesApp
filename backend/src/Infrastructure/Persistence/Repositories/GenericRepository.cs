@@ -8,8 +8,6 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         _db = db;
     }
 
-    public DataContext GetDbContext => _db;
-
     /// <summary>
     /// Method which gets an entity based on an id with no specification.
     /// </summary>
@@ -91,9 +89,30 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     public void Delete(int id) => _db.Set<T>().Where(e => e.Id == id).ExecuteDelete();
 
     /// <summary>
-    /// Method which commits actions to the database.
+    /// Method which handles collection comparisons and detects what has changed.
     /// </summary>
-    public async Task CompleteAsync() => await _db.SaveChangesAsync();
+    public async Task UpdateCollectionAsync(ICollection<T> current, List<int> incomingIds) 
+    {
+        var currentIds = current.Select(x => x.Id).ToList();
+        
+        // Remove items
+        var toRemove = current.Where(x => !incomingIds.Contains(x.Id)).ToList();
+        foreach (var r in toRemove) current.Remove(r);
+
+        // Add new items
+        var toAddIds = incomingIds.Except(currentIds).ToList();
+        if (toAddIds.Any())
+        {
+            var toAdd = await Query().Where(x => toAddIds.Contains(x.Id)).ToListAsync();
+            foreach (var a in toAdd) current.Add(a);
+        }
+    }
+
+    /// <summary>
+    /// Exposes a query for easy specific searching.
+    /// </summary>
+    /// <returns></returns>
+    public IQueryable<T> Query() => _db.Set<T>().AsQueryable();
 
     /// <summary>
     /// Method which builds an IQueryable to execute in the GET methods in this repository.

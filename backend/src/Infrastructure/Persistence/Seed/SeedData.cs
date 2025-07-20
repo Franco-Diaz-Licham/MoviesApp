@@ -67,11 +67,38 @@ public static class SeedData
     private static async Task Movies(DataContext db)
     {
         if (await db.Movies.AnyAsync()) return;
+
         var data = await File.ReadAllTextAsync(MOVIES);
         var opt = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-        var models = JsonSerializer.Deserialize<List<MovieEntity>>(data, opt);
+        var models = JsonSerializer.Deserialize<List<SeedMovieModel>>(data, opt);
         if (models is null) return;
-        await db.Movies.AddRangeAsync(models);
+
+        // Load all related entities into memory
+        var genreMap = await db.Genres.ToDictionaryAsync(g => g.Id);
+        var actorMap = await db.Actors.ToDictionaryAsync(a => a.Id);
+        var theatreMap = await db.Theatres.ToDictionaryAsync(t => t.Id);
+
+        var movieEntities = new List<MovieEntity>();
+
+        foreach (var model in models)
+        {
+            var movie = new MovieEntity
+            {
+                PhotoId = model.PhotoId,
+                CreatedOn = model.CreatedOn,
+                InTheatresFlag = model.InTheatresFlag,
+                UpComingFlag = model.UpComingFlag,
+                Title = model.Title,
+                Plot = model.Plot,
+                Genres = model.GenreIds.Where(id => genreMap.ContainsKey(id)).Select(id => genreMap[id]).ToList(),
+                Actors = model.ActorIds.Where(id => actorMap.ContainsKey(id)).Select(id => actorMap[id]).ToList(),
+                Theatres = model.TheatreIds.Where(id => theatreMap.ContainsKey(id)).Select(id => theatreMap[id]).ToList()
+            };
+
+            movieEntities.Add(movie);
+        }
+
+        await db.Movies.AddRangeAsync(movieEntities);
         await db.SaveChangesAsync();
     }
 
@@ -95,9 +122,11 @@ public static class SeedData
         // Upload to cloudinary and update photo model.
         for (int i = 0; i < imageFiles.Length; i++)
         {
-            var fileName = imageFiles[i].Substring(0, IMAGES.Length - 1);
+            var fileName = imageFiles[i].Substring(IMAGES.Length);
             byte[] bytes = await File.ReadAllBytesAsync(imageFiles[i]);
-            var result = await cloudinary.UploadPhotoAsync(bytes, fileName);
+            ImageUploadResult result;
+            if (fileName.Contains("movie")) result = await cloudinary.UploadPhotoAsync(bytes, fileName, new());
+            else result =  await cloudinary.UploadPhotoAsync(bytes, fileName, new Transformation().Height(500).Width(500).Crop("fill").Gravity("face"));
             models[i].PublicUrl = result.SecureUrl.ToString();
             models[i].PublicId = result.PublicId.ToString();
         }
@@ -110,5 +139,19 @@ public static class SeedData
     {
         public string FileName { get; set; } = default!;
     }
+
+    private class SeedMovieModel
+    {
+        public string Title { get; set; } = default!;
+        public string Plot { get; set; } = default!;
+        public bool InTheatresFlag { get; set; }
+        public bool UpComingFlag { get; set; }
+        public int PhotoId { get; set; }
+        public List<int> ActorIds { get; set; } = new();
+        public List<int> TheatreIds { get; set; } = new();
+        public List<int> GenreIds { get; set; } = new();
+        public DateTime CreatedOn { get; set; }
+    }
+
 }
 

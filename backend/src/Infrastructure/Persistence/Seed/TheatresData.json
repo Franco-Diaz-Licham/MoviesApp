@@ -1,23 +1,72 @@
 [
   {
-    "name": "Bigger Cinameas",
-    "Address": "Lorem ipsum dolor sit amet.",
-    "longitude": 1,
-    "latitude": 2,
-    "createdOn": "2025-06-29T00:00:00.000Z"
+    "name": "Palace Cinemas Como, South Yarra",
+    "address": "186/184 Chapel St, South Yarra VIC 3141, Australia",
+    "latitude": -37.8386,
+    "longitude": 144.9894,
+    "createdOn": "2025-07-18T00:00:00.000Z"
   },
   {
-    "name": "Event",
-    "Address": "Lorem ipsum dolor sit amet.",
-    "longitude": 1,
-    "latitude": 2,
-    "createdOn": "2025-06-29T00:00:00.000Z"
+    "name": "IMAX Melbourne Museum",
+    "address": "Grattan St & Rathdowne St, Carlton VIC 3053, Australia",
+    "latitude": -37.8030,
+    "longitude": 144.9707,
+    "createdOn": "2025-07-18T00:00:00.000Z"
   },
   {
-    "name": "Hoyts",
-    "Address": "Lorem ipsum dolor sit amet.",
-    "longitude": 1,
-    "latitude": 2,
-    "createdOn": "2025-06-29T00:00:00.000Z"
+    "name": "Dendy Opera Quays",
+    "address": "163 Macquarie St, Sydney NSW 2000, Australia",
+    "latitude": -33.8639,
+    "longitude": 151.2126,
+    "createdOn": "2025-07-18T00:00:00.000Z"
+  },
+  {
+    "name": "Event Cinemas George Street",
+    "address": "505‐525 George St, Sydney NSW 2000, Australia",
+    "latitude": -33.8748,
+    "longitude": 151.2067,
+    "createdOn": "2025-07-18T00:00:00.000Z"
+  },
+  {
+    "name": "Hoyts Melbourne Central",
+    "address": "211 La Trobe St, Melbourne VIC 3000, Australia",
+    "latitude": -37.8100,
+    "longitude": 144.9635,
+    "createdOn": "2025-07-18T00:00:00.000Z"
+  },
+  {
+    "name": "Chapel Cinemas",
+    "address": "141 Glenferrie Rd, Malvern VIC 3144, Australia",
+    "latitude": -37.8584,
+    "longitude": 145.0222,
+    "createdOn": "2025-07-18T00:00:00.000Z"
+  },
+  {
+    "name": "Palace Barracks",
+    "address": "162 John St, Fitzroy VIC 3065, Australia",
+    "latitude": -37.8074,
+    "longitude": 144.9823,
+    "createdOn": "2025-07-18T00:00:00.000Z"
+  },
+  {
+    "name": "Event Cinemas Marion",
+    "address": "287 Diagonal Rd, Oaklands Park SA 5046, Australia",
+    "latitude": -35.0099,
+    "longitude": 138.5540,
+    "createdOn": "2025-07-18T00:00:00.000Z"
+  },
+  {
+    "name": "Palace Verona",
+    "address": "33 Lygon St, Carlton VIC 3053, Australia",
+    "latitude": -37.8006,
+    "longitude": 144.9632,
+    "createdOn": "2025-07-18T00:00:00.000Z"
+  },
+  {
+    "name": "Westgarth Cinema",
+    "address": "329 High St, Northcote VIC 3070, Australia",
+    "latitude": -37.7865,
+    "longitude": 145.0016,
+    "createdOn": "2025-07-18T00:00:00.000Z"
   }
 ]

@@ -7,5 +7,4 @@ public class ActorResponse
     public DateOnly Dob { get; set; }
     public PhotoResponse? Photo { get; set; }
     public string Biography { get; set; } = string.Empty;
-    public List<MovieResponse> Movies { get; set; } = new();
 }

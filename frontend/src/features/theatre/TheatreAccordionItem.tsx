@@ -18,7 +18,7 @@ export default function TheatreAccordionItem(props: TheatreAccordionItemProps) {
                     {props.value.name}
                 </button>
             </h2>
-            <div id={`panelsStayOpen-collapse${props.value.id}`} className={`accordion-collapse collapse ${isOpen ? "show" : ""}`}>
+        <div id={`panelsStayOpen-collapse${props.value.id}`} className={`accordion-collapse collapse ${isOpen ? "show" : ""}`}>
                 <div className="accordion-body">
                     <div className="d-flex justify-content-between align-items-center">
                         <span>{props.value.address}</span>

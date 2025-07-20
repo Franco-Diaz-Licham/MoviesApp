@@ -10,8 +10,8 @@ export function mapResponseToForm(data: ActorResponse): ActorFormData {
         id: data.id,
         name: data.name,
         dob: data.dob,
-        image: null,
         biography: data.biography,
+        image: null,
         imgeUrl: data.photo.publicUrl,
     };
 }

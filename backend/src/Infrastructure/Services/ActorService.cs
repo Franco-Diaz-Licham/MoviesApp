@@ -4,14 +4,14 @@ public class ActorService : IActorService
 {
     private readonly IMemoryCache _cache;
     private readonly IPhotoService _photoService;
-    private readonly IGenericRepository<ActorEntity> _actorRepo;
+    private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
     private const string CACHE_KEY = nameof(ActorResponse);
 
-    public ActorService(IMemoryCache cache, IGenericRepository<ActorEntity> actorRepo, IMapper mapper, IPhotoService photoService)
+    public ActorService(IMemoryCache cache, IUnitOfWork uow, IMapper mapper, IPhotoService photoService)
     {
         _cache = cache;
-        _actorRepo = actorRepo;
+        _uow = uow;
         _mapper = mapper;
         _photoService = photoService;
     }
@@ -25,7 +25,7 @@ public class ActorService : IActorService
         {
             entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(6);
             var specs = new ActorDetailsSpecs();
-            var models = await _actorRepo.GetAllAsync(specs);
+            var models = await _uow.GetRepository<ActorEntity>().GetAllAsync(specs);
             var output = _mapper.Map<List<ActorDTO>>(models.ToList());
             return output;
         });
@@ -39,7 +39,7 @@ public class ActorService : IActorService
     public async Task<ActorDTO?> GetAsync(int id)
     {
         var specs = new ActorDetailsSpecs(id);
-        var model = await _actorRepo.GetAsync(specs);
+        var model = await _uow.GetRepository<ActorEntity>().GetAsync(specs);
         var output = _mapper.Map<ActorDTO>(model);
         return output;
     }
@@ -47,9 +47,9 @@ public class ActorService : IActorService
     /// <summary>
     /// Method used to check whether entry exits as a record.
     /// </summary>
-    public async Task<Boolean> GetAsyncCheck(int id)
+    public async Task<bool> GetAsyncCheck(int id)
     {
-        var model = await _actorRepo.GetAsyncNoTracking(id);
+        var model = await _uow.GetRepository<ActorEntity>().GetAsyncNoTracking(id);
         if (model != null) return true;
         return false;
     }
@@ -61,16 +61,16 @@ public class ActorService : IActorService
     {
         // Validate photo exists
         if (dto.Photo is null) throw new Exception("Photo is empty");
-        await using var transaction = await _actorRepo.GetDbContext.Database.BeginTransactionAsync();
+        await using var transaction = await _uow.BeginTransactionAsync();
 
         try
         {
             // Save and ensure not to create photo again.
-            dto.PhotoId = (await _photoService.CreateAsync(dto.Photo)).Id;
+            dto.PhotoId = (await _photoService.CreateProfileImageAsync(dto.Photo)).Id;
             dto.Photo = null;
             var model = _mapper.Map<ActorEntity>(dto);
-            _actorRepo.Add(model);
-            await _actorRepo.CompleteAsync();
+            _uow.GetRepository<ActorEntity>().Add(model);
+            await _uow.CompleteAsync();
             await transaction.CommitAsync();
 
             // Return
@@ -90,39 +90,39 @@ public class ActorService : IActorService
     /// </summary>
     public async Task<ActorDTO> UpdateAsync(ActorDTO dto)
     {
-        await using var transaction = await _actorRepo.GetDbContext.Database.BeginTransactionAsync();
+        await using var transaction = await _uow.BeginTransactionAsync();
 
         try
         {
             // Retrieve existing hydrated actor from DB
             var specs = new ActorDetailsSpecs(dto.Id);
-            var existingActor = await _actorRepo.GetAsync(specs);
-            if (existingActor is null) throw new Exception("Actor not found");
+            var actor = await _uow.GetRepository<ActorEntity>().GetAsync(specs);
+            if (actor is null) throw new Exception("Actor not found");
             PhotoDTO? oldPhoto = null;
 
             // Replace photo if needed
             if (dto.Photo is not null)
             {
-                var newPhoto = await _photoService.CreateAsync(dto.Photo);
-                oldPhoto = _mapper.Map<PhotoDTO>(existingActor.Photo);
-                existingActor.PhotoId = newPhoto.Id;
+                var newPhoto = await _photoService.CreateProfileImageAsync(dto.Photo);
+                oldPhoto = _mapper.Map<PhotoDTO>(actor.Photo);
+                actor.PhotoId = newPhoto.Id;
             }
 
             // Update actor fields
-            existingActor.Name = dto.Name;
-            existingActor.Dob = dto.Dob;
-            existingActor.Biography = dto.Biography;
-            existingActor.UpdatedOn = DateTime.UtcNow;
+            actor.Name = dto.Name;
+            actor.Dob = dto.Dob;
+            actor.Biography = dto.Biography;
+            actor.UpdatedOn = DateTime.UtcNow;
 
             // save and commit transaction
-            _actorRepo.Update(existingActor);
-            await _actorRepo.CompleteAsync();
+            _uow.GetRepository<ActorEntity>().Update(actor);
+            await _uow.CompleteAsync();
             await transaction.CommitAsync();
 
             // Delete old photo after transaction
             if (oldPhoto is not null) await _photoService.DeleteAsync(oldPhoto);
             _cache.Remove(CACHE_KEY);
-            var output = await GetAsync(existingActor.Id);
+            var output = await GetAsync(actor.Id);
             return output!;
         }
         catch
@@ -137,23 +137,26 @@ public class ActorService : IActorService
     /// </summary>
     public async Task<bool> DeleteAsync(int id)
     {
-        await using var transaction = await _actorRepo.GetDbContext.Database.BeginTransactionAsync();
+        await using var transaction = await _uow.BeginTransactionAsync();
 
         try
         {
             // get actor
             var specs = new ActorDetailsSpecs(id);
-            var model = await _actorRepo.GetAsyncNoTracking(specs);
+            var model = await _uow.GetRepository<ActorEntity>().GetAsyncNoTracking(specs);
             if (model is null) return false;
 
             // delete actor with photo
-            var photo = _mapper.Map<PhotoDTO>(model.Photo);
-            _actorRepo.Delete(model);
-            await _actorRepo.CompleteAsync();
+            _uow.GetRepository<ActorEntity>().Delete(model);
+            await _uow.CompleteAsync();
             await transaction.CommitAsync();
 
-            // delete 
-            await _photoService.DeleteAsync(photo);
+            // Delete photo 
+            if (model.Photo is not null)
+            {
+                var photo = _mapper.Map<PhotoDTO>(model.Photo);
+                await _photoService.DeleteAsync(photo);
+            }
             _cache.Remove(CACHE_KEY);
             return true;
         }

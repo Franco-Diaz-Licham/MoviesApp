@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { ActorResponse } from "../../types/actor/ActorResponse.type";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";

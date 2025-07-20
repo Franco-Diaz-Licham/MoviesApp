@@ -37,7 +37,7 @@ public class ActorController : ControllerBase
         var dto = _mapper.Map<ActorDTO>(request);
         var result = await _actorService.CreateAsync(dto);
         var output = _mapper.Map<ActorResponse>(result);
-        return Accepted(new ApiResponse(202, output));
+        return Accepted(new ApiResponse(201, output));
     }
 
     [HttpPut("{id}")]

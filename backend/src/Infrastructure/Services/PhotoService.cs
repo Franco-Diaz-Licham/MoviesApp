@@ -3,34 +3,35 @@
 public class PhotoService : IPhotoService
 {
     private readonly ICloudinaryService _cloudinaryService;
-    private readonly IGenericRepository<PhotoEntity> _photoRepo;
+    private readonly IUnitOfWork _uow;
     private readonly IMapper _mapper;
-    private readonly ILogger<PhotoService> _logger;
 
-    public PhotoService(
-            IGenericRepository<PhotoEntity> PhotoRepo, 
-            IMapper mapper, 
-            ICloudinaryService cloudinaryService,
-            ILogger<PhotoService> logger)
+    public PhotoService(IUnitOfWork uow, IMapper mapper, ICloudinaryService cloudinaryService)
     {
-        _photoRepo = PhotoRepo;
+        _uow = uow;
         _mapper = mapper;
         _cloudinaryService = cloudinaryService;
-        _logger = logger;
     }
 
+    /// <summary>
+    /// Method which fetches a photo from the database.
+    /// </summary>
     public async Task<PhotoDTO?> GetAsync(int id)
     {
-        var model = await _photoRepo.GetAsync(id);
+        var model = await _uow.GetRepository<PhotoEntity>().GetAsync(id);
         var output = _mapper.Map<PhotoDTO>(model);
         return output;
     }
 
-    public async Task<PhotoDTO> CreateAsync(PhotoDTO dto)
+    /// <summary>
+    /// Method which creates a photo and uploads to cloudinary.
+    /// </summary>
+    public async Task<PhotoDTO> CreateProfileImageAsync(PhotoDTO dto)
     {
         // create image
         if (dto.Image is null) throw new Exception("Photo is empty");
-        var img = await _cloudinaryService.UploadPhotoAsync(dto.Image);
+        var transform = new Transformation().Height(500).Width(500).Crop("fill").Gravity("face");
+        var img = await _cloudinaryService.UploadPhotoAsync(dto.Image, transform);
 
         // map and save
         dto.PublicUrl = img.SecureUrl.ToString();
@@ -38,21 +39,39 @@ public class PhotoService : IPhotoService
         var model = _mapper.Map<PhotoEntity>(dto);
 
         // save and return
-        _photoRepo.Add(model);
-        await _photoRepo.CompleteAsync();
+        _uow.GetRepository<PhotoEntity>().Add(model);
+        await _uow.CompleteAsync();
         return _mapper.Map<PhotoDTO>(model);
     }
 
+    public async Task<PhotoDTO> CreatePosterImageAsync(PhotoDTO dto)
+    {
+        // create image
+        if (dto.Image is null) throw new Exception("Photo is empty");
+        var img = await _cloudinaryService.UploadPhotoAsync(dto.Image, new());
+
+        // map and save
+        dto.PublicUrl = img.SecureUrl.ToString();
+        dto.PublicId = img.PublicId;
+        var model = _mapper.Map<PhotoEntity>(dto);
+
+        // save and return
+        _uow.GetRepository<PhotoEntity>().Add(model);
+        await _uow.CompleteAsync();
+        return _mapper.Map<PhotoDTO>(model);
+    }
+
+    /// <summary>
+    /// Method which deletes a photo and deletes it from cloudinary.
+    /// </summary>
     public async Task<bool> DeleteAsync(PhotoDTO dto)
     {
-        var entity = await _photoRepo.GetAsyncNoTracking(dto.Id);
+        var entity = await _uow.GetRepository<PhotoEntity>().GetAsyncNoTracking(dto.Id);
         if (entity is not null)
         {
-            _photoRepo.Delete(dto.Id);
-            await _photoRepo.CompleteAsync();
+            _uow.GetRepository<PhotoEntity>().Delete(dto.Id);
+            await _uow.CompleteAsync();
         }
-
-        // Cloudinary deletion should be idempotent
         await _cloudinaryService.DeletePhotoAsync(dto.PublicId);
         return true;
     }

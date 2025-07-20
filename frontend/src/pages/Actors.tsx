@@ -33,17 +33,15 @@ export default function Actors() {
 
     return (
         <>
-            <SearchHeader title="Genres" to="genre" values={actors} onSearch={(data) => setFilteredActors(data)} searchKey={(data: ActorResponse) => data.name} />
-            <div>
-                <div className="row g-5 justify-content-center">
-                    {filteredActors.map((value) => {
-                        return (
-                            <div className="col-7 col-lg-3 col-md-4 d-flex col-sm-6 justify-content-center" key={value.id}>
-                                <ActorCard value={value} onDelete={handleDelete} />
-                            </div>
-                        );
-                    })}
-                </div>
+            <SearchHeader title="Actors" to="actor" values={actors} onSearch={(data) => setFilteredActors(data)} searchKey={(data: ActorResponse) => data.name} />
+            <div className="row g-5 justify-content-center">
+                {filteredActors.map((value) => {
+                    return (
+                        <div className="col-7 col-lg-3 col-md-4 d-flex col-sm-6 justify-content-center" key={value.id}>
+                            <ActorCard value={value} onDelete={handleDelete} />
+                        </div>
+                    );
+                })}
             </div>
         </>
     );

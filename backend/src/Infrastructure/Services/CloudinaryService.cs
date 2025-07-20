@@ -13,14 +13,14 @@ public class CloudinaryService : ICloudinaryService
     /// <summary>
     /// Method which uploads images to cloudinary.
     /// </summary>
-    public async Task<ImageUploadResult> UploadPhotoAsync(IFormFile file)
+    public async Task<ImageUploadResult> UploadPhotoAsync(IFormFile file, Transformation transform)
     {
         if (file.Length == 0) return new();
         await using var stream = file.OpenReadStream();
         var uploadParams = new ImageUploadParams()
         {
             File = new FileDescription(file.FileName, stream),
-            Transformation = new Transformation().Height(500).Width(500).Crop("fill").Gravity("face")
+            Transformation = transform
         };
 
         return await _cloud.UploadAsync(uploadParams);
@@ -29,12 +29,12 @@ public class CloudinaryService : ICloudinaryService
     /// <summary>
     /// Method which uploads images to cloudinary.
     /// </summary>
-    public async Task<ImageUploadResult> UploadPhotoAsync(byte[] fileContent, string fileName)
+    public async Task<ImageUploadResult> UploadPhotoAsync(byte[] fileContent, string fileName, Transformation transform)
     {
         var uploadParams = new ImageUploadParams()
         {
             File = new FileDescription(fileName, new MemoryStream(fileContent)),
-            Transformation = new Transformation().Height(500).Width(500).Crop("fill").Gravity("face")
+            Transformation = transform
         };
 
        return await _cloud.UploadAsync(uploadParams);

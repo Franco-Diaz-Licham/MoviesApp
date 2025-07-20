@@ -12,7 +12,7 @@ using backend.src.Infrastructure.Persistence;
 namespace backend.src.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250717044032_Initial migration")]
+    [Migration("20250719103820_Initial migration")]
     partial class Initialmigration
     {
         /// <inheritdoc />
@@ -143,6 +143,11 @@ namespace backend.src.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("photo_id");
 
+                    b.Property<string>("Plot")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("plot");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text")
@@ -247,12 +252,12 @@ namespace backend.src.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_on");
 
-                    b.Property<int?>("Latitude")
-                        .HasColumnType("integer")
+                    b.Property<decimal>("Latitude")
+                        .HasColumnType("numeric")
                         .HasColumnName("latitude");
 
-                    b.Property<int?>("Longitude")
-                        .HasColumnType("integer")
+                    b.Property<decimal>("Longitude")
+                        .HasColumnType("numeric")
                         .HasColumnName("longitude");
 
                     b.Property<string>("Name")

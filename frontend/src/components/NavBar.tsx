@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useState } from "react";
 
@@ -9,7 +9,9 @@ export default function NavBar() {
     return (
         <nav className="navbar navbar-expand-lg bg-dark-subtle justify-content-between">
             <div className="container-fluid px-5 py-1">
-                <img src={logo} alt="logo" width="80"></img>
+                <Link to={"/"}>
+                    <img src={logo} alt="logo" width="80" />
+                </Link>
                 <button className="navbar-toggler" type="button" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" onClick={() => setIsOpen(!isOpen)}>
                     <span className="navbar-toggler-icon"></span>
                 </button>

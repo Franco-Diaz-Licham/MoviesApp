@@ -14,16 +14,7 @@ public class MovieController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync()
-    {
-        var Movies = await _movieService.GetAllAsync();
-        if (Movies.Count == 0) return NotFound(new ApiResponse(404));
-        var result = _mapper.Map<List<MovieResponse>>(Movies);
-        return Ok(new ApiResponse(200, result));
-    }
-
-    [HttpGet("/details")]
-    public async Task<IActionResult> GetAllDetailsAsync()
+    public async Task<ActionResult<List<MovieResponse>>> GetAllDetailsAsync()
     {
         var Movies = await _movieService.GetAllDetailsAsync();
         if (Movies.Count == 0) return NotFound(new ApiResponse(404));
@@ -31,21 +22,38 @@ public class MovieController : ControllerBase
         return Ok(new ApiResponse(200, result));
     }
 
-    [HttpPost]
-    public async Task<ActionResult<MovieResponse>> CreateAsync([FromForm] MovieRequest request)
+    [HttpGet("{id}")]
+    public async Task<ActionResult<MovieResponse>> GetAsync(int id)
     {
-        var dto = _mapper.Map<MovieDTO>(request);
+        var genre = await _movieService.GetAsync(id);
+        if (genre is null) return NotFound(new ApiResponse(404));
+        var result = _mapper.Map<MovieResponse>(genre);
+        return Ok(new ApiResponse(200, result));
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<MovieResponse>> CreateAsync([FromForm] MovieCreateRequest request)
+    {
+        var dto = _mapper.Map<MovieCreateDTO>(request);
         var result = await _movieService.CreateAsync(dto);
+        var output = _mapper.Map<MovieResponse>(result);
+        return Accepted(new ApiResponse(201, output));
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<MovieResponse>> UpdateAsync(int id, [FromForm] MovieUpdateRequest request)
+    {
+        var dto = _mapper.Map<MovieUpdateDTO>(request);
+        var result = await _movieService.UpdateAsync(dto);
         var output = _mapper.Map<MovieResponse>(result);
         return Accepted(new ApiResponse(202, output));
     }
 
-    [HttpPut("id")]
-    public async Task<ActionResult<MovieResponse>> UpdateAsync([FromForm] MovieRequest request)
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteAsync(int id)
     {
-        var dto = _mapper.Map<MovieDTO>(request);
-        var result = await _movieService.CreateAsync(dto);
-        var output = _mapper.Map<MovieResponse>(result);
-        return Accepted(new ApiResponse(202, output));
+        var result = await _movieService.DeleteAsync(id);
+        if (result is false) return BadRequest(new ApiResponse(400));
+        return NoContent();
     }
 }

@@ -1,42 +1,63 @@
-import { useState, useRef, useEffect } from "react";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { BaseSelectoModel } from "../types/BaseSelectoModel.type";
+import { FieldErrors, UseFormSetValue, UseFormTrigger, UseFormWatch } from "react-hook-form";
+import BadgeField from "./Badgefield";
 
-interface MultiSelectFieldProps<T extends BaseSelectoModel> {
+interface MultiSelectFieldProps<T> {
     id: string;
     values: T[];
-    selected: T[];
     label: string;
     placeholder: string;
     showLabel?: boolean;
     className?: string;
     required?: boolean;
+    badgeColour?: string;
+    value: (model: T) => string;
+    valueId: (model: T) => number;
     errors: FieldErrors<any>;
-    register: UseFormRegister<any>;
+    watch: UseFormWatch<any>;
+    setValue: UseFormSetValue<any>;
+    trigger: UseFormTrigger<any>;
 }
 
-export default function MultiSelectField<T extends BaseSelectoModel>(props: MultiSelectFieldProps<T>) {
-    return (
-        <>
-            <div className={props.className}>
-                {props.showLabel && (
-                    <label htmlFor={props.id} className="form-label mb-0">
-                        {props.label} {props.required && "*"}
-                    </label>
-                )}
+export default function MultiSelectField<T>(props: MultiSelectFieldProps<T>) {
+    const selectedValues: number[] = props.watch(props.id) ?? [];
 
-                <select id={props.id} {...props.register(props.id, { required: props.required ?? false })} className="form-select">
-                    {/* <option value={props.selectedValueId ?? ""} disabled selected>
-                        {props.placeholder}
-                    </option> */}
-                    {props.values.map((item) => (
-                        <option key={item.id} value={item.id}>
-                            {item.name}
-                        </option>
-                    ))}
-                </select>
-                {props.errors[props.id] && <div className="text-danger small">{props.errors[props.id]?.message?.toString()}</div>}
+    const handleSelectedChanged = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const id = Number(e.currentTarget.value);
+        if (!id || selectedValues.includes(id)) return;
+        const updated = [...selectedValues, id];
+        props.setValue(props.id, updated);
+        props.trigger(props.id);
+        e.currentTarget.selectedIndex = 0;
+    };
+
+    const handleRemove = (id: number) => {
+        const updated = selectedValues.filter((i) => i !== id);
+        props.setValue(props.id, updated);
+        props.trigger(props.id);
+    };
+
+    return (
+        <div className={props.className}>
+            {props.showLabel && (
+                <label htmlFor={`select-${props.id}`} className="form-label mb-0">
+                    {props.label} {props.required && "*"}
+                </label>
+            )}
+            <select id={`select-${props.id}`} className={`form-select ${props.errors[props.id] ? "is-invalid" : "border-dark-subtle"}`} onChange={handleSelectedChanged}>
+                <option value="">-- {props.placeholder} --</option>
+                {props.values.map((model) => (
+                    <option value={props.valueId(model)} key={props.valueId(model)}>
+                        {props.value(model)}
+                    </option>
+                ))}
+            </select>
+            <div className="mt-2 d-flex flex-wrap gap-2">
+                {selectedValues.map((id) => {
+                    const model = props.values.find((v) => props.valueId(v) === id);
+                    return model ? <BadgeField key={id} name={props.value(model)} onRemove={() => handleRemove(id)} colour={props.badgeColour} /> : null;
+                })}
             </div>
-        </>
+            {props.errors[props.id] && <div className="text-danger small">{props.errors[props.id]?.message?.toString()}</div>}
+        </div>
     );
 }

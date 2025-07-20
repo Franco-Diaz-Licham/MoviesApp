@@ -1,14 +1,16 @@
 import { ActorResponse } from "../actor/ActorResponse.type";
-import { BaseSelectoModel } from "../BaseSelectoModel.type";
-import GenreModel from "../genre/GenreFormData.type";
+import { GenreResponse } from "../genre/GenreResponse.type";
+import { PhotoResponse } from "../photo/PhotoResponse.type";
 import { TheatreResponse } from "../theatre/TheatreResponse.type";
 
-export interface MovieModel extends BaseSelectoModel {
+export interface MovieResponse {
+    id: number;
     title: string;
+    plot: string;
     inTheatresFlag: boolean;
     upComingFlag: boolean;
-    imageUrl?: string;
+    photo: PhotoResponse;
     actors?: ActorResponse[];
-    genres?: GenreModel[];
+    genres?: GenreResponse[];
     theatres?: TheatreResponse[];
 }

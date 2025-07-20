@@ -8,6 +8,8 @@ interface FileFieldProps {
     label: string;
     imageUrl?: string;
     className?: string;
+    height: number;
+    width: number;
     errors: FieldErrors<any>;
     register: UseFormRegister<any>;
 }
@@ -50,7 +52,7 @@ export default function FileField(props: FileFieldProps) {
             <div className="d-flex flex-column align-items-center">
                 {previewUrl && (
                     <div className="my-3 rounded-4 p-4 border border-dark-subtle ">
-                        <img src={previewUrl} alt="Preview" width={150} height={150} />
+                        <img src={previewUrl} alt="Preview" width={props.width} height={props.height} />
                     </div>
                 )}
             </div>
