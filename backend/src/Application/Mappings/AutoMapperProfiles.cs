@@ -12,7 +12,8 @@ public class AutoMapperProfiles : Profile
 
         // Actor
         CreateMap<ActorEntity, ActorDTO>().ReverseMap();
-        CreateMap<ActorDTO, ActorResponse>().ForMember(dest => dest.Dob, opt => opt.MapFrom(src => DateOnly.FromDateTime(src.Dob)));
+        CreateMap<ActorDTO, ActorResponse>()
+            .ForMember(dest => dest.Dob, opt => opt.MapFrom(src => DateOnly.FromDateTime(src.Dob)));
         CreateMap<ActorCreateRequest, ActorDTO>();
         CreateMap<ActorUpdateRequest, ActorDTO>();
 
@@ -37,11 +38,18 @@ public class AutoMapperProfiles : Profile
             .ForMember(dest => dest.Genres, opt => opt.Ignore())
             .ForMember(dest => dest.Actors, opt => opt.Ignore())
             .ForMember(dest => dest.Theatres, opt => opt.Ignore());
-
         CreateMap<MovieUpdateDTO, MovieEntity>()
             .ForMember(dest => dest.Genres, opt => opt.Ignore())
             .ForMember(dest => dest.Actors, opt => opt.Ignore())
             .ForMember(dest => dest.Theatres, opt => opt.Ignore());
 
+        // Account
+        CreateMap<UserDTO, UserEntity>().ReverseMap();
+        CreateMap<UserRegisterDTO, UserEntity>()
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
+        CreateMap<UserDTO, UserResponse>();
+        CreateMap<UserLoginRequest, UserLoginDTO>();
+        CreateMap<UserRegisterRequest, UserRegisterDTO>();
+        CreateMap<UserUpdateRequest, UserUpdateDTO>();
     }
 }

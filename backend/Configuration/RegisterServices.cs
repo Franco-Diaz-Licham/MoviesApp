@@ -23,6 +23,7 @@ public static class RegisterServices
         builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
         builder.Services.AddMemoryCache();
         builder.AddAppServices();
+        builder.AddIdentityServices();
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowAll", policy =>

@@ -12,7 +12,7 @@ public static class AppConfig
         app.UseSwaggerUI();
         app.UseCors("AllowAll");
         app.UseHttpsRedirection();
-        //app.UseAuthentication();
+        app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
         await app.ConfigureDatabase();

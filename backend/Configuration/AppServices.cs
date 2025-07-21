@@ -10,6 +10,8 @@ public static class AppServices
         builder.Services.AddScoped<IMovieService, MovieService>();
         builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
         builder.Services.AddScoped<IPhotoService, PhotoService>();
+        builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        builder.Services.AddScoped<ITokenService, TokenService>();
     }
 }

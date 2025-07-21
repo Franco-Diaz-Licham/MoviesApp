@@ -1,9 +1,6 @@
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Microsoft.EntityFrameworkCore;
-
 namespace backend.src.Infrastructure.Persistence;
 
-public class DataContext : DbContext
+public class DataContext : IdentityDbContext<UserEntity>
 {
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
@@ -38,18 +35,11 @@ public class DataContext : DbContext
         builder.Entity<ActorEntity>().HasOne(m => m.Photo).WithOne().OnDelete(DeleteBehavior.NoAction).HasForeignKey<ActorEntity>(m => m.PhotoId).IsRequired();
         builder.Entity<MovieEntity>().HasOne(m => m.Photo).WithOne().OnDelete(DeleteBehavior.NoAction).HasForeignKey<MovieEntity>(m => m.PhotoId).IsRequired();
 
-        // configure all datetimes to be UTC
-        var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
-            v => v.ToUniversalTime(),                                 // Before saving to DB
-            v => DateTime.SpecifyKind(v, DateTimeKind.Utc));          // After reading from DB
-
+        // configure all datetimes to be UTC, Before saving to DB and After reading from DB
+        var dateTimeConverter = new ValueConverter<DateTime, DateTime>(v => v.ToUniversalTime(), v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
         foreach (var entityType in builder.Model.GetEntityTypes())
-        {
             foreach (var property in entityType.GetProperties().Where(p => p.ClrType == typeof(DateTime)))
-            {
                 property.SetValueConverter(dateTimeConverter);
-            }
-        }
 
         base.OnModelCreating(builder);
     }

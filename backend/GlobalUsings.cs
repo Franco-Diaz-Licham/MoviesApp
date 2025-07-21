@@ -30,3 +30,17 @@ global using Serilog.Events;
 global using ILogger = Microsoft.Extensions.Logging.ILogger;
 global using Microsoft.EntityFrameworkCore.Storage;
 global using System.Collections;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.IdentityModel.Tokens;
+global using System.Text;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
+
+
+
+

@@ -1,6 +1,7 @@
 ﻿namespace backend.src.API.Controllers;
 
 [Route("api/[controller]")]
+[Authorize]
 [ApiController]
 public class MovieController : ControllerBase
 {
