@@ -1,4 +1,4 @@
-import { ApiResponse, ApiSingleResponse } from "../../types/ApiResponse.type";
+import { ApiResponse, ApiSingleResponse } from "../../types/api/ApiResponse.type";
 import { MovieCreate } from "../../types/movie/MovieCreate.type";
 import { MovieResponse } from "../../types/movie/MovieResponse.type";
 import { MovieUpdate } from "../../types/movie/MovieUpdate.type";

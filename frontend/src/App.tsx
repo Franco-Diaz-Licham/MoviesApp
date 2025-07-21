@@ -9,13 +9,14 @@ import api from "./api/axios";
 import { setupInterceptors } from "./api/interceptor";
 import { ToastProvider } from "./contexts/ToastContext";
 import { useToast } from "./hooks/useToast";
+import { AuthProvider } from "./contexts/AuthContext";
 
 function AppContent() {
     const { setLoading } = useLoading();
-    const {show} = useToast();
+    const { show } = useToast();
 
     useEffect(() => {
-        setupInterceptors(api, {show, setLoading});
+        setupInterceptors(api, { show, setLoading });
     }, [setLoading]);
 
     return (
@@ -30,11 +31,13 @@ function AppContent() {
 
 function App() {
     return (
-        <ToastProvider>
-            <LoadingProvider>
-                <AppContent />
-            </LoadingProvider>
-        </ToastProvider>
+        <AuthProvider>
+            <ToastProvider>
+                <LoadingProvider>
+                    <AppContent />
+                </LoadingProvider>
+            </ToastProvider>
+        </AuthProvider>
     );
 }
 

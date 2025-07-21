@@ -4,8 +4,6 @@ import { MovieResponse } from "../types/movie/MovieResponse.type";
 import { MovieUpdate } from "../types/movie/MovieUpdate.type";
 import { PhotoCreate } from "../types/photo/PhotoCreate.type";
 
-
-
 export function mapResponseToForm(data: MovieResponse): MovieFormData {
     return {
         id: data.id,

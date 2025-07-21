@@ -1,4 +1,4 @@
-import { ApiResponse, ApiSingleResponse } from "../../types/ApiResponse.type";
+import { ApiResponse, ApiSingleResponse } from "../../types/api/ApiResponse.type";
 import { TheatreCreate } from "../../types/theatre/TheatreCreate.type";
 import { TheatreResponse } from "../../types/theatre/TheatreResponse.type";
 import { TheatreUpdate } from "../../types/theatre/TheatreUpdate.type";

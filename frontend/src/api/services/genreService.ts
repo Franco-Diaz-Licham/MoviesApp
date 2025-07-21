@@ -1,4 +1,4 @@
-import { ApiResponse, ApiSingleResponse } from "../../types/ApiResponse.type";
+import { ApiResponse, ApiSingleResponse } from "../../types/api/ApiResponse.type";
 import { GenreCreate } from "../../types/genre/GenreCreate.type";
 import { GenreResponse } from "../../types/genre/GenreResponse.type";
 import { GenreUpdate } from "../../types/genre/GenreUpdate.type";

@@ -1,10 +1,27 @@
 import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useState } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 /** Navbar component */
 export default function NavBar() {
     const [isOpen, setIsOpen] = useState(true);
+    const { currentUser, logout } = useAuth();
+
+    const getAuth = () => {
+        if (currentUser)
+            return (
+                <NavLink className="nav-link" to="" onClick={logout}>
+                    Logout
+                </NavLink>
+            );
+        else
+            return (
+                <NavLink className="nav-link" to="/login">
+                    Login
+                </NavLink>
+            );
+    };
 
     return (
         <nav className="navbar navbar-expand-lg bg-dark-subtle justify-content-between">
@@ -37,6 +54,9 @@ export default function NavBar() {
                                 Genres
                             </NavLink>
                         </li>
+                    </ul>
+                    <ul className="navbar-nav fw-bold text-uppercase mb-lg-0 ms-3">
+                        <li className="nav-item">{getAuth()}</li>
                     </ul>
                 </div>
             </div>

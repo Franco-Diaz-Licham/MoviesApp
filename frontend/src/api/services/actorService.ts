@@ -1,7 +1,7 @@
 import { ActorCreate } from "../../types/actor/ActorCreate.type";
 import { ActorResponse } from "../../types/actor/ActorResponse.type";
 import { ActorUpdate } from "../../types/actor/ActorUpdate.type";
-import { ApiResponse, ApiSingleResponse } from "../../types/ApiResponse.type";
+import { ApiResponse, ApiSingleResponse } from "../../types/api/ApiResponse.type";
 import api from "../axios";
 
 /** Enpoint for current model. */
@@ -57,6 +57,7 @@ export const updateActor = async (model: ActorUpdate): Promise<ActorResponse | n
         formData.append("name", model.name);
         formData.append("dob", new Date(model.dob).toDateString());
         formData.append("biography", model.biography);
+        
         if (model.photo) formData.append("photo.image", model.photo.image[0]);
         const resp = await api.put<ApiSingleResponse<ActorResponse>>(`${ep}/${model.id}`, formData, {
             headers: { "Content-Type": "multipart/form-data" },

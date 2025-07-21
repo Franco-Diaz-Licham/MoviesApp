@@ -7,6 +7,7 @@ export interface LoadingContextType {
 
 export const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
 
+/** Loading wheel provider. */
 export const LoadingProvider = ({ children }: { children: ReactNode }) => {
     const [loading, setLoading] = useState(false);
     const value: LoadingContextType = {

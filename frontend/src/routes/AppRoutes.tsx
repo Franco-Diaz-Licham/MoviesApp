@@ -1,23 +1,26 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import RoutesConfig from "./RoutesConfig";
+import { Routes, Route } from "react-router-dom";
+import RoutesConfig, { RouteModel } from "./RoutesConfig";
 import MainLayout from "../layouts/MainLayout";
+import PrivateRoute from "./PrivateRoute";
 
 export default function AppRoutes() {
-    return (
-        <Routes>
-            {RoutesConfig.map((route) => {
-                return (
-                    <Route
-                        path={route.path}
-                        key={route.path}
-                        element={
-                            <MainLayout>
-                                <route.component />
-                            </MainLayout>
-                        }
-                    />
-                );
-            })}
-        </Routes>
+  const getRouting = (route: RouteModel) => {
+    const element = (
+      <MainLayout>
+        <route.component />
+      </MainLayout>
     );
+
+    return (
+      <Route
+        path={route.path}
+        key={route.path}
+        element={
+          route.auth ? <PrivateRoute>{element}</PrivateRoute> : element
+        }
+      />
+    );
+  };
+
+  return <Routes>{RoutesConfig.map((route) => getRouting(route))}</Routes>;
 }
