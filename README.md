@@ -59,7 +59,7 @@
 <hr />
 
 <h2>📦 Project Architecture</h2>
-
+<p>This project follows <strong>Clean Architecture</strong>:</p>
 <h3>🖥️ Frontend (React 19 + TypeScript)</h3>
 <pre>
 src/
