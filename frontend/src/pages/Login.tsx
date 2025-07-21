@@ -7,6 +7,7 @@ import { useAuth } from "../hooks/useAuth";
 import { mapFormToLogin, mapFormToRegister } from "../utils/UserMapper";
 import { useNavigate } from "react-router-dom";
 
+/** Login page. */
 export default function Login() {
     const navigate = useNavigate();
     const [loginStatus, setLoginStatus] = useState(true);

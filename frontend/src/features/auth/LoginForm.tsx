@@ -1,15 +1,15 @@
 import { useForm } from "react-hook-form";
-import { useAuth } from "../../hooks/useAuth";
 import logo from "../../assets/logo.png";
-import { useNavigate } from "react-router-dom";
 import { LoginFormData } from "../../types/user/LoginFormData.type";
 import TextField from "../../components/TextField";
 
+/** Function props. */
 interface LoginFormProps {
     onRegister: () => void;
     onSubmit:  (data: LoginFormData) => void;
 }
 
+/** Login form component. */
 export default function LoginForm(props: LoginFormProps) {
     const {
         register,

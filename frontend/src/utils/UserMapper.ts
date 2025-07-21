@@ -2,9 +2,8 @@ import { LoginFormData } from "../types/user/LoginFormData.type";
 import { UserLogin } from "../types/user/UserLogin.type";
 import { UserRegister } from "../types/user/UserRegister.type";
 import { UserResponse } from "../types/user/UserResponse.type";
-import { UserUpdate } from "../types/user/UserUpdate.type";
 
-
+/** Maps from API response to form data DTO. */
 export function mapResponseToForm(data: UserResponse): LoginFormData {
     return {
         firstName: data.firstName,
@@ -14,6 +13,7 @@ export function mapResponseToForm(data: UserResponse): LoginFormData {
     };
 }
 
+/** Maps from form data DTO to create DTO. */
 export function mapFormToRegister(data: LoginFormData): UserRegister {
     return {
         firstName: data.firstName!,
@@ -24,6 +24,7 @@ export function mapFormToRegister(data: LoginFormData): UserRegister {
     };
 }
 
+/** Maps from form data DTO to update DTO. */
 export function mapFormToLogin(data: LoginFormData): UserLogin {
     return {
         email: data.email,

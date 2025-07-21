@@ -1,13 +1,10 @@
 import TextField from "../../components/TextField";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { ActorResponse } from "../../types/actor/ActorResponse.type";
+import { useEffect } from "react";
 import DateField from "../../components/DateField";
 import MarkdownField from "../../components/MarkdownField";
 import FileField from "../../components/FileField";
-import { ActorUpdate } from "../../types/actor/ActorUpdate.type";
-import { ActorCreate } from "../../types/actor/ActorCreate.type";
 import { ActorFormData } from "../../types/actor/ActorFormData.type";
 
 /** Function props. */
@@ -16,6 +13,7 @@ interface ActorProps {
     onSubmit: (Data: ActorFormData) => void;
 }
 
+/** Form to create or upodate actor information. */
 export default function ActorForm(props: ActorProps) {
     const initialValue = {
         defaultValues: props.model ?? { id: 0, name: "" },

@@ -5,6 +5,7 @@ import { createMovie, getMoviesById, updateMovie } from "../api/services/movieSe
 import { mapFormToCreate, mapFormToUpdate, mapResponseToForm } from "../utils/MovieMapper";
 import MovieForm from "../features/movie/MovieForm";
 
+/** Movie profile page. */
 export default function MovieProfile() {
     const [model, setModel] = useState<MovieFormData | null>(null);
     const { id }: Params<string> = useParams();

@@ -4,6 +4,7 @@ import { MovieResponse } from "../types/movie/MovieResponse.type";
 import { MovieUpdate } from "../types/movie/MovieUpdate.type";
 import { PhotoCreate } from "../types/photo/PhotoCreate.type";
 
+/** Maps from API response to form data DTO. */
 export function mapResponseToForm(data: MovieResponse): MovieFormData {
     return {
         id: data.id,
@@ -19,6 +20,7 @@ export function mapResponseToForm(data: MovieResponse): MovieFormData {
     };
 }
 
+/** Maps from form data DTO to create DTO. */
 export function mapFormToCreate(data: MovieFormData): MovieCreate {
     if (data.image?.length === 0) throw new Error("There is no image!");
     return {
@@ -35,6 +37,7 @@ export function mapFormToCreate(data: MovieFormData): MovieCreate {
     };
 }
 
+/** Maps from form data DTO to update DTO. */
 export function mapFormToUpdate(data: MovieFormData): MovieUpdate {
     let image: PhotoCreate | null =
         data.image && data.image.length > 0

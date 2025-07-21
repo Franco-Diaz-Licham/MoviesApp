@@ -3,11 +3,13 @@ import MapField from "../../components/MapField";
 import { TheatreResponse } from "../../types/theatre/TheatreResponse.type";
 import { Link } from "react-router-dom";
 
+/** Function props. */
 interface TheatreAccordionItemProps {
     value: TheatreResponse;
     onDelete: (id: number) => void;
 }
 
+/** Theatre According individual componet to display a singular theatre information. */
 export default function TheatreAccordionItem(props: TheatreAccordionItemProps) {
     const [isOpen, setIsOpen] = useState(true);
 

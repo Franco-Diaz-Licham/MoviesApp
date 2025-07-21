@@ -6,11 +6,13 @@ import { useEffect, useState } from "react";
 import MapField from "../../components/MapField";
 import CoordinateDTO from "../../types/theatre/CoordinateDTO.type";
 
+/** Function props. */
 interface TheatreFormProps {
     model: TheatreFormData | null;
     onSubmit: (Data: TheatreFormData) => void;
 }
 
+/** Form to create or update theatre information. */
 export default function TheatreForm(props: TheatreFormProps) {
     const [showMap, setShowMap] = useState(false);
 
@@ -35,7 +37,7 @@ export default function TheatreForm(props: TheatreFormProps) {
             reset(props.model);
         }
 
-        // Delay showing the map
+        // Delay showing the map. Required to leaftlet.
         const timer = setTimeout(() => setShowMap(true), 300);
         return () => clearTimeout(timer);
     }, [props.model, reset]);

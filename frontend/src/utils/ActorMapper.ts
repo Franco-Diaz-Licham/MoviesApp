@@ -2,9 +2,9 @@ import { ActorResponse } from "../types/actor/ActorResponse.type";
 import { ActorCreate } from "../types/actor/ActorCreate.type";
 import { ActorFormData } from "../types/actor/ActorFormData.type";
 import { ActorUpdate } from "../types/actor/ActorUpdate.type";
-import { error } from "console";
 import { PhotoCreate } from "../types/photo/PhotoCreate.type";
 
+/** Maps from API response to form data DTO. */
 export function mapResponseToForm(data: ActorResponse): ActorFormData {
     return {
         id: data.id,
@@ -16,6 +16,7 @@ export function mapResponseToForm(data: ActorResponse): ActorFormData {
     };
 }
 
+/** Maps from form data DTO to create DTO. */
 export function mapFormToCreate(data: ActorFormData): ActorCreate {
     if (data.image?.length === 0) throw new Error("There is no image!");
     return {
@@ -28,6 +29,7 @@ export function mapFormToCreate(data: ActorFormData): ActorCreate {
     };
 }
 
+/** Maps from form data DTO to update DTO. */
 export function mapFormToUpdate(data: ActorFormData): ActorUpdate {
     let image: PhotoCreate | null =
         data.image && data.image.length > 0

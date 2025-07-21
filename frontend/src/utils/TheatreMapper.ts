@@ -3,6 +3,7 @@ import { TheatreFormData } from "../types/theatre/TheatreFormData.type";
 import { TheatreResponse } from "../types/theatre/TheatreResponse.type";
 import { TheatreUpdate } from "../types/theatre/TheatreUpdate.type";
 
+/** Maps from API response to form data DTO. */
 export function mapResponseToForm(data: TheatreResponse): TheatreFormData {
     return {
         id: data.id,
@@ -13,6 +14,7 @@ export function mapResponseToForm(data: TheatreResponse): TheatreFormData {
     };
 }
 
+/** Maps from form data DTO to create DTO. */
 export function mapFormToCreate(data: TheatreFormData): TheatreCreate {
     return {
         name: data.name,
@@ -22,6 +24,7 @@ export function mapFormToCreate(data: TheatreFormData): TheatreCreate {
     };
 }
 
+/** Maps from form data DTO to update DTO. */
 export function mapFormToUpdate(data: TheatreFormData): TheatreUpdate {
     return {
         id: data.id!,

@@ -2,11 +2,13 @@ import { Link } from "react-router-dom";
 import { MovieResponse } from "../../types/movie/MovieResponse.type";
 import BadgeField from "../../components/Badgefield";
 
+/** Function props. */
 interface MovieCardProps {
     value: MovieResponse;
     onDelete: (id: number) => void;
 }
 
+/** Card to display movie information. */
 export default function MovieCard(props: MovieCardProps) {
     return (
         <div className="card shadow-sm bg-white border-0 rounded-4">

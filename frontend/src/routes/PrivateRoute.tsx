@@ -5,13 +5,11 @@ import { useAuth } from "../hooks/useAuth";
 
 /** Function props. */
 interface PrivateRouteProps {
-  children: JSX.Element;
+    children: JSX.Element;
 }
 
-const PrivateRoute = (props: PrivateRouteProps) => {
-  const { currentUser } = useAuth();
-  return currentUser ? props.children : <Navigate to="/login" replace />;
-};
-
-export default PrivateRoute;
-
+/** Component which handles private routing. Redirects to login page. */
+export default function PrivateRoute(props: PrivateRouteProps) {
+    const { currentUser } = useAuth();
+    return currentUser ? props.children : <Navigate to="/login" replace />;
+}

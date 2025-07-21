@@ -31,19 +31,14 @@ export default function FileField(props: FileFieldProps) {
 
     // Load preview from url
     useEffect(() => {
-        if (props.imageUrl) {
-            setPreviewUrl(props.imageUrl);
-        } else {
-            setPreviewUrl(genericUser);
-        }
+        if (props.imageUrl) setPreviewUrl(props.imageUrl);
+        else setPreviewUrl(genericUser);
     }, [props.imageUrl]);
 
     // Perform clean up on previewURL
     useEffect(() => {
         return () => {
-            if (previewUrl?.startsWith("blob:")) {
-                URL.revokeObjectURL(previewUrl);
-            }
+            if (previewUrl?.startsWith("blob:")) URL.revokeObjectURL(previewUrl);
         };
     }, [previewUrl]);
 

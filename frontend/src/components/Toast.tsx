@@ -1,11 +1,12 @@
-// components/Toast.tsx
 import { forwardRef } from "react";
 
+/** Function props. */
 interface ToastProps {
     message: string;
     resultType: string;
 }
 
+/** Toast component. */
 const Toast = forwardRef<HTMLDivElement, ToastProps>((props: ToastProps, ref) => {
     return (
         <div ref={ref} className={`toast position-fixed bottom-0 end-0 m-4 text-bg-${props.resultType}`} role="alert" aria-live="assertive" aria-atomic="true">

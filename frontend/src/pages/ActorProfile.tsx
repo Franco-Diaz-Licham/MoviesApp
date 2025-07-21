@@ -5,6 +5,7 @@ import { createActor, getActorsById, updateActor } from "../api/services/actorSe
 import { ActorFormData } from "../types/actor/ActorFormData.type";
 import { mapFormToCreate, mapFormToUpdate, mapResponseToForm } from "../utils/ActorMapper";
 
+/** Main actor profile page. */
 export default function ActorProfile() {
     const [model, setModel] = useState<ActorFormData | null>(null);
     const { id }: Params<string> = useParams();

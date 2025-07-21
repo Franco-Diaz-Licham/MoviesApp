@@ -3,11 +3,13 @@ import logo from "../../assets/logo.png";
 import TextField from "../../components/TextField";
 import { LoginFormData } from "../../types/user/LoginFormData.type";
 
+/** Function props. */
 interface RegisterFormProps {
     onCancel: () => void;
     onSubmit: (data: LoginFormData) => void;
 }
 
+/** Register form component. */
 export default function RegisterForm(props: RegisterFormProps) {
     const {
         register,

@@ -1,6 +1,7 @@
 import { FieldErrors, UseFormSetValue, UseFormTrigger, UseFormWatch } from "react-hook-form";
 import BadgeField from "./Badgefield";
 
+/** Function props. */
 interface MultiSelectFieldProps<T> {
     id: string;
     values: T[];
@@ -18,9 +19,11 @@ interface MultiSelectFieldProps<T> {
     trigger: UseFormTrigger<any>;
 }
 
+/** Multiselect component. */
 export default function MultiSelectField<T>(props: MultiSelectFieldProps<T>) {
     const selectedValues: number[] = props.watch(props.id) ?? [];
 
+    /** Handles selection and forces validation. */
     const handleSelectedChanged = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const id = Number(e.currentTarget.value);
         if (!id || selectedValues.includes(id)) return;
@@ -30,6 +33,7 @@ export default function MultiSelectField<T>(props: MultiSelectFieldProps<T>) {
         e.currentTarget.selectedIndex = 0;
     };
 
+    /** Handles options removal. */
     const handleRemove = (id: number) => {
         const updated = selectedValues.filter((i) => i !== id);
         props.setValue(props.id, updated);

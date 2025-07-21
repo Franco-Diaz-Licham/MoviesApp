@@ -1,3 +1,5 @@
+
+/** Data to work with forms DTO. */
 export interface ActorFormData {
     id?: number;
     name: string;

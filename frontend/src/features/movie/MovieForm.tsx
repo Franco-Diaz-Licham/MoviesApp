@@ -20,6 +20,7 @@ interface MovieProps {
     onSubmit: (Data: MovieFormData) => void;
 }
 
+/** Form to creater or update movies. */
 export default function MovieForm(props: MovieProps) {
     const [genres, setGenres] = useState<GenreResponse[]>([]);
     const [actors, setActors] = useState<ActorResponse[]>([]);
@@ -46,10 +47,9 @@ export default function MovieForm(props: MovieProps) {
         getData();
     }, []);
 
+    /** Gets all dropdown data. */
     const getData = async () => {
-        var genres = await getGenres();
-        var actors = await getActors();
-        var theatres = await getTheatres();
+        const [genres, actors, theatres] = await Promise.all([getGenres(), getActors(), getTheatres()]);
         if (genres) setGenres(genres);
         if (actors) setActors(actors);
         if (theatres) setTheatres(theatres);

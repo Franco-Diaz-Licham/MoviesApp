@@ -1,9 +1,11 @@
+
+/** Function props. */
 interface BadgeFieldProps {
     name: string;
     colour?: string;
     onRemove?: () => void;
 }
-
+/** Badge component. */
 export default function BadgeField(props: BadgeFieldProps) {
     return (
         <span className={`badge bg-${props.colour ?? "primary" }`}>

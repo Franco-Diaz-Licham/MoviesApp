@@ -7,6 +7,7 @@ interface MainLayoutProps {
     children: React.ReactNode;
 }
 
+/** Main page layout. Information wil lbe displayed in the main component. */
 const MainLayout = (props: MainLayoutProps) => {
     return (
         <>

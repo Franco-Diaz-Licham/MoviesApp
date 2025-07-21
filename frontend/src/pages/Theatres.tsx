@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { TheatreResponse } from "../types/theatre/TheatreResponse.type";
 import { deleteTheatre, getTheatres } from "../api/services/theatreService";
-import { Link } from "react-router-dom";
 import SearchHeader from "../components/SearchHeader";
 import TheatreAccordion from "../features/theatre/TheatreAccordion";
 
+/** Page to display all theatres. */
 export default function Theatres() {
     const [theatres, setTheatres] = useState<TheatreResponse[]>([]);
     const [filteredTheatres, setFilteredTheatres] = useState<TheatreResponse[]>(theatres);

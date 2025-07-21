@@ -3,6 +3,7 @@ import RoutesConfig, { RouteModel } from "./RoutesConfig";
 import MainLayout from "../layouts/MainLayout";
 import PrivateRoute from "./PrivateRoute";
 
+/** Router main component. */
 export default function AppRoutes() {
   const getRouting = (route: RouteModel) => {
     const element = (

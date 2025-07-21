@@ -4,6 +4,7 @@ import SearchHeader from "../components/SearchHeader";
 import MovieCard from "../features/movie/MovieCard";
 import { deleteMovie, getMovies } from "../api/services/movieService";
 
+/** Page to display all movies. */
 export default function Movies() {
     const [Movies, setMovies] = useState<MovieResponse[]>([]);
     const [filteredMovies, setFilteredMovies] = useState<MovieResponse[]>(Movies);

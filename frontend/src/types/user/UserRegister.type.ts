@@ -1,3 +1,5 @@
+
+/** Register DTO. */
 export interface UserRegister {
     firstName: string;
     surname: string;

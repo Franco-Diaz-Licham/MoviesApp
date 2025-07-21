@@ -1,4 +1,5 @@
 
+/** User api response model. */
 export interface UserResponse {
     id: number;
     firstName: string;

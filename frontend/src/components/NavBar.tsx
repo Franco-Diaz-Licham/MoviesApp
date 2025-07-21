@@ -8,6 +8,7 @@ export default function NavBar() {
     const [isOpen, setIsOpen] = useState(true);
     const { currentUser, logout } = useAuth();
 
+    /** Gets navigation link based on authentication. */
     const getAuth = () => {
         if (currentUser)
             return (

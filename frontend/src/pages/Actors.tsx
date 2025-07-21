@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { ActorResponse } from "../types/actor/ActorResponse.type";
 import { deleteActor, getActors } from "../api/services/actorService";
-import { Link } from "react-router-dom";
 import ActorCard from "../features/actor/ActorCard";
 import SearchHeader from "../components/SearchHeader";
 
+/** Routable page to display all actors. */
 export default function Actors() {
     const [actors, setActors] = useState<ActorResponse[]>([]);
     const [filteredActors, setFilteredActors] = useState<ActorResponse[]>(actors);

@@ -1,5 +1,6 @@
 import { PhotoCreate } from "../photo/PhotoCreate.type";
 
+/** Movie create DTO. */
 export interface MovieCreate {
     title: string;
     plot: string;

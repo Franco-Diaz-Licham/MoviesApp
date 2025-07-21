@@ -5,6 +5,7 @@ import { Params, useNavigate, useParams } from "react-router-dom";
 import { createTheatre, getTheatresById, updateTheatre } from "../api/services/theatreService";
 import { mapFormToCreate, mapFormToUpdate, mapResponseToForm } from "../utils/TheatreMapper";
 
+/** Page to edit and create theatre profiles. */
 export default function TheatreProfile() {
     const [model, setModel] = useState<TheatreFormData | null>(null);
     const { id }: Params<string> = useParams();

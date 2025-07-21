@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 
+/** Funtion props. */
 interface SearchHeaderProps<T> {
     values: T[];
     to: string;
@@ -8,7 +9,10 @@ interface SearchHeaderProps<T> {
     searchKey: (model: T) => string;
 }
 
+/** Standard searching header for pages. */
 export default function SearchHeader<T>(props: SearchHeaderProps<T>) {
+
+    /** handles search string changed. */
     const handleSearchStringChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchString = e.target.value.toLowerCase();
         const filtered = props.values.filter((model) => props.searchKey(model).toLowerCase().includes(searchString));

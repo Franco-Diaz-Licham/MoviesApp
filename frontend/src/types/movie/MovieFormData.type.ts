@@ -1,4 +1,5 @@
 
+/** Form data model for movies. */
 export interface MovieFormData {
     id?: number;
     title: string;

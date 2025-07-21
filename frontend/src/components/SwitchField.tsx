@@ -1,5 +1,6 @@
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 
+/** Function props. */
 interface SwitchFieldProps {
     id: string;
     required?: boolean;
@@ -10,6 +11,7 @@ interface SwitchFieldProps {
     register: UseFormRegister<any>;
 }
 
+/** Switch component. */
 export function SwitchField(props: SwitchFieldProps) {
     return (
         <div className={props.className}>

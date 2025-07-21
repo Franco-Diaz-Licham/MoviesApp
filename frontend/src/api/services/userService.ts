@@ -20,6 +20,7 @@ export const registerUser = async (model: LoginFormData): Promise<UserResponse |
     }
 };
 
+/** Method to update user information. */
 export const updateUser = async (model: UserUpdate): Promise<UserResponse | null> => {
     try {
         const resp = await api.put<ApiSingleResponse<UserResponse>>(ep, model);
@@ -30,6 +31,7 @@ export const updateUser = async (model: UserUpdate): Promise<UserResponse | null
     }
 };
 
+/** Method which checks if an email address exists in the system. */
 export const emailCheck = async (email: string): Promise<UserResponse | null> => {
     try {
         let query = `${ep}/email?email=${encodeURIComponent(email)}`;
@@ -41,6 +43,7 @@ export const emailCheck = async (email: string): Promise<UserResponse | null> =>
     }
 };
 
+/** Method to login a user. */
 export const loginUser = async (model: LoginFormData): Promise<UserResponse | null> => {
     try {
         const resp = await api.post<ApiSingleResponse<UserResponse>>(`${ep}/login`, model);
@@ -53,6 +56,7 @@ export const loginUser = async (model: LoginFormData): Promise<UserResponse | nu
     }
 };
 
+/** Method to get fetch user information. */
 export const getUser = async (): Promise<UserResponse | null> => {
     try {
         const resp = await api.post<ApiSingleResponse<UserResponse>>(ep);

@@ -10,7 +10,6 @@ import { useState } from "react";
 interface MapFieldProps {
     coordinates: CoordinateDTO;
     disable: boolean;
-    /** Callback for form handling. */
     onUpdate(coordinates: CoordinateDTO): void;
 }
 
@@ -42,6 +41,7 @@ export default function MapField(props: MapFieldProps) {
 
     const [coord, setCoord] = useState<CoordinateDTO>(props.coordinates);
 
+    /** Method to handle user click and updates coordinate data. */
     const addClick = () =>
         props.disable ? (
             <></>

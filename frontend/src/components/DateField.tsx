@@ -1,6 +1,6 @@
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 
-/** DateField props. */
+/** Function props. */
 interface DateFieldProps {
     id: string;
     label: string;
@@ -12,9 +12,6 @@ interface DateFieldProps {
 
 /** DateField component. */
 export default function DateField(props: DateFieldProps) {
-    /** Gets required symbol for the UI. */
-    const getRequired = () => (!props.required ? props.label : `${props.label} *`);
-
     return (
         <div className={props.className}>
             <label htmlFor={props.id} className="form-label">

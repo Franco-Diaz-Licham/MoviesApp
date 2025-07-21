@@ -1,6 +1,6 @@
 import { PhotoCreate } from "../photo/PhotoCreate.type";
-import { ActorCreate } from "./ActorCreate.type";
 
+/** Update DTO for actors. */
 export interface ActorUpdate {
     id: number;
     name: string;

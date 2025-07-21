@@ -2,6 +2,7 @@ import { createContext, useRef, useState } from "react";
 import { Toast as BootstrapToast } from "bootstrap";
 import Toast from "../components/Toast";
 
+/** Context type interface */
 interface ToastContextType {
     show: (msg: string, options?: ToastOptions) => void;
 }

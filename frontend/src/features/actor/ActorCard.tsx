@@ -2,12 +2,13 @@ import { ActorResponse } from "../../types/actor/ActorResponse.type";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 
+/** Function props. */
 interface ActorCardProps {
     value: ActorResponse;
     onDelete: (id: number) => void;
 }
 
-/**  */
+/** Actor card component. */
 export default function ActorCard(props: ActorCardProps) {
     return (
         <div className="card shadow-sm bg-white border-0 rounded-4" >

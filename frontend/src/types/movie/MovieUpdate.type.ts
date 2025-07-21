@@ -1,6 +1,6 @@
 import { PhotoCreate } from "../photo/PhotoCreate.type";
-import { MovieCreate } from "./MovieCreate.type";
 
+/** Movie update DTO. */
 export interface MovieUpdate {
     id: number;
     title: string;

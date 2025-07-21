@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
+/** Main home page. */
 export default function Home() {
     const { currentUser } = useAuth();
 
+    /** Display different data based on authentication state. */
     const getAuthContent = () => {
         return currentUser ? (
             <>
@@ -62,6 +64,7 @@ export default function Home() {
                 </div>
             </section>
 
+            {/* Features */}
             <section className="mb-5">
                 <h2 className="text-center mb-4">🆕 Latest Features</h2>
                 <ul className="list-group list-group-flush shadow-sm">
@@ -72,6 +75,7 @@ export default function Home() {
                 </ul>
             </section>
 
+            {/* Product */}
             <section className="row align-items-center mb-5">
                 <div className="col-md-6">
                     <h2>Why Choose MoviesApp?</h2>

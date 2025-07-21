@@ -18,6 +18,7 @@ export interface RouteModel {
     auth: boolean;
 }
 
+/** Route list configuration. */
 const RoutesConfig: RouteModel[] = [
     { path: "/genres", exact: true, component: Genres, auth: true },
     { path: "/genre/:id", exact: true, component: GenreProfile, auth: true },
