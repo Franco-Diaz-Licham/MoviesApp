@@ -33,7 +33,7 @@ export default function NavBar() {
                 <button className="navbar-toggler" type="button" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" onClick={() => setIsOpen(!isOpen)}>
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <div className={`navbar-collapse ${isOpen ? "collapse" : "collapsed"}`} id="navbarNav">
+                <div className={`navbar-collapse ${isOpen ? "collapse" : "collapsed"}`} id="navbarNav" data-testid="navbar-collapse">
                     <ul className="navbar-nav fw-bold text-uppercase me-auto mb-2 mb-lg-0 ms-3">
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/movies">

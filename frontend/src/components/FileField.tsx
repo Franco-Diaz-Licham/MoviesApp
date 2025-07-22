@@ -55,7 +55,17 @@ export default function FileField(props: FileFieldProps) {
                 <label htmlFor={props.id} className="form-label">
                     {props.label}
                 </label>
-                <input className="form-control border-dark-subtle" type="file" id={props.id} {...props.register(props.id)} accept=".png, .jpg, .jpeg" onChange={handleFileChange} />
+                <input
+                    className="form-control border-dark-subtle"
+                    type="file"
+                    id={props.id}
+                    {...props.register(props.id)}
+                    onChange={(e) => {
+                        props.register(props.id).onChange(e);
+                        handleFileChange(e);
+                    }}
+                    accept=".png, .jpg, .jpeg"
+                />
                 {props.errors[props.id] && <div className="text-danger small">{props.errors[props.id]?.message?.toString()}</div>}
             </div>
         </div>

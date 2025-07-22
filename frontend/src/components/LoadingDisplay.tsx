@@ -6,7 +6,6 @@ import loader from "../assets/loading.gif"
 export default function LoadingDisplay() {
     const { loading } = useLoading();
     if (!loading) return null;
-
     return (
         <>
             <div className={`${css.overlay} bg-dark-subtle opacity-50`}></div>

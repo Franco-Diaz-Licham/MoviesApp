@@ -4,9 +4,6 @@
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/leaflet": "^1.9.20",
     "@types/node": "^16.18.126",
@@ -21,7 +18,7 @@
     "react-hook-form": "^7.60.0",
     "react-leaflet": "^5.0.0",
     "react-markdown": "^10.1.0",
-    "react-router-dom": "^7.6.3",
+    "react-router-dom": "^6.16.0",
     "react-scripts": "5.0.1",
     "typed-react-markdown": "^0.1.0",
     "typescript": "^4.9.5",
@@ -52,6 +49,10 @@
     ]
   },
   "devDependencies": {
-    "@types/bootstrap": "^5.2.10"
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/bootstrap": "^5.2.10",
+    "msw": "^2.10.4"
   }
 }
