@@ -2,24 +2,28 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import BadgeField from "../../components/Badgefield";
 
 describe("BadgeField", () => {
+    // Test 1
     test("renders badge with default primary color", () => {
         render(<BadgeField name="Admin" />);
         const badge = screen.getByText(/admin/i);
         expect(badge).toHaveClass("bg-primary");
     });
 
+    // Test 2
     test("renders badge with custom color", () => {
         render(<BadgeField name="VIP" colour="danger" />);
         const badge = screen.getByText(/vip/i);
         expect(badge).toHaveClass("bg-danger");
     });
 
+    // Test 3
     test("renders remove button if onRemove is provided", () => {
         render(<BadgeField name="removable" onRemove={() => {}} />);
         const closeBtn = screen.getByRole("button", { name: /remove/i });
         expect(closeBtn).toBeInTheDocument();
     });
 
+    // Test 4
     test("calls onRemove when close button is clicked", () => {
         const mockRemove = jest.fn();
         render(<BadgeField name="Closable" onRemove={mockRemove} />);
