@@ -37,15 +37,25 @@ public class ActorServiceTests
 
     public static IEnumerable<object[]> GetAsyncTestCases => new List<object[]>
     {
-        new object[] { 1, new ActorEntity { Id = 1, Name = "Actor Name" }, new ActorDTO { Id = 1, Name = "Mapped Actor Name" } },
-        new object[] { 99, null, null }
+        new object[] 
+        { 
+            1, 
+            new ActorEntity { Id = 1, Name = "Actor Name" }, 
+            new ActorDTO { Id = 1, Name = "Mapped Actor Name" } 
+        },
+        new object[] 
+        { 
+            99, 
+            null, 
+            null 
+        }
     };
 
     [Theory]
     [MemberData(nameof(GetAsyncTestCases))]
     public async Task GetAsync_ShouldReturnExpectedResult(int id, ActorEntity? entity, ActorDTO? dto)
     {
-        // Arrange
+        // Arrange 
         var repo = A.Fake<IGenericRepository<ActorEntity>>();
         A.CallTo(() => _mockUow.GetRepository<ActorEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAsync(A<ISpecification<ActorEntity>>._)).Returns(entity);
@@ -61,8 +71,18 @@ public class ActorServiceTests
 
     public static IEnumerable<object[]> GetAsyncCheckTestCases => new List<object[]>
     {
-        new object[] { 10, new ActorEntity { Id = 10, Name = "Actor"} , true },
-        new object[] { 99, null, false }
+        new object[] 
+        { 
+            10, 
+            new ActorEntity { Id = 10, Name = "Actor"} , 
+            true 
+        },
+        new object[] 
+        { 
+            99, 
+            null, 
+            false 
+        }
     };
 
     [Theory]
@@ -151,22 +171,8 @@ public class ActorServiceTests
     public async Task UpdateAsync_ShouldUpdateActor_WhenValidDtoProvided()
     {
         // Arrange
-        var dto = new ActorDTO
-        {
-            Id = 1,
-            Name = "Updated Name",
-            Dob = new DateTime(1990, 1, 1),
-            Biography = "Updated bio"
-        };
-        var actor = new ActorEntity
-        {
-            Id = 1,
-            Name = "Old Name",
-            Dob = new DateTime(1980, 1, 1),
-            Biography = "Old bio",
-            Photo = new PhotoEntity(),
-            PhotoId = 5
-        };
+        var dto = new ActorDTO { Id = 1, Name = "Updated Name", Dob = new DateTime(1990, 1, 1), Biography = "Updated bio" };
+        var actor = new ActorEntity{ Id = 1, Name = "Old Name", Dob = new DateTime(1980, 1, 1), Biography = "Old bio", Photo = new PhotoEntity(), PhotoId = 5};
         var updatedDto = new ActorDTO { Id = 1, Name = "Updated Name" };
         var transaction = A.Fake<IDbContextTransaction>();
         var repo = A.Fake<IGenericRepository<ActorEntity>>();
@@ -214,12 +220,7 @@ public class ActorServiceTests
     {
         // Arrange
         var actorId = 1;
-        var actor = new ActorEntity
-        {
-            Id = actorId,
-            Name = "Deletable Actor",
-            Photo = new PhotoEntity { Id = 10 }
-        };
+        var actor = new ActorEntity{ Id = actorId, Name = "Deletable Actor", Photo = new PhotoEntity { Id = 10 } };
         var photoDto = new PhotoDTO { Id = 10 };
 
         var repo = A.Fake<IGenericRepository<ActorEntity>>();
@@ -288,5 +289,3 @@ public class ActorServiceTests
         A.CallTo(() => transaction.RollbackAsync(CancellationToken.None)).MustHaveHappened();
     }
 }
-
-

@@ -13,9 +13,22 @@ public class ActorControllerTests
 
     public static IEnumerable<object[]> GetAsyncTestCases => new List<object[]>
     {
-        new object[] { 10, new ActorDTO { Id = 10, Name = "Test Actor" }, typeof(OkObjectResult), new ApiResponse(200, new ActorResponse { Id = 10, Name = "Test Actor" }) },
-        new object[] { -1, null, typeof(NotFoundObjectResult), new ApiResponse(404) }
+        new object[]
+        {
+            10,
+            new ActorDTO { Id = 10, Name = "Test Actor" },
+            typeof(OkObjectResult),
+            new ApiResponse(200, new ActorResponse { Id = 10, Name = "Test Actor" })
+        },
+        new object[]
+        {
+            -1,
+            null,
+            typeof(NotFoundObjectResult),
+            new ApiResponse(404)
+        }
     };
+
 
     [Theory]
     [MemberData(nameof(GetAsyncTestCases))]
@@ -36,10 +49,26 @@ public class ActorControllerTests
 
     public static IEnumerable<object[]> GetAllAsyncTestCases => new List<object[]>
     {
-        new object[] { new List<ActorDTO>(), typeof(NotFoundObjectResult), new ApiResponse(404) },
-        new object[] { new List<ActorDTO>{ new (){ Id = 1, Name = "Actor One" }}, typeof(OkObjectResult), new ApiResponse(200, new List<ActorResponse>{ new() { Id = 1, Name = "Actor One" } })},
-        new object[] { new List<ActorDTO>{ new (){ Id = 1, Name = "Actor One" },  new () { Id = 2, Name = "Actor Two" } }, typeof(OkObjectResult), new ApiResponse(200, new List<ActorResponse>{ new() { Id = 1, Name = "Actor One" }, new() { Id = 2, Name = "Actor Two" } }) }
+        new object[]
+        {
+            new List<ActorDTO>(),
+            typeof(NotFoundObjectResult),
+            new ApiResponse(404)
+        },
+        new object[]
+        {
+            new List<ActorDTO>{ new() { Id = 1, Name = "Actor One" }},
+            typeof(OkObjectResult),
+            new ApiResponse(200, new List<ActorResponse>{ new() { Id = 1, Name = "Actor One" }})
+        },
+        new object[]
+        {
+            new List<ActorDTO>{ new() { Id = 1, Name = "Actor One" }, new() { Id = 2, Name = "Actor Two" }},
+            typeof(OkObjectResult),
+            new ApiResponse(200, new List<ActorResponse>{ new() { Id = 1, Name = "Actor One" }, new() { Id = 2, Name = "Actor Two" }})
+        }
     };
+
 
     [Theory]
     [MemberData(nameof(GetAllAsyncTestCases))]

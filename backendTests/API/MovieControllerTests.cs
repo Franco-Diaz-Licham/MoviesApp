@@ -13,8 +13,20 @@ public class MovieControllerTests
 
     public static IEnumerable<object[]> GetAsyncTestCases => new List<object[]>
     {
-        new object[] { 1, new MovieDTO { Id = 1, Title = "Inception" }, typeof(OkObjectResult), new ApiResponse(200, new MovieResponse { Id = 1, Title = "Inception" }) },
-        new object[] { 999, null, typeof(NotFoundObjectResult), new ApiResponse(404) }
+        new object[] 
+        { 
+            1, 
+            new MovieDTO { Id = 1, Title = "Inception" }, 
+            typeof(OkObjectResult), 
+            new ApiResponse(200, new MovieResponse { Id = 1, Title = "Inception" }) 
+        },
+        new object[] 
+        { 
+            999, 
+            null, 
+            typeof(NotFoundObjectResult), 
+            new ApiResponse(404) 
+        }
     };
 
     [Theory]
@@ -36,8 +48,18 @@ public class MovieControllerTests
 
     public static IEnumerable<object[]> GetAllAsyncTestCases => new List<object[]>
     {
-        new object[] { new List<MovieDTO>(), typeof(NotFoundObjectResult), new ApiResponse(404) },
-        new object[] { new List<MovieDTO> { new() { Id = 1, Title = "Interstellar" } }, typeof(OkObjectResult), new ApiResponse(200, new List<MovieResponse> { new() { Id = 1, Title = "Interstellar" } })}
+        new object[] 
+        { 
+            new List<MovieDTO>(), 
+            typeof(NotFoundObjectResult), 
+            new ApiResponse(404) 
+        },
+        new object[] 
+        { 
+            new List<MovieDTO> { new() { Id = 1, Title = "Interstellar" } }, 
+            typeof(OkObjectResult), 
+            new ApiResponse(200, new List<MovieResponse> { new() { Id = 1, Title = "Interstellar" } })
+        }
     };
 
     [Theory]

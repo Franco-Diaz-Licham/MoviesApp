@@ -63,12 +63,7 @@ public class MovieServiceTests
     {
         // Arrange
         var id = 1;
-        var movie = new MovieEntity
-        {
-            Id = id,
-            Title = "To Delete",
-            Photo = new PhotoEntity { Id = 10 }
-        };
+        var movie = new MovieEntity{ Id = id, Title = "To Delete", Photo = new PhotoEntity { Id = 10 } };
         var photoDto = new PhotoDTO { Id = 10 };
         var repo = A.Fake<IGenericRepository<MovieEntity>>();
         var transaction = A.Fake<IDbContextTransaction>();

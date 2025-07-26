@@ -13,8 +13,20 @@ public class TheatreControllerTests
 
     public static IEnumerable<object[]> GetAsyncTestCases => new List<object[]>
     {
-        new object[] { 1, new TheatreDTO { Id = 1, Name = "Main Theatre" }, typeof(OkObjectResult), new ApiResponse(200, new TheatreResponse { Id = 1, Name = "Main Theatre" }) },
-        new object[] { 999, null, typeof(NotFoundObjectResult), new ApiResponse(404) }
+        new object[] 
+        { 
+            1, 
+            new TheatreDTO { Id = 1, Name = "Main Theatre" }, 
+            typeof(OkObjectResult), 
+            new ApiResponse(200, new TheatreResponse { Id = 1, Name = "Main Theatre" }) 
+        },
+        new object[] 
+        { 
+            999, 
+            null, 
+            typeof(NotFoundObjectResult), 
+            new ApiResponse(404) 
+        }
     };
 
     [Theory]

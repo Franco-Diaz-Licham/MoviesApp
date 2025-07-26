@@ -13,8 +13,19 @@ public class GenreControllerTests
 
     public static IEnumerable<object[]> GetAsyncTestCases => new List<object[]>
     {
-        new object[] { 1, new GenreDTO { Id = 1, Name = "Action" }, typeof(OkObjectResult), new ApiResponse(200, new GenreResponse { Id = 1, Name = "Action" }) },
-        new object[] { 999, null, typeof(NotFoundObjectResult), new ApiResponse(404) }
+        new object[] 
+        { 
+            1, 
+            new GenreDTO { Id = 1, Name = "Action" }, 
+            typeof(OkObjectResult), 
+            new ApiResponse(200, new GenreResponse { Id = 1, Name = "Action" }) 
+        },
+        new object[] 
+        { 
+            999, 
+            null, 
+            typeof(NotFoundObjectResult), new ApiResponse(404) 
+        }
     };
 
     [Theory]
@@ -36,8 +47,17 @@ public class GenreControllerTests
 
     public static IEnumerable<object[]> GetAllAsyncTestCases => new List<object[]>
     {
-        new object[] { new List<GenreDTO>(), typeof(NotFoundObjectResult), new ApiResponse(404) },
-        new object[] { new List<GenreDTO> { new() { Id = 1, Name = "Action" } }, typeof(OkObjectResult), new ApiResponse(200, new List<GenreResponse> { new() { Id = 1, Name = "Action" } }) }
+        new object[] 
+        { 
+            new List<GenreDTO>(), 
+            typeof(NotFoundObjectResult), 
+            new ApiResponse(404) 
+        },
+        new object[] 
+        { 
+            new List<GenreDTO> { new() { Id = 1, Name = "Action" } }, 
+            typeof(OkObjectResult), 
+            new ApiResponse(200, new List<GenreResponse> { new() { Id = 1, Name = "Action" } }) }
     };
 
     [Theory]
@@ -117,8 +137,20 @@ public class GenreControllerTests
 
     public static IEnumerable<object[]> DeleteAsyncTestCases => new List<object[]>
     {
-        new object[] { 1, true, typeof(NoContentResult), null },
-        new object[] { 99, false, typeof(BadRequestObjectResult), new ApiResponse(400) }
+        new object[] 
+        { 
+            1, 
+            true,
+            typeof(NoContentResult), 
+            null 
+        },
+        new object[] 
+        { 
+            99, 
+            false, 
+            typeof(BadRequestObjectResult), 
+            new ApiResponse(400) 
+        }
     };
 
     [Theory]

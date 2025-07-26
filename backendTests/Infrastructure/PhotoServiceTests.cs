@@ -14,8 +14,18 @@ public class PhotoServiceTests
 
     public static IEnumerable<object[]> GetAsyncTestCases => new List<object[]>
     {
-        new object[] { 1, new PhotoEntity { Id = 1, PublicId = "abc" }, new PhotoDTO { Id = 1, PublicId = "abc" } },
-        new object[] { 999, null, null }
+        new object[] 
+        { 
+            1, 
+            new PhotoEntity { Id = 1, PublicId = "abc" }, 
+            new PhotoDTO { Id = 1, PublicId = "abc" } 
+        },
+        new object[] 
+        { 
+            999, 
+            null, 
+            null 
+        }
     };
 
     [Theory]
@@ -41,11 +51,7 @@ public class PhotoServiceTests
         // Arrange
         var formFile = A.Fake<IFormFile>();
         var inputDto = new PhotoDTO { Image = formFile };
-        var uploadResult = new ImageUploadResult
-        {
-            PublicId = "uploaded",
-            SecureUrl = new Uri("https://myapp.com/test-image.jpg")
-        };
+        var uploadResult = new ImageUploadResult{ PublicId = "uploaded", SecureUrl = new Uri("https://myapp.com/test-image.jpg") };
         var entity = new PhotoEntity { Id = 10, PublicId = "uploaded" };
         var resultDto = new PhotoDTO { Id = 10, PublicId = "uploaded" };
 
@@ -83,11 +89,7 @@ public class PhotoServiceTests
         // Arrange
         var formFile = A.Fake<IFormFile>();
         var inputDto = new PhotoDTO { Image = formFile };
-        var uploadResult = new ImageUploadResult
-        {
-            PublicId = "poster",
-            SecureUrl = new Uri("https://cdn.com/poster.jpg")
-        };
+        var uploadResult = new ImageUploadResult{ PublicId = "poster", SecureUrl = new Uri("https://myapp.com/poster.jpg") };
         var entity = new PhotoEntity { Id = 20, PublicId = "poster" };
         var resultDto = new PhotoDTO { Id = 20, PublicId = "poster" };
 

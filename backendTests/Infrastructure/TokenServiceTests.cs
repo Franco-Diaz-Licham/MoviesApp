@@ -7,14 +7,12 @@ public class TokenServiceTests
 
     public TokenServiceTests()
     {
-        // Arrange a dummy secret and issuer
+        // Dummy secret and issuer
         var inMemorySettings = new Dictionary<string, string>
         {
-            // Now 64+ characters
             { "Token:Key", "super_secret_testing_key_123982392839823982938347wre734231234567890" },
             { "Token:Issuer", "TestIssuer" }
         };
-
 
         _mockConfig = new ConfigurationBuilder().AddInMemoryCollection(inMemorySettings).Build();
         _sut = new TokenService(_mockConfig);
@@ -24,18 +22,12 @@ public class TokenServiceTests
     public void CreateToken_ShouldGenerateValidJwt_WhenUserIsValid()
     {
         // Arrange
-        var user = new UserDTO
-        {
-            Email = "user@example.com",
-            FirstName = "John",
-            Surname = "Doe",
-            DisplayName = "jdoe"
-        };
+        var user = new UserDTO{ Email = "user@example.com", FirstName = "John", Surname = "Doe", DisplayName = "jdoe" };
 
         // Act
         var token = _sut.CreateToken(user);
 
-        // Assert basic JWT validity
+        // Assert 
         token.Should().NotBeNullOrWhiteSpace();
 
         var handler = new JwtSecurityTokenHandler();
@@ -52,7 +44,6 @@ public class TokenServiceTests
         nameClaim.Should().Be("John");
         surnameClaim.Should().Be("Doe");
         displayNameClaim.Should().Be("jdoe");
-
         jwtToken.ValidTo.Should().BeAfter(DateTime.UtcNow);
     }
 }
