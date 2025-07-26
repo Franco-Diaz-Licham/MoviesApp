@@ -7,7 +7,7 @@
 <blockquote>⚠️ <em>Note: Working on Docker and CI/CD.</em></blockquote>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/6cbc4a1c-ce0e-4526-81d2-8169249dbf53" />
+  <img src="https://github.com/user-attachments/assets/0b391313-4638-4aeb-8cd6-672ffc719922" />
 </p>
 
 
