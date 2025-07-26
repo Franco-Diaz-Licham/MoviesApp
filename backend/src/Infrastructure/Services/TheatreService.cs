@@ -17,7 +17,6 @@ public class TheatreService : ITheatreService
     /// <summary>
     /// Method whicch gets all theatres.
     /// </summary>
-    /// <returns></returns>
     public async Task<List<TheatreDTO>> GetAllAsync()
     {
         var output = await _cache.GetOrCreateAsync(CACHE_KEY, async entry =>
@@ -44,8 +43,6 @@ public class TheatreService : ITheatreService
     /// <summary>
     /// Method whic creates a threatre.
     /// </summary>
-    /// <param name="dto"></param>
-    /// <returns></returns>
     public async Task<TheatreDTO> CreateAsync(TheatreDTO dto)
     {
         var model = _mapper.Map<TheatreEntity>(dto);
@@ -74,7 +71,7 @@ public class TheatreService : ITheatreService
     /// </summary>
     public async Task<bool> DeleteAsync(int id)
     {
-        var model = _uow.GetRepository<TheatreEntity>().GetAsyncNoTracking(id);
+        var model = await _uow.GetRepository<TheatreEntity>().GetAsyncNoTracking(id);
         if (model is null) return false;
         _uow.GetRepository<TheatreEntity>().Delete(id);
         await _uow.CompleteAsync();

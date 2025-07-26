@@ -71,7 +71,7 @@ public class GenreService : IGenreService
     /// </summary>
     public async Task<bool> DeleteAsync(int id)
     {
-        var model = _uow.GetRepository<GenreEntity>().GetAsyncNoTracking(id);
+        var model = await _uow.GetRepository<GenreEntity>().GetAsyncNoTracking(id);
         if (model is null) return false;
         _uow.GetRepository<GenreEntity>().Delete(id);
         await _uow.CompleteAsync();

@@ -50,7 +50,7 @@ public class ActorService : IActorService
     public async Task<bool> GetAsyncCheck(int id)
     {
         var model = await _uow.GetRepository<ActorEntity>().GetAsyncNoTracking(id);
-        if (model != null) return true;
+        if (model is not null) return true;
         return false;
     }
 
@@ -66,7 +66,8 @@ public class ActorService : IActorService
         try
         {
             // Save and ensure not to create photo again.
-            dto.PhotoId = (await _photoService.CreateProfileImageAsync(dto.Photo)).Id;
+            var createdPhoto = await _photoService.CreateProfileImageAsync(dto.Photo);
+            dto.PhotoId = createdPhoto.Id;
             dto.Photo = null;
             var model = _mapper.Map<ActorEntity>(dto);
             _uow.GetRepository<ActorEntity>().Add(model);
@@ -80,7 +81,7 @@ public class ActorService : IActorService
         }
         catch
         {
-            if (transaction.GetDbTransaction().Connection != null) await transaction.RollbackAsync();
+            await transaction.RollbackAsync();
             throw;
         }
     }
@@ -127,7 +128,7 @@ public class ActorService : IActorService
         }
         catch
         {
-            if (transaction.GetDbTransaction().Connection != null) await transaction.RollbackAsync();
+            await transaction.RollbackAsync();
             throw;
         }
     }
@@ -162,7 +163,7 @@ public class ActorService : IActorService
         }
         catch
         {
-            if (transaction.GetDbTransaction().Connection != null) await transaction.RollbackAsync();
+            await transaction.RollbackAsync();
             throw;
         }
     }

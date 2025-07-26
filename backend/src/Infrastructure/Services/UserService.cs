@@ -15,6 +15,9 @@ public class UserService : IUserService
         _userManager = userManager;
     }
 
+    /// <summary>
+    /// Finds user by email.
+    /// </summary>
     public async Task<UserDTO?> FindByEmailAsync(string email)
     {
         var result = await _userManager.Users.SingleOrDefaultAsync(x => x.Email == email);

@@ -43,8 +43,6 @@ public class CloudinaryService : ICloudinaryService
     /// <summary>
     /// Method which deletes photos from cloudinary.
     /// </summary>
-    /// <param name="publicId"></param>
-    /// <returns></returns>
     public async Task<DeletionResult> DeletePhotoAsync(string publicId)
     {
         var deleteParams = new DeletionParams(publicId);

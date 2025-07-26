@@ -12,6 +12,9 @@ public class TokenService : ITokenService
         _config = config;
     }
 
+    /// <summary>
+    /// Creates access token for logged in user.
+    /// </summary>
     public string CreateToken(UserDTO user)
     {
         var claims = new List<Claim>()

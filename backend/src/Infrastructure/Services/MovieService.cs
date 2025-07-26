@@ -102,7 +102,7 @@ public class MovieService : IMovieService
         }
         catch
         {
-            if (transaction.GetDbTransaction().Connection != null) await transaction.RollbackAsync();
+            await transaction.RollbackAsync();
             throw;
         } 
     }
@@ -151,7 +151,7 @@ public class MovieService : IMovieService
         }
         catch
         {
-            if (transaction.GetDbTransaction().Connection != null) await transaction.RollbackAsync();
+            await transaction.RollbackAsync();
             throw;
         }
     }
@@ -186,7 +186,7 @@ public class MovieService : IMovieService
         }
         catch
         {
-            if (transaction.GetDbTransaction().Connection != null) await transaction.RollbackAsync();
+            await transaction.RollbackAsync();
             throw;
         }
     }
