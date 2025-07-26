@@ -15,8 +15,18 @@ public class MovieServiceTests
 
     public static IEnumerable<object[]> GetAsyncTestCases => new List<object[]>
     {
-        new object[] { 1, new MovieEntity { Id = 1, Title = "Inception" }, new MovieDTO { Id = 1, Title = "Inception" } },
-        new object[] { 99, null, null }
+        new object[] 
+        { 
+            1, 
+            new MovieEntity { Id = 1, Title = "Inception" },
+            new MovieDTO { Id = 1, Title = "Inception" } 
+        },
+        new object[] 
+        { 
+            99, 
+            null, 
+            null 
+        }
     };
 
     [Theory]

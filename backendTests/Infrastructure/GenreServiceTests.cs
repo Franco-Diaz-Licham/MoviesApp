@@ -39,8 +39,18 @@ public class GenreServiceTests
 
     public static IEnumerable<object[]> GetAsyncTestCases => new List<object[]>
     {
-        new object[] { 1, new GenreEntity { Id = 1, Name = "Comedy" }, new GenreDTO { Id = 1, Name = "Comedy" } },
-        new object[] { 99, null, null }
+        new object[] 
+        { 
+            1, 
+            new GenreEntity { Id = 1, Name = "Comedy" }, 
+            new GenreDTO { Id = 1, Name = "Comedy" } 
+        },
+        new object[] 
+        { 
+            99,
+            null, 
+            null 
+        }
     };
 
     [Theory]
