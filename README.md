@@ -6,6 +6,11 @@
 
 <blockquote>⚠️ <em>Note: Working on Docker and CI/CD.</em></blockquote>
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/6cbc4a1c-ce0e-4526-81d2-8169249dbf53" />
+</p>
+
+
 <hr />
 
 <h2>🚀 Features</h2>
