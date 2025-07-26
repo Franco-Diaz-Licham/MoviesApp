@@ -37,7 +37,7 @@ public class CloudinaryService : ICloudinaryService
             Transformation = transform
         };
 
-       return await _cloud.UploadAsync(uploadParams);
+        return await _cloud.UploadAsync(uploadParams);
     }
 
     /// <summary>

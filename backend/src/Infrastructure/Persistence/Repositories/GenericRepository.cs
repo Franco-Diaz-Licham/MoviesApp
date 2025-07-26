@@ -91,10 +91,10 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     /// <summary>
     /// Method which handles collection comparisons and detects what has changed.
     /// </summary>
-    public async Task UpdateCollectionAsync(ICollection<T> current, List<int> incomingIds) 
+    public async Task UpdateCollectionAsync(ICollection<T> current, List<int> incomingIds)
     {
         var currentIds = current.Select(x => x.Id).ToList();
-        
+
         // Remove items
         var toRemove = current.Where(x => !incomingIds.Contains(x.Id)).ToList();
         foreach (var r in toRemove) current.Remove(r);

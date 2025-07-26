@@ -37,7 +37,7 @@ public class AccountController : ControllerBase
     {
         var user = _mapper.Map<UserLoginDTO>(request);
         var output = await _userService.LoginAsync(user);
-        if (output == null) return Unauthorized(new ApiValidationErrorResponse(new[] {"Email or password are incorrect"}));
+        if (output == null) return Unauthorized(new ApiValidationErrorResponse(new[] { "Email or password are incorrect" }));
         return Ok(new ApiResponse(200, output));
     }
 

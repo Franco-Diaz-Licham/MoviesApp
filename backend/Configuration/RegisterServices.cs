@@ -17,7 +17,7 @@ public static class RegisterServices
             opt.UseNpgsql(builder.Configuration.GetConnectionString("MovieDb") ?? "")
                .UseSnakeCaseNamingConvention();
 
-            opt.LogTo(Console.WriteLine, LogLevel.Information); 
+            opt.LogTo(Console.WriteLine, LogLevel.Information);
         });
         builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
         builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);

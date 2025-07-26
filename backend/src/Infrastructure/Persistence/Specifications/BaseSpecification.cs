@@ -1,6 +1,6 @@
 ﻿namespace backend.src.Infrastructure.Persistence.Specifications;
 
-public class BaseSpecification <T> : ISpecification<T>
+public class BaseSpecification<T> : ISpecification<T>
 {
     public BaseSpecification() { }
 

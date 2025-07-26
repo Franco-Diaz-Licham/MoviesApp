@@ -126,7 +126,7 @@ public static class SeedData
             byte[] bytes = await File.ReadAllBytesAsync(imageFiles[i]);
             ImageUploadResult result;
             if (fileName.Contains("movie")) result = await cloudinary.UploadPhotoAsync(bytes, fileName, new());
-            else result =  await cloudinary.UploadPhotoAsync(bytes, fileName, new Transformation().Height(500).Width(500).Crop("fill").Gravity("face"));
+            else result = await cloudinary.UploadPhotoAsync(bytes, fileName, new Transformation().Height(500).Width(500).Crop("fill").Gravity("face"));
             models[i].PublicUrl = result.SecureUrl.ToString();
             models[i].PublicId = result.PublicId.ToString();
         }
