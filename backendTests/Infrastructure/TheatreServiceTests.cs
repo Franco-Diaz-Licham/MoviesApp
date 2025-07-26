@@ -56,8 +56,18 @@ public class TheatreServiceTests
 
     public static IEnumerable<object[]> GetAsyncTestCases => new List<object[]>
     {
-        new object[] { 2, new TheatreEntity { Id = 2, Name = "Theatre B" }, new TheatreDTO { Id = 2, Name = "Theatre B" } },
-        new object[] { 99, null, null }
+        new object[] 
+        { 
+            2,
+            new TheatreEntity { Id = 2, Name = "Theatre B" }, 
+            new TheatreDTO { Id = 2, Name = "Theatre B" } 
+        },
+        new object[] 
+        { 
+            99, 
+            null, 
+            null
+        }
     };
 
     [Theory]
