@@ -2,14 +2,14 @@
 
 public class TheatreServiceTests
 {
-    private readonly IMemoryCache _cache = A.Fake<IMemoryCache>();
-    private readonly IUnitOfWork _uow = A.Fake<IUnitOfWork>();
-    private readonly IMapper _mapper = A.Fake<IMapper>();
+    private readonly IMemoryCache _mockCache = A.Fake<IMemoryCache>();
+    private readonly IUnitOfWork _mockUow = A.Fake<IUnitOfWork>();
+    private readonly IMapper _mockMapper = A.Fake<IMapper>();
     private readonly TheatreService _sut;
 
     public TheatreServiceTests()
     {
-        _sut = new TheatreService(_cache, _uow, _mapper);
+        _sut = new TheatreService(_mockCache, _mockUow, _mockMapper);
     }
 
     [Fact]
@@ -20,12 +20,12 @@ public class TheatreServiceTests
         var entities = new List<TheatreEntity> { new() { Id = 1, Name = "Theatre A" } };
         var mapped = new List<TheatreDTO> { new() { Id = 1, Name = "Theatre A" } };
 
-        A.CallTo(() => _uow.GetRepository<TheatreEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.GetRepository<TheatreEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAllAsync()).Returns(entities);
-        A.CallTo(() => _mapper.Map<List<TheatreDTO>>(entities)).Returns(mapped);
+        A.CallTo(() => _mockMapper.Map<List<TheatreDTO>>(entities)).Returns(mapped);
 
         var memoryCache = new MemoryCache(new MemoryCacheOptions());
-        var service = new TheatreService(memoryCache, _uow, _mapper);
+        var service = new TheatreService(memoryCache, _mockUow, _mockMapper);
 
         // Act
         var result = await service.GetAllAsync();
@@ -43,9 +43,9 @@ public class TheatreServiceTests
         var dto = new TheatreDTO { Id = id, Name = "Theatre B" };
         var repo = A.Fake<IGenericRepository<TheatreEntity>>();
 
-        A.CallTo(() => _uow.GetRepository<TheatreEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.GetRepository<TheatreEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAsync(id)).Returns(entity);
-        A.CallTo(() => _mapper.Map<TheatreDTO>(entity)).Returns(dto);
+        A.CallTo(() => _mockMapper.Map<TheatreDTO>(entity)).Returns(dto);
 
         // Act
         var result = await _sut.GetAsync(id);
@@ -66,9 +66,9 @@ public class TheatreServiceTests
     {
         // Arrange
         var repo = A.Fake<IGenericRepository<TheatreEntity>>();
-        A.CallTo(() => _uow.GetRepository<TheatreEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.GetRepository<TheatreEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAsync(id)).Returns(entity);
-        A.CallTo(() => _mapper.Map<TheatreDTO>(entity))!.Returns(dto);
+        A.CallTo(() => _mockMapper.Map<TheatreDTO>(entity))!.Returns(dto);
 
         // Act
         var result = await _sut.GetAsync(id);
@@ -86,17 +86,17 @@ public class TheatreServiceTests
         var resultDto = new TheatreDTO { Id = 3, Name = "New Theatre" };
         var repo = A.Fake<IGenericRepository<TheatreEntity>>();
 
-        A.CallTo(() => _mapper.Map<TheatreEntity>(dto)).Returns(entity);
-        A.CallTo(() => _uow.GetRepository<TheatreEntity>()).Returns(repo);
-        A.CallTo(() => _mapper.Map<TheatreDTO>(entity)).Returns(resultDto);
+        A.CallTo(() => _mockMapper.Map<TheatreEntity>(dto)).Returns(entity);
+        A.CallTo(() => _mockUow.GetRepository<TheatreEntity>()).Returns(repo);
+        A.CallTo(() => _mockMapper.Map<TheatreDTO>(entity)).Returns(resultDto);
 
         // Act
         var result = await _sut.CreateAsync(dto);
 
         // Assert
         A.CallTo(() => repo.Add(entity)).MustHaveHappened();
-        A.CallTo(() => _uow.CompleteAsync()).MustHaveHappened();
-        A.CallTo(() => _cache.Remove("TheatreResponse")).MustHaveHappened();
+        A.CallTo(() => _mockUow.CompleteAsync()).MustHaveHappened();
+        A.CallTo(() => _mockCache.Remove("TheatreResponse")).MustHaveHappened();
         result.Should().BeEquivalentTo(resultDto);
     }
 
@@ -109,17 +109,17 @@ public class TheatreServiceTests
         var resultDto = new TheatreDTO { Id = 4, Name = "Updated Theatre" };
         var repo = A.Fake<IGenericRepository<TheatreEntity>>();
 
-        A.CallTo(() => _mapper.Map<TheatreEntity>(dto)).Returns(entity);
-        A.CallTo(() => _uow.GetRepository<TheatreEntity>()).Returns(repo);
-        A.CallTo(() => _mapper.Map<TheatreDTO>(entity)).Returns(resultDto);
+        A.CallTo(() => _mockMapper.Map<TheatreEntity>(dto)).Returns(entity);
+        A.CallTo(() => _mockUow.GetRepository<TheatreEntity>()).Returns(repo);
+        A.CallTo(() => _mockMapper.Map<TheatreDTO>(entity)).Returns(resultDto);
 
         // Act
         var result = await _sut.UpdateAsync(dto);
 
         // Assert
         A.CallTo(() => repo.Update(entity)).MustHaveHappened();
-        A.CallTo(() => _uow.CompleteAsync()).MustHaveHappened();
-        A.CallTo(() => _cache.Remove("TheatreResponse")).MustHaveHappened();
+        A.CallTo(() => _mockUow.CompleteAsync()).MustHaveHappened();
+        A.CallTo(() => _mockCache.Remove("TheatreResponse")).MustHaveHappened();
         result.Should().BeEquivalentTo(resultDto);
     }
 
@@ -130,7 +130,7 @@ public class TheatreServiceTests
         var id = 5;
         var repo = A.Fake<IGenericRepository<TheatreEntity>>();
 
-        A.CallTo(() => _uow.GetRepository<TheatreEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.GetRepository<TheatreEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAsyncNoTracking(id)).Returns(new TheatreEntity { Id = id });
 
         // Act
@@ -139,8 +139,8 @@ public class TheatreServiceTests
         // Assert
         result.Should().BeTrue();
         A.CallTo(() => repo.Delete(id)).MustHaveHappened();
-        A.CallTo(() => _uow.CompleteAsync()).MustHaveHappened();
-        A.CallTo(() => _cache.Remove("TheatreResponse")).MustHaveHappened();
+        A.CallTo(() => _mockUow.CompleteAsync()).MustHaveHappened();
+        A.CallTo(() => _mockCache.Remove("TheatreResponse")).MustHaveHappened();
     }
 
     [Fact]
@@ -150,7 +150,7 @@ public class TheatreServiceTests
         var id = 999;
         var repo = A.Fake<IGenericRepository<TheatreEntity>>();
 
-        A.CallTo(() => _uow.GetRepository<TheatreEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.GetRepository<TheatreEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAsyncNoTracking(id)).Returns((TheatreEntity?)null);
 
         // Act

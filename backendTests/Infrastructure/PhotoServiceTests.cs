@@ -2,14 +2,14 @@
 
 public class PhotoServiceTests
 {
-    private readonly IUnitOfWork _uow = A.Fake<IUnitOfWork>();
-    private readonly IMapper _mapper = A.Fake<IMapper>();
-    private readonly ICloudinaryService _cloudinaryService = A.Fake<ICloudinaryService>();
+    private readonly IUnitOfWork _mockUow = A.Fake<IUnitOfWork>();
+    private readonly IMapper _mockMapper = A.Fake<IMapper>();
+    private readonly ICloudinaryService _mockCloudinaryService = A.Fake<ICloudinaryService>();
     private readonly PhotoService _sut;
 
     public PhotoServiceTests()
     {
-        _sut = new PhotoService(_uow, _mapper, _cloudinaryService);
+        _sut = new PhotoService(_mockUow, _mockMapper, _mockCloudinaryService);
     }
 
     public static IEnumerable<object[]> GetAsyncTestCases => new List<object[]>
@@ -24,9 +24,9 @@ public class PhotoServiceTests
     {
         // Arrange
         var repo = A.Fake<IGenericRepository<PhotoEntity>>();
-        A.CallTo(() => _uow.GetRepository<PhotoEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.GetRepository<PhotoEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAsync(id)).Returns(entity);
-        A.CallTo(() => _mapper.Map<PhotoDTO>(entity))!.Returns(dto);
+        A.CallTo(() => _mockMapper.Map<PhotoDTO>(entity))!.Returns(dto);
 
         // Act
         var result = await _sut.GetAsync(id);
@@ -50,17 +50,17 @@ public class PhotoServiceTests
         var resultDto = new PhotoDTO { Id = 10, PublicId = "uploaded" };
 
         var repo = A.Fake<IGenericRepository<PhotoEntity>>();
-        A.CallTo(() => _cloudinaryService.UploadPhotoAsync(formFile, A<Transformation>._)).Returns(uploadResult);
-        A.CallTo(() => _mapper.Map<PhotoEntity>(A<PhotoDTO>._)).Returns(entity);
-        A.CallTo(() => _mapper.Map<PhotoDTO>(entity)).Returns(resultDto);
-        A.CallTo(() => _uow.GetRepository<PhotoEntity>()).Returns(repo);
+        A.CallTo(() => _mockCloudinaryService.UploadPhotoAsync(formFile, A<Transformation>._)).Returns(uploadResult);
+        A.CallTo(() => _mockMapper.Map<PhotoEntity>(A<PhotoDTO>._)).Returns(entity);
+        A.CallTo(() => _mockMapper.Map<PhotoDTO>(entity)).Returns(resultDto);
+        A.CallTo(() => _mockUow.GetRepository<PhotoEntity>()).Returns(repo);
 
         // Act
         var result = await _sut.CreateProfileImageAsync(inputDto);
 
         // Assert
         A.CallTo(() => repo.Add(entity)).MustHaveHappened();
-        A.CallTo(() => _uow.CompleteAsync()).MustHaveHappened();
+        A.CallTo(() => _mockUow.CompleteAsync()).MustHaveHappened();
         result.Should().BeEquivalentTo(resultDto);
     }
 
@@ -92,17 +92,17 @@ public class PhotoServiceTests
         var resultDto = new PhotoDTO { Id = 20, PublicId = "poster" };
 
         var repo = A.Fake<IGenericRepository<PhotoEntity>>();
-        A.CallTo(() => _cloudinaryService.UploadPhotoAsync(formFile, A<Transformation>._)).Returns(uploadResult);
-        A.CallTo(() => _mapper.Map<PhotoEntity>(A<PhotoDTO>._)).Returns(entity);
-        A.CallTo(() => _mapper.Map<PhotoDTO>(entity)).Returns(resultDto);
-        A.CallTo(() => _uow.GetRepository<PhotoEntity>()).Returns(repo);
+        A.CallTo(() => _mockCloudinaryService.UploadPhotoAsync(formFile, A<Transformation>._)).Returns(uploadResult);
+        A.CallTo(() => _mockMapper.Map<PhotoEntity>(A<PhotoDTO>._)).Returns(entity);
+        A.CallTo(() => _mockMapper.Map<PhotoDTO>(entity)).Returns(resultDto);
+        A.CallTo(() => _mockUow.GetRepository<PhotoEntity>()).Returns(repo);
 
         // Act
         var result = await _sut.CreatePosterImageAsync(inputDto);
 
         // Assert
         A.CallTo(() => repo.Add(entity)).MustHaveHappened();
-        A.CallTo(() => _uow.CompleteAsync()).MustHaveHappened();
+        A.CallTo(() => _mockUow.CompleteAsync()).MustHaveHappened();
         result.Should().BeEquivalentTo(resultDto);
     }
 
@@ -114,7 +114,7 @@ public class PhotoServiceTests
         var entity = new PhotoEntity { Id = 1, PublicId = "to_delete" };
         var repo = A.Fake<IGenericRepository<PhotoEntity>>();
 
-        A.CallTo(() => _uow.GetRepository<PhotoEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.GetRepository<PhotoEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAsyncNoTracking(dto.Id)).Returns(entity);
 
         // Act
@@ -123,8 +123,8 @@ public class PhotoServiceTests
         // Assert
         result.Should().BeTrue();
         A.CallTo(() => repo.Delete(dto.Id)).MustHaveHappened();
-        A.CallTo(() => _uow.CompleteAsync()).MustHaveHappened();
-        A.CallTo(() => _cloudinaryService.DeletePhotoAsync(dto.PublicId)).MustHaveHappened();
+        A.CallTo(() => _mockUow.CompleteAsync()).MustHaveHappened();
+        A.CallTo(() => _mockCloudinaryService.DeletePhotoAsync(dto.PublicId)).MustHaveHappened();
     }
 
     [Fact]
@@ -134,7 +134,7 @@ public class PhotoServiceTests
         var dto = new PhotoDTO { Id = 999, PublicId = "nonexistent" };
         var repo = A.Fake<IGenericRepository<PhotoEntity>>();
 
-        A.CallTo(() => _uow.GetRepository<PhotoEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.GetRepository<PhotoEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAsyncNoTracking(dto.Id)).Returns((PhotoEntity?)null);
 
         // Act
@@ -143,7 +143,7 @@ public class PhotoServiceTests
         // Assert
         result.Should().BeTrue();
         A.CallTo(() => repo.Delete(A<int>._)).MustNotHaveHappened();
-        A.CallTo(() => _cloudinaryService.DeletePhotoAsync(dto.PublicId)).MustHaveHappened();
+        A.CallTo(() => _mockCloudinaryService.DeletePhotoAsync(dto.PublicId)).MustHaveHappened();
     }
 }
 

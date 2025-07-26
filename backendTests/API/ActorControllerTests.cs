@@ -59,6 +59,51 @@ public class ActorControllerTests
     }
 
     [Fact]
+    public async Task UpdateAsync_ShouldReturnAccepted_WhenActorExists()
+    {
+        // Arrange
+        var id = 1;
+        var request = new ActorUpdateRequest { Id = id, Name = "Updated Actor" };
+        var dto = new ActorDTO { Id = id, Name = "Updated Actor" };
+        var updatedDto = new ActorDTO { Id = id, Name = "Updated Actor" };
+        var response = new ActorResponse { Id = id, Name = "Updated Actor" };
+        var expectedResponse = new ApiResponse(202, response);
+
+        A.CallTo(() => _mockActorService.GetAsyncCheck(id)).Returns(true);
+        A.CallTo(() => _mockMapper.Map<ActorDTO>(request)).Returns(dto);
+        A.CallTo(() => _mockActorService.UpdateAsync(dto)).Returns(updatedDto);
+        A.CallTo(() => _mockMapper.Map<ActorResponse>(updatedDto)).Returns(response);
+
+        // Act
+        var result = await _sut.UpdateAsync(id, request);
+
+        // Assert
+        result.Result.Should().BeOfType<AcceptedResult>();
+        var objectResult = result.Result as ObjectResult;
+        objectResult!.Value.Should().BeEquivalentTo(expectedResponse);
+    }
+
+    [Fact]
+    public async Task UpdateAsync_ShouldReturnNotFound_WhenActorDoesNotExist()
+    {
+        // Arrange
+        var id = 2;
+        var request = new ActorUpdateRequest();
+        var expectedResponse = new ApiResponse(404);
+
+        A.CallTo(() => _mockActorService.GetAsyncCheck(id)).Returns(false);
+
+        // Act
+        var result = await _sut.UpdateAsync(id, request);
+
+        // Assert
+        result.Result.Should().BeOfType<NotFoundObjectResult>();
+        var objectResult = result.Result as ObjectResult;
+        objectResult!.Value.Should().BeEquivalentTo(expectedResponse);
+    }
+
+
+    [Fact]
     public async Task CreateAsync_ReturnsAccepted()
     {
         // Arrange
@@ -80,63 +125,6 @@ public class ActorControllerTests
         accepted!.Value.Should().BeOfType<ApiResponse>();
         accepted!.Value.Should().BeEquivalentTo(new ApiResponse(201, response));
     }
-
-    public static IEnumerable<object[]> UpdateAsyncTestCases => new List<object[]>{
-        new object[]
-        {
-            1,
-            new ActorUpdateRequest {Id = 1, Name = "Updated Actor" },
-            true,
-            new ActorDTO { Id = 1, Name = "Updated Actor" },
-            new ActorDTO { Id = 1, Name = "Updated Actor" },
-            new ActorResponse { Id = 1, Name = "Updated Actor" },
-            typeof(AcceptedResult),
-            new ApiResponse(202, new ActorResponse { Id = 1, Name = "Updated Actor" })
-        },
-        new object[]
-        {
-            2,
-            new ActorUpdateRequest(),
-            false, // actor not found
-            null,
-            null,
-            null,
-            typeof(NotFoundObjectResult),
-            new ApiResponse(404)
-        }
-    };
-
-    [Theory]
-    [MemberData(nameof(UpdateAsyncTestCases))]
-    public async Task UpdateAsync_ShouldReturnExpectedResult(
-        int id,
-        ActorUpdateRequest request,
-        bool actorExists,
-        ActorDTO? dto,
-        ActorDTO? updatedDto,
-        ActorResponse? response,
-        Type expectedType,
-        ApiResponse expectedResponse)
-    {
-        // Arrange
-        A.CallTo(() => _mockActorService.GetAsyncCheck(id)).Returns(actorExists);
-
-        if (actorExists)
-        {
-            A.CallTo(() => _mockMapper.Map<ActorDTO>(request)).Returns(dto!);
-            A.CallTo(() => _mockActorService.UpdateAsync(dto!)).Returns(updatedDto!);
-            A.CallTo(() => _mockMapper.Map<ActorResponse>(updatedDto!)).Returns(response!);
-        }
-
-        // Act
-        var result = await _sut.UpdateAsync(id, request);
-
-        // Assert
-        result.Result.Should().BeOfType(expectedType);
-        var objectResult = result.Result as ObjectResult;
-        objectResult!.Value.Should().BeEquivalentTo(expectedResponse);
-    }
-
 
     [Fact]
     public async Task CreateAsync_ReturnsInternalServerError()

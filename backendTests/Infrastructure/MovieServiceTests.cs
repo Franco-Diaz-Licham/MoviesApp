@@ -2,15 +2,15 @@
 
 public class MovieServiceTests
 {
-    private readonly IMemoryCache _cache = A.Fake<IMemoryCache>();
-    private readonly IUnitOfWork _uow = A.Fake<IUnitOfWork>();
-    private readonly IMapper _mapper = A.Fake<IMapper>();
-    private readonly IPhotoService _photoService = A.Fake<IPhotoService>();
+    private readonly IMemoryCache _mockCache = A.Fake<IMemoryCache>();
+    private readonly IUnitOfWork _mockUow = A.Fake<IUnitOfWork>();
+    private readonly IMapper _mockMapper = A.Fake<IMapper>();
+    private readonly IPhotoService _mockPhotoService = A.Fake<IPhotoService>();
     private readonly MovieService _sut;
 
     public MovieServiceTests()
     {
-        _sut = new MovieService(_cache, _uow, _mapper, _photoService);
+        _sut = new MovieService(_mockCache, _mockUow, _mockMapper, _mockPhotoService);
     }
 
     public static IEnumerable<object[]> GetAsyncTestCases => new List<object[]>
@@ -25,9 +25,9 @@ public class MovieServiceTests
     {
         // Arrange
         var repo = A.Fake<IGenericRepository<MovieEntity>>();
-        A.CallTo(() => _uow.GetRepository<MovieEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.GetRepository<MovieEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAsync(A<ISpecification<MovieEntity>>._)).Returns(entity);
-        A.CallTo(() => _mapper.Map<MovieDTO>(entity))!.Returns(dto);
+        A.CallTo(() => _mockMapper.Map<MovieDTO>(entity))!.Returns(dto);
 
         // Act
         var result = await _sut.GetAsync(id);
@@ -48,7 +48,7 @@ public class MovieServiceTests
     {
         // Arrange
         var repo = A.Fake<IGenericRepository<MovieEntity>>();
-        A.CallTo(() => _uow.GetRepository<MovieEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.GetRepository<MovieEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAsyncNoTracking(id)).Returns(entity);
 
         // Act
@@ -73,10 +73,10 @@ public class MovieServiceTests
         var repo = A.Fake<IGenericRepository<MovieEntity>>();
         var transaction = A.Fake<IDbContextTransaction>();
 
-        A.CallTo(() => _uow.GetRepository<MovieEntity>()).Returns(repo);
-        A.CallTo(() => _uow.BeginTransactionAsync()).Returns(transaction);
+        A.CallTo(() => _mockUow.GetRepository<MovieEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.BeginTransactionAsync()).Returns(transaction);
         A.CallTo(() => repo.GetAsyncNoTracking(A<ISpecification<MovieEntity>>._)).Returns(movie);
-        A.CallTo(() => _mapper.Map<PhotoDTO>(movie.Photo)).Returns(photoDto);
+        A.CallTo(() => _mockMapper.Map<PhotoDTO>(movie.Photo)).Returns(photoDto);
 
         // Act
         var result = await _sut.DeleteAsync(id);
@@ -85,8 +85,8 @@ public class MovieServiceTests
         result.Should().BeTrue();
         A.CallTo(() => repo.Delete(movie)).MustHaveHappened();
         A.CallTo(() => transaction.CommitAsync(CancellationToken.None)).MustHaveHappened();
-        A.CallTo(() => _photoService.DeleteAsync(photoDto)).MustHaveHappened();
-        A.CallTo(() => _cache.Remove("MovieResponse")).MustHaveHappened();
+        A.CallTo(() => _mockPhotoService.DeleteAsync(photoDto)).MustHaveHappened();
+        A.CallTo(() => _mockCache.Remove("MovieResponse")).MustHaveHappened();
     }
 
     [Fact]
@@ -97,8 +97,8 @@ public class MovieServiceTests
         var repo = A.Fake<IGenericRepository<MovieEntity>>();
         var transaction = A.Fake<IDbContextTransaction>();
 
-        A.CallTo(() => _uow.GetRepository<MovieEntity>()).Returns(repo);
-        A.CallTo(() => _uow.BeginTransactionAsync()).Returns(transaction);
+        A.CallTo(() => _mockUow.GetRepository<MovieEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.BeginTransactionAsync()).Returns(transaction);
         A.CallTo(() => repo.GetAsyncNoTracking(A<ISpecification<MovieEntity>>._)).Returns((MovieEntity?)null);
 
         // Act
@@ -107,7 +107,7 @@ public class MovieServiceTests
         // Assert
         result.Should().BeFalse();
         A.CallTo(() => repo.Delete(A<MovieEntity>._)).MustNotHaveHappened();
-        A.CallTo(() => _photoService.DeleteAsync(A<PhotoDTO>._)).MustNotHaveHappened();
+        A.CallTo(() => _mockPhotoService.DeleteAsync(A<PhotoDTO>._)).MustNotHaveHappened();
         A.CallTo(() => transaction.CommitAsync(CancellationToken.None)).MustNotHaveHappened();
     }
 
@@ -120,10 +120,10 @@ public class MovieServiceTests
         var repo = A.Fake<IGenericRepository<MovieEntity>>();
         var transaction = A.Fake<IDbContextTransaction>();
 
-        A.CallTo(() => _uow.GetRepository<MovieEntity>()).Returns(repo);
-        A.CallTo(() => _uow.BeginTransactionAsync()).Returns(transaction);
+        A.CallTo(() => _mockUow.GetRepository<MovieEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.BeginTransactionAsync()).Returns(transaction);
         A.CallTo(() => repo.GetAsyncNoTracking(A<ISpecification<MovieEntity>>._)).Returns(movie);
-        A.CallTo(() => _uow.CompleteAsync()).Throws(new Exception("Commit failed"));
+        A.CallTo(() => _mockUow.CompleteAsync()).Throws(new Exception("Commit failed"));
 
         // Act
         var act = async () => await _sut.DeleteAsync(id);

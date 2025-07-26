@@ -2,14 +2,14 @@
 
 public class GenreServiceTests
 {
-    private readonly IMemoryCache _cache = A.Fake<IMemoryCache>();
-    private readonly IUnitOfWork _uow = A.Fake<IUnitOfWork>();
-    private readonly IMapper _mapper = A.Fake<IMapper>();
+    private readonly IMemoryCache _mockCache = A.Fake<IMemoryCache>();
+    private readonly IUnitOfWork _mockUow = A.Fake<IUnitOfWork>();
+    private readonly IMapper _mockMapper = A.Fake<IMapper>();
     private readonly GenreService _sut;
 
     public GenreServiceTests()
     {
-        _sut = new GenreService(_cache, _uow, _mapper);
+        _sut = new GenreService(_mockCache, _mockUow, _mockMapper);
     }
 
     [Fact]
@@ -20,15 +20,15 @@ public class GenreServiceTests
         var entities = new List<GenreEntity> { new() { Id = 1, Name = "Action" } };
         var mapped = new List<GenreDTO> { new() { Id = 1, Name = "Action" } };
 
-        A.CallTo(() => _uow.GetRepository<GenreEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.GetRepository<GenreEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAllAsync()).Returns(entities);
-        A.CallTo(() => _mapper.Map<List<GenreDTO>>(entities)).Returns(mapped);
+        A.CallTo(() => _mockMapper.Map<List<GenreDTO>>(entities)).Returns(mapped);
 
         var cacheEntry = A.Fake<ICacheEntry>();
-        A.CallTo(() => _cache.CreateEntry(A<object>._)).Returns(cacheEntry);
+        A.CallTo(() => _mockCache.CreateEntry(A<object>._)).Returns(cacheEntry);
 
         var memoryCache = new MemoryCache(new MemoryCacheOptions());
-        var service = new GenreService(memoryCache, _uow, _mapper);
+        var service = new GenreService(memoryCache, _mockUow, _mockMapper);
 
         // Act
         var result = await service.GetAllAsync();
@@ -49,9 +49,9 @@ public class GenreServiceTests
     {
         // Arrange
         var repo = A.Fake<IGenericRepository<GenreEntity>>();
-        A.CallTo(() => _uow.GetRepository<GenreEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.GetRepository<GenreEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAsync(id)).Returns(entity);
-        A.CallTo(() => _mapper.Map<GenreDTO>(entity))!.Returns(dto);
+        A.CallTo(() => _mockMapper.Map<GenreDTO>(entity))!.Returns(dto);
 
         // Act
         var result = await _sut.GetAsync(id);
@@ -70,17 +70,17 @@ public class GenreServiceTests
         var resultDto = new GenreDTO { Id = 2, Name = "Thriller" };
         var repo = A.Fake<IGenericRepository<GenreEntity>>();
 
-        A.CallTo(() => _mapper.Map<GenreEntity>(dto)).Returns(entity);
-        A.CallTo(() => _uow.GetRepository<GenreEntity>()).Returns(repo);
-        A.CallTo(() => _mapper.Map<GenreDTO>(entity)).Returns(resultDto);
+        A.CallTo(() => _mockMapper.Map<GenreEntity>(dto)).Returns(entity);
+        A.CallTo(() => _mockUow.GetRepository<GenreEntity>()).Returns(repo);
+        A.CallTo(() => _mockMapper.Map<GenreDTO>(entity)).Returns(resultDto);
 
         // Act
         var result = await _sut.CreateAsync(dto);
 
         // Assert
         A.CallTo(() => repo.Add(entity)).MustHaveHappened();
-        A.CallTo(() => _uow.CompleteAsync()).MustHaveHappened();
-        A.CallTo(() => _cache.Remove("GenreResponse")).MustHaveHappened();
+        A.CallTo(() => _mockUow.CompleteAsync()).MustHaveHappened();
+        A.CallTo(() => _mockCache.Remove("GenreResponse")).MustHaveHappened();
         result.Should().BeEquivalentTo(resultDto);
     }
 
@@ -93,17 +93,17 @@ public class GenreServiceTests
         var resultDto = new GenreDTO { Id = 3, Name = "Action" };
         var repo = A.Fake<IGenericRepository<GenreEntity>>();
 
-        A.CallTo(() => _mapper.Map<GenreEntity>(dto)).Returns(entity);
-        A.CallTo(() => _uow.GetRepository<GenreEntity>()).Returns(repo);
-        A.CallTo(() => _mapper.Map<GenreDTO>(entity)).Returns(resultDto);
+        A.CallTo(() => _mockMapper.Map<GenreEntity>(dto)).Returns(entity);
+        A.CallTo(() => _mockUow.GetRepository<GenreEntity>()).Returns(repo);
+        A.CallTo(() => _mockMapper.Map<GenreDTO>(entity)).Returns(resultDto);
 
         // Act
         var result = await _sut.UpdateAsync(dto);
 
         // Assert
         A.CallTo(() => repo.Update(entity)).MustHaveHappened();
-        A.CallTo(() => _uow.CompleteAsync()).MustHaveHappened();
-        A.CallTo(() => _cache.Remove("GenreResponse")).MustHaveHappened();
+        A.CallTo(() => _mockUow.CompleteAsync()).MustHaveHappened();
+        A.CallTo(() => _mockCache.Remove("GenreResponse")).MustHaveHappened();
         result.Should().BeEquivalentTo(resultDto);
     }
 
@@ -114,7 +114,7 @@ public class GenreServiceTests
         var id = 4;
         var repo = A.Fake<IGenericRepository<GenreEntity>>();
 
-        A.CallTo(() => _uow.GetRepository<GenreEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.GetRepository<GenreEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAsyncNoTracking(id)).Returns(new GenreEntity { Id = id });
 
         // Act
@@ -123,8 +123,8 @@ public class GenreServiceTests
         // Assert
         result.Should().BeTrue();
         A.CallTo(() => repo.Delete(id)).MustHaveHappened();
-        A.CallTo(() => _uow.CompleteAsync()).MustHaveHappened();
-        A.CallTo(() => _cache.Remove("GenreResponse")).MustHaveHappened();
+        A.CallTo(() => _mockUow.CompleteAsync()).MustHaveHappened();
+        A.CallTo(() => _mockCache.Remove("GenreResponse")).MustHaveHappened();
     }
 
     [Fact]
@@ -134,7 +134,7 @@ public class GenreServiceTests
         var id = 99;
         var repo = A.Fake<IGenericRepository<GenreEntity>>();
 
-        A.CallTo(() => _uow.GetRepository<GenreEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.GetRepository<GenreEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAsyncNoTracking(id)).Returns((GenreEntity?)null);
 
         // Act

@@ -2,15 +2,15 @@
 
 public class ActorServiceTests
 {
-    private readonly IMemoryCache _cache = A.Fake<IMemoryCache>();
-    private readonly IUnitOfWork _uow = A.Fake<IUnitOfWork>();
-    private readonly IMapper _mapper = A.Fake<IMapper>();
-    private readonly IPhotoService _photoService = A.Fake<IPhotoService>();
+    private readonly IMemoryCache _mockCache = A.Fake<IMemoryCache>();
+    private readonly IUnitOfWork _mockUow = A.Fake<IUnitOfWork>();
+    private readonly IMapper _mockMApper = A.Fake<IMapper>();
+    private readonly IPhotoService _mockPhotoService = A.Fake<IPhotoService>();
     private readonly ActorService _sut;
 
     public ActorServiceTests()
     {
-        _sut = new ActorService(_cache, _uow, _mapper, _photoService);
+        _sut = new ActorService(_mockCache, _mockUow, _mockMApper, _mockPhotoService);
     }
 
     [Fact]
@@ -22,11 +22,11 @@ public class ActorServiceTests
         var dbData = new List<ActorEntity> { new() { Id = 1, Name = "DB Actor" } };
         var mappedData = new List<ActorDTO> { new() { Id = 1, Name = "Mapped Actor" } };
 
-        A.CallTo(() => _cache.TryGetValue(A<object>._, out dummy)).Returns(false);
-        A.CallTo(() => _uow.GetRepository<ActorEntity>()).Returns(repo);
+        A.CallTo(() => _mockCache.TryGetValue(A<object>._, out dummy)).Returns(false);
+        A.CallTo(() => _mockUow.GetRepository<ActorEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAllAsync(A<ISpecification<ActorEntity>>._)).Returns(dbData);
-        A.CallTo(() => _mapper.Map<List<ActorDTO>>(dbData)).Returns(mappedData);
-        A.CallTo(() => _cache.CreateEntry(A<object>._)).Returns(A.Fake<ICacheEntry>());
+        A.CallTo(() => _mockMApper.Map<List<ActorDTO>>(dbData)).Returns(mappedData);
+        A.CallTo(() => _mockCache.CreateEntry(A<object>._)).Returns(A.Fake<ICacheEntry>());
 
         // Act
         var result = await _sut.GetAllAsync();
@@ -47,9 +47,9 @@ public class ActorServiceTests
     {
         // Arrange
         var repo = A.Fake<IGenericRepository<ActorEntity>>();
-        A.CallTo(() => _uow.GetRepository<ActorEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.GetRepository<ActorEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAsync(A<ISpecification<ActorEntity>>._)).Returns(entity);
-        A.CallTo(() => _mapper.Map<ActorDTO>(entity))!.Returns(dto);
+        A.CallTo(() => _mockMApper.Map<ActorDTO>(entity))!.Returns(dto);
 
         // Act
         var result = await _sut.GetAsync(id);
@@ -71,7 +71,7 @@ public class ActorServiceTests
     {
         // Arrange
         var repo = A.Fake<IGenericRepository<ActorEntity>>();
-        A.CallTo(() => _uow.GetRepository<ActorEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.GetRepository<ActorEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAsyncNoTracking(id)).Returns(entity);
 
         // Act
@@ -108,11 +108,11 @@ public class ActorServiceTests
         var transaction = A.Fake<IDbContextTransaction>();
         var dbTransaction = A.Fake<DbTransaction>();
 
-        A.CallTo(() => _uow.GetRepository<ActorEntity>()).Returns(repo);
-        A.CallTo(() => _uow.BeginTransactionAsync()).Returns(transaction);
-        A.CallTo(() => _photoService.CreateProfileImageAsync(dto.Photo)).Returns(photo);
-        A.CallTo(() => _mapper.Map<ActorEntity>(A<ActorDTO>._)).Returns(entity);
-        A.CallTo(() => _mapper.Map<ActorDTO>(entity)).Returns(resultDto);
+        A.CallTo(() => _mockUow.GetRepository<ActorEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.BeginTransactionAsync()).Returns(transaction);
+        A.CallTo(() => _mockPhotoService.CreateProfileImageAsync(dto.Photo)).Returns(photo);
+        A.CallTo(() => _mockMApper.Map<ActorEntity>(A<ActorDTO>._)).Returns(entity);
+        A.CallTo(() => _mockMApper.Map<ActorDTO>(entity)).Returns(resultDto);
 
         // Act
         var result = await _sut.CreateAsync(dto);
@@ -120,7 +120,7 @@ public class ActorServiceTests
         // Assert
         A.CallTo(() => repo.Add(entity)).MustHaveHappened();
         A.CallTo(() => transaction.CommitAsync(CancellationToken.None)).MustHaveHappened();
-        A.CallTo(() => _cache.Remove("ActorResponse")).MustHaveHappened();
+        A.CallTo(() => _mockCache.Remove("ActorResponse")).MustHaveHappened();
         result.Should().BeEquivalentTo(resultDto);
     }
 
@@ -136,8 +136,8 @@ public class ActorServiceTests
         var dbTransaction = A.Fake<DbTransaction>();
 
         A.CallTo(() => transaction.RollbackAsync(CancellationToken.None)).Returns(Task.CompletedTask);
-        A.CallTo(() => _uow.BeginTransactionAsync()).Returns(transaction);
-        A.CallTo(() => _photoService.CreateProfileImageAsync(dto.Photo)).Throws(new Exception("photo upload failed"));
+        A.CallTo(() => _mockUow.BeginTransactionAsync()).Returns(transaction);
+        A.CallTo(() => _mockPhotoService.CreateProfileImageAsync(dto.Photo)).Throws(new Exception("photo upload failed"));
 
         // Act
         var act = async () => await _sut.CreateAsync(dto);
@@ -172,10 +172,10 @@ public class ActorServiceTests
         var repo = A.Fake<IGenericRepository<ActorEntity>>();
         var fakeService = A.Fake<IActorService>();
 
-        A.CallTo(() => _uow.GetRepository<ActorEntity>()).Returns(repo);
-        A.CallTo(() => _uow.BeginTransactionAsync()).Returns(transaction);
+        A.CallTo(() => _mockUow.GetRepository<ActorEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.BeginTransactionAsync()).Returns(transaction);
         A.CallTo(() => repo.GetAsync(A<ISpecification<ActorEntity>>._)).Returns(actor);
-        A.CallTo(() => _mapper.Map<ActorDTO>(actor)).Returns(updatedDto);
+        A.CallTo(() => _mockMApper.Map<ActorDTO>(actor)).Returns(updatedDto);
         A.CallTo(() => fakeService.GetAsync(actor.Id)).Returns(updatedDto);
 
         // Act
@@ -184,7 +184,7 @@ public class ActorServiceTests
         // Assert
         A.CallTo(() => repo.Update(actor)).MustHaveHappened();
         A.CallTo(() => transaction.CommitAsync(CancellationToken.None)).MustHaveHappened();
-        A.CallTo(() => _cache.Remove("ActorResponse")).MustHaveHappened();
+        A.CallTo(() => _mockCache.Remove("ActorResponse")).MustHaveHappened();
         result.Should().BeEquivalentTo(updatedDto);
     }
 
@@ -197,8 +197,8 @@ public class ActorServiceTests
         var repo = A.Fake<IGenericRepository<ActorEntity>>();
 
         A.CallTo(() => transaction.RollbackAsync(CancellationToken.None)).Returns(Task.CompletedTask);
-        A.CallTo(() => _uow.BeginTransactionAsync()).Returns(transaction);
-        A.CallTo(() => _uow.GetRepository<ActorEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.BeginTransactionAsync()).Returns(transaction);
+        A.CallTo(() => _mockUow.GetRepository<ActorEntity>()).Returns(repo);
         A.CallTo(() => repo.GetAsync(A<ISpecification<ActorEntity>>._)).Returns((ActorEntity?)null);
 
         // Act
@@ -225,10 +225,10 @@ public class ActorServiceTests
         var repo = A.Fake<IGenericRepository<ActorEntity>>();
         var transaction = A.Fake<IDbContextTransaction>();
 
-        A.CallTo(() => _uow.GetRepository<ActorEntity>()).Returns(repo);
-        A.CallTo(() => _uow.BeginTransactionAsync()).Returns(transaction);
+        A.CallTo(() => _mockUow.GetRepository<ActorEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.BeginTransactionAsync()).Returns(transaction);
         A.CallTo(() => repo.GetAsyncNoTracking(A<ISpecification<ActorEntity>>._)).Returns(actor);
-        A.CallTo(() => _mapper.Map<PhotoDTO>(actor.Photo)).Returns(photoDto);
+        A.CallTo(() => _mockMApper.Map<PhotoDTO>(actor.Photo)).Returns(photoDto);
 
         // Act
         var result = await _sut.DeleteAsync(actorId);
@@ -236,10 +236,10 @@ public class ActorServiceTests
         // Assert
         result.Should().BeTrue();
         A.CallTo(() => repo.Delete(actor)).MustHaveHappened();
-        A.CallTo(() => _uow.CompleteAsync()).MustHaveHappened();
+        A.CallTo(() => _mockUow.CompleteAsync()).MustHaveHappened();
         A.CallTo(() => transaction.CommitAsync(CancellationToken.None)).MustHaveHappened();
-        A.CallTo(() => _photoService.DeleteAsync(photoDto)).MustHaveHappened();
-        A.CallTo(() => _cache.Remove("ActorResponse")).MustHaveHappened();
+        A.CallTo(() => _mockPhotoService.DeleteAsync(photoDto)).MustHaveHappened();
+        A.CallTo(() => _mockCache.Remove("ActorResponse")).MustHaveHappened();
     }
 
     [Fact]
@@ -250,8 +250,8 @@ public class ActorServiceTests
         var repo = A.Fake<IGenericRepository<ActorEntity>>();
         var transaction = A.Fake<IDbContextTransaction>();
 
-        A.CallTo(() => _uow.GetRepository<ActorEntity>()).Returns(repo);
-        A.CallTo(() => _uow.BeginTransactionAsync()).Returns(transaction);
+        A.CallTo(() => _mockUow.GetRepository<ActorEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.BeginTransactionAsync()).Returns(transaction);
         A.CallTo(() => repo.GetAsyncNoTracking(A<ISpecification<ActorEntity>>._)).Returns((ActorEntity?)null);
 
         // Act
@@ -260,7 +260,7 @@ public class ActorServiceTests
         // Assert
         result.Should().BeFalse();
         A.CallTo(() => repo.Delete(A<ActorEntity>._)).MustNotHaveHappened();
-        A.CallTo(() => _photoService.DeleteAsync(A<PhotoDTO>._)).MustNotHaveHappened();
+        A.CallTo(() => _mockPhotoService.DeleteAsync(A<PhotoDTO>._)).MustNotHaveHappened();
         A.CallTo(() => transaction.CommitAsync(CancellationToken.None)).MustNotHaveHappened();
     }
 
@@ -274,10 +274,10 @@ public class ActorServiceTests
         var repo = A.Fake<IGenericRepository<ActorEntity>>();
         var transaction = A.Fake<IDbContextTransaction>();
 
-        A.CallTo(() => _uow.GetRepository<ActorEntity>()).Returns(repo);
-        A.CallTo(() => _uow.BeginTransactionAsync()).Returns(transaction);
+        A.CallTo(() => _mockUow.GetRepository<ActorEntity>()).Returns(repo);
+        A.CallTo(() => _mockUow.BeginTransactionAsync()).Returns(transaction);
         A.CallTo(() => repo.GetAsyncNoTracking(A<ISpecification<ActorEntity>>._)).Returns(actor);
-        A.CallTo(() => _uow.CompleteAsync()).Throws(new Exception("Simulated failure"));
+        A.CallTo(() => _mockUow.CompleteAsync()).Throws(new Exception("Simulated failure"));
         A.CallTo(() => transaction.RollbackAsync(CancellationToken.None)).Returns(Task.CompletedTask);
 
         // Act

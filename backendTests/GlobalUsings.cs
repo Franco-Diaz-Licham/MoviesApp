@@ -18,5 +18,12 @@ global using Microsoft.EntityFrameworkCore.Storage;
 global using System.Data.Common;
 global using CloudinaryDotNet.Actions;
 global using CloudinaryDotNet;
+global using System.Security.Claims;
+global using Microsoft.Extensions.Configuration;
+global using System.IdentityModel.Tokens.Jwt;
+global using Microsoft.Extensions.Options;
+global using System.Text;
+
+
 
 
