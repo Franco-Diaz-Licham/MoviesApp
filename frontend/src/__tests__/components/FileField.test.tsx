@@ -22,8 +22,7 @@ function TestFormWrapper(props: any) {
 describe("FileField", () => {
     afterEach(() => jest.clearAllMocks());
 
-    // Test 1
-    test("renders label and default image", () => {
+    test("Test 1: Renders label and default image", () => {
         render(<TestFormWrapper id="photo" label="Profile Image" height={100} width={100} errors={{}} />);
         expect(screen.getByLabelText(/profile image/i)).toBeInTheDocument();
         const img = screen.getByAltText(/preview/i) as HTMLImageElement;
@@ -31,8 +30,7 @@ describe("FileField", () => {
         expect(img.src).toMatch(/genericUser/);
     });
 
-    // Test 2
-    test("renders with provided imageUrl", () => {
+    test("Test 2: Renders with provided imageUrl", () => {
         const customUrl = "https://www.cloudinary.com/100";
         render(<TestFormWrapper id="photo" label="Profile Image" height={100} width={100} imageUrl={customUrl} errors={{}} />);
         const img = screen.getByAltText(/preview/i) as HTMLImageElement;

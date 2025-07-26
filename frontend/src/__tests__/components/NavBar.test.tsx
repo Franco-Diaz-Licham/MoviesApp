@@ -13,8 +13,7 @@ import { MemoryRouter } from "react-router-dom";
 describe("NavBar", () => {
     afterEach(() => jest.clearAllMocks());
 
-    // Test 1
-    test("renders all navigation links", () => {
+    test("Test 1: Renders all navigation links", () => {
         (useAuth as jest.Mock).mockReturnValue({ currentUser: null });
         render(<NavBar />, { wrapper: MemoryRouter });
 
@@ -25,8 +24,7 @@ describe("NavBar", () => {
         expect(screen.getByRole("link", { name: /genres/i })).toBeInTheDocument();
     });
 
-    // Test 2
-    test("shows Login when user is not logged in", () => {
+    test("Test 2: Shows Login when user is not logged in", () => {
         (useAuth as jest.Mock).mockReturnValue({ currentUser: null });
         render(<NavBar />, { wrapper: MemoryRouter });
 
@@ -35,8 +33,7 @@ describe("NavBar", () => {
         expect(loginLink).toHaveAttribute("href", "/login");
     });
 
-    // Test 3
-    test("shows Logout when user is logged in", () => {
+    test("Test 3: Shows Logout when user is logged in", () => {
         const logoutMock = jest.fn();
         (useAuth as jest.Mock).mockReturnValue({ currentUser: { name: "Franco" }, logout: logoutMock });
         render(<NavBar />, { wrapper: MemoryRouter });
@@ -47,8 +44,7 @@ describe("NavBar", () => {
         expect(logoutMock).toHaveBeenCalled();
     });
 
-    // Test 4
-    test("toggles navbar collapse", () => {
+    test("Test 4: Toggles navbar collapse", () => {
         (useAuth as jest.Mock).mockReturnValue({ currentUser: null });
         render(<NavBar />, { wrapper: MemoryRouter });
         const toggler = screen.getByRole("button", { name: /toggle navigation/i });

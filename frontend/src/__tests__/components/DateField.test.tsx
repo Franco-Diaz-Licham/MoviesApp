@@ -17,22 +17,19 @@ function TestFormWrapper(props: any) {
 }
 
 describe("DateField", () => {
-    // Test 1
-    test("renders with label", () => {
+    test("Test 1: Renders with label", () => {
         render(<TestFormWrapper id="dob" label="Date of Birth" errors={{}} />);
         expect(screen.getByLabelText(/date of birth/i)).toBeInTheDocument();
     });
 
-    // Test 2
-    test("shows validation error when required", async () => {
+    test("Test 2: Shows validation error when required", async () => {
         const user = userEvent.setup();
         render(<TestFormWrapper id="startDate" label="Start Date" required={true} errors={{}} />);
         await user.click(screen.getByRole("button", { name: /submit/i }));
         expect(screen.getByLabelText(/start date/i)).toHaveClass("is-invalid");
     });
 
-    // Test 3
-    test("does not show error when filled correctly", async () => {
+    test("Test 3: Does not show error when filled correctly", async () => {
         const user = userEvent.setup();
         render(<TestFormWrapper id="startDate" label="Start Date" required={true} errors={{}} />);
         const input = screen.getByLabelText(/start date/i);

@@ -24,7 +24,7 @@ export default function TextField(props: TextFieldProps) {
             <label htmlFor={props.id} className="form-label">
                 {props.label} {props.required && "*"}
             </label>
-            <input type={props.type ?? "text"} className={`form-control ${props.errors[props.id] ? "is-invalid" : "border-dark-subtle"}`} id={props.id} placeholder={props.placeholder} {...props.register(props.id, validation)} />
+            <input id={props.id} type={props.type ?? "text"} className={`form-control ${props.errors[props.id] ? "is-invalid" : "border-dark-subtle"}`} placeholder={props.placeholder} {...props.register(props.id, validation)} />
             {props.errors[props.id] && <div className="text-danger small">{props.errors[props.id]?.message?.toString()}</div>}
         </div>
     );
