@@ -11,6 +11,12 @@ public class ActorControllerTests
         _sut = new ActorController(_mockActorService, _mockMapper);
     }
 
+    public static IEnumerable<object[]> GetAsyncTestCases => new List<object[]>
+    {
+        new object[] { 10, new ActorDTO { Id = 10, Name = "Test Actor" }, typeof(OkObjectResult), new ApiResponse(200, new ActorResponse { Id = 10, Name = "Test Actor" }) },
+        new object[] { -1, null, typeof(NotFoundObjectResult), new ApiResponse(404) }
+    };
+
     [Theory]
     [MemberData(nameof(GetAsyncTestCases))]
     public async Task GetAsync_ShouldReturnExpectedResult(int id, ActorDTO? dto, Type expectedType, ApiResponse expectedResponse)
@@ -27,6 +33,13 @@ public class ActorControllerTests
         var actual = result.Result as ObjectResult;
         actual!.Value.Should().BeEquivalentTo(expectedResponse);
     }
+
+    public static IEnumerable<object[]> GetAllAsyncTestCases => new List<object[]>
+    {
+        new object[] { new List<ActorDTO>(), typeof(NotFoundObjectResult), new ApiResponse(404) },
+        new object[] { new List<ActorDTO>{ new (){ Id = 1, Name = "Actor One" }}, typeof(OkObjectResult), new ApiResponse(200, new List<ActorResponse>{ new() { Id = 1, Name = "Actor One" } })},
+        new object[] { new List<ActorDTO>{ new (){ Id = 1, Name = "Actor One" },  new () { Id = 2, Name = "Actor Two" } }, typeof(OkObjectResult), new ApiResponse(200, new List<ActorResponse>{ new() { Id = 1, Name = "Actor One" }, new() { Id = 2, Name = "Actor Two" } }) }
+    };
 
     [Theory]
     [MemberData(nameof(GetAllAsyncTestCases))]
@@ -67,6 +80,31 @@ public class ActorControllerTests
         accepted!.Value.Should().BeOfType<ApiResponse>();
         accepted!.Value.Should().BeEquivalentTo(new ApiResponse(201, response));
     }
+
+    public static IEnumerable<object[]> UpdateAsyncTestCases => new List<object[]>{
+        new object[]
+        {
+            1,
+            new ActorUpdateRequest {Id = 1, Name = "Updated Actor" },
+            true,
+            new ActorDTO { Id = 1, Name = "Updated Actor" },
+            new ActorDTO { Id = 1, Name = "Updated Actor" },
+            new ActorResponse { Id = 1, Name = "Updated Actor" },
+            typeof(AcceptedResult),
+            new ApiResponse(202, new ActorResponse { Id = 1, Name = "Updated Actor" })
+        },
+        new object[]
+        {
+            2,
+            new ActorUpdateRequest(),
+            false, // actor not found
+            null,
+            null,
+            null,
+            typeof(NotFoundObjectResult),
+            new ApiResponse(404)
+        }
+    };
 
     [Theory]
     [MemberData(nameof(UpdateAsyncTestCases))]
@@ -113,6 +151,12 @@ public class ActorControllerTests
         await act.Should().ThrowAsync<Exception>();
     }
 
+    public static IEnumerable<object[]> DeleteAsyncTestCases => new List<object[]>
+    {
+        new object[] { 1, true, typeof(NoContentResult), null },
+        new object[] { 99, false, typeof(BadRequestObjectResult), new ApiResponse(400) }
+    };
+
     [Theory]
     [MemberData(nameof(DeleteAsyncTestCases))]
     public async Task DeleteAsync_ShouldReturnExpectedResult(int id, bool deleteSucceeded, Type expectedType, ApiResponse? expectedResponse)
@@ -132,50 +176,4 @@ public class ActorControllerTests
             objectResult!.Value.Should().BeEquivalentTo(expectedResponse);
         }
     }
-
-
-    public static IEnumerable<object[]> GetAsyncTestCases => new List<object[]>
-    {
-        new object[] { 10, new ActorDTO { Id = 10, Name = "Test Actor" }, typeof(OkObjectResult), new ApiResponse(200, new ActorResponse { Id = 10, Name = "Test Actor" }) },
-        new object[] { -1, null, typeof(NotFoundObjectResult), new ApiResponse(404) }
-    };
-
-    public static IEnumerable<object[]> GetAllAsyncTestCases => new List<object[]>
-    {
-        new object[] { new List<ActorDTO>(), typeof(NotFoundObjectResult), new ApiResponse(404) },
-        new object[] { new List<ActorDTO>{ new (){ Id = 1, Name = "Actor One" }}, typeof(OkObjectResult), new ApiResponse(200, new List<ActorResponse>{ new() { Id = 1, Name = "Actor One" } })},
-        new object[] { new List<ActorDTO>{ new (){ Id = 1, Name = "Actor One" },  new () { Id = 2, Name = "Actor Two" } }, typeof(OkObjectResult), new ApiResponse(200, new List<ActorResponse>{ new() { Id = 1, Name = "Actor One" }, new() { Id = 2, Name = "Actor Two" } }) }
-    };
-
-    public static IEnumerable<object[]> UpdateAsyncTestCases => new List<object[]>{
-        new object[]
-        {
-            1,
-            new ActorUpdateRequest {Id = 1, Name = "Updated Actor" },
-            true,
-            new ActorDTO { Id = 1, Name = "Updated Actor" },
-            new ActorDTO { Id = 1, Name = "Updated Actor" },
-            new ActorResponse { Id = 1, Name = "Updated Actor" },
-            typeof(AcceptedResult),
-            new ApiResponse(202, new ActorResponse { Id = 1, Name = "Updated Actor" })
-        },
-        new object[]
-        {
-            2,
-            new ActorUpdateRequest(),
-            false, // actor not found
-            null,
-            null,
-            null,
-            typeof(NotFoundObjectResult),
-            new ApiResponse(404)
-        }
-    };
-
-    public static IEnumerable<object[]> DeleteAsyncTestCases => new List<object[]>
-    {
-        new object[] { 1, true, typeof(NoContentResult), null },
-        new object[] { 99, false, typeof(BadRequestObjectResult), new ApiResponse(400) }
-    };
-
 }
